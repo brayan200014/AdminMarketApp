@@ -1,7 +1,65 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,Pressable,Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View,Pressable,Image, TextInput, FlatList, ImageBackground } from 'react-native';
+
+const DATA = [
+  {
+    id: 1,
+    title: 'Categorias',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 2,
+    title: 'Productos',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 3,
+    title: 'Compras',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 4,
+    title: 'Ventas',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 5,
+    title: 'Proveedores',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 6,
+    title: 'Sucursales',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 7,
+    title: 'Empleados',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+  {
+    id: 8,
+    title: 'Ciudades',
+    image:'undefined-1648585797246-25199002image.png'
+  },
+];
+
 
 export default function Modulos({ navigation }) {
+  
+const Item = ({ title, image }) => (
+  <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+      <View style={styles.item}>
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+               <Text style={styles.title}>{title}</Text>
+        </ImageBackground>
+      </View>
+    </Pressable>
+  );
+  
+  const renderItem = ({ item}) => (
+    <Item title={item.title} image={item.image} />
+  );
   return (
     <View style={styles.containerPrincipal} >
 
@@ -23,10 +81,16 @@ export default function Modulos({ navigation }) {
                 style={styles.entradas}>
               </TextInput>
             </View>
-            <Text>Aqui iran los modulos</Text>
-            <Pressable onPress={() => navigation.navigate('Opciones')}>
-              <Text>Prueba ir Opciones  Click</Text>
-            </Pressable>
+              <View style={styles.containerLista}>
+                <FlatList 
+                 
+                  data={DATA}
+                  renderItem= {renderItem}
+                  keyExtractor={item => item.id}
+                  />
+
+              </View>
+
            </View>
   );
 }
@@ -34,7 +98,7 @@ export default function Modulos({ navigation }) {
 const styles = StyleSheet.create({
   containerPrincipal: {
     width: '100%',
-    height: '25%',
+    height: '92%',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -95,5 +159,26 @@ entradas:{
   borderColor: "#ced4da",
   borderRadius: 15,
   textAlign:'center'
+},
+
+item: {
+  flex: 1,
+  backgroundColor: '#f9c2ff',
+  padding: 20,
+  marginVertical: 8,
+  marginHorizontal: 16,
+  borderRadius: 15,
+
+},
+title: {
+  fontSize: 32,
+},
+containerLista: {
+  flex: 1,
+  flexDirection: 'row'
+},
+image: {
+  flex: 1,
+  justifyContent: "center",
 },
 });
