@@ -3,6 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
+import Showventas from '../screens/VentasScreen/showVentas';
+
 
 const HomeStack= createNativeStackNavigator();
 
@@ -26,6 +28,15 @@ const Navigation= () => {
       headerTintColor:'#fff', 
       headerBackTitle: 'Regresar',
        headerTitle:'Opciones', 
+       headerStyle:{
+         backgroundColor: '#3EA5DB',
+         
+         }}} />
+         <HomeStack.Screen  name="ListarVentas" component={Showventas} 
+      options={{headerTransparent: true, 
+      headerTintColor:'#fff', 
+      headerBackTitle: 'Regresar',
+       headerTitle:'Lista Ventas', 
        headerStyle:{
          backgroundColor: '#3EA5DB',
          
