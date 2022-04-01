@@ -47,16 +47,105 @@ const DATA = [
 
 export default function Modulos({ navigation }) {
   
-const Item = ({ title, image }) => (
-  <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
-      <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
-      </View>
-    </Pressable>
-  );
-  
+  const Item = ({ title, image }) => {
+    if(title=='Ventas')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('ListarVentas', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     }  
+     else if(title=='Empleados')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+     else if(title=='Productos')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Productos', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+     else if(title=='Compras')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+     else if(title=='Categorias')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+     else if(title=='Ciudades')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+     else if(title=='Sucursales')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+     else if(title=='Proveedores')
+     {
+       return (
+        <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+        <View style={styles.item}>
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+                 <Text style={styles.title}>{title}</Text>
+          </ImageBackground>
+        </View>
+      </Pressable>
+       )
+     } 
+  } 
+    
   const renderItem = ({ item}) => (
     <Item title={item.title} image={item.image} />
   );
