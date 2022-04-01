@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
+import Proveedores from '../screens/proveedores/listaproveedores';
 
 const HomeStack= createNativeStackNavigator();
 
@@ -30,6 +31,15 @@ const Navigation= () => {
          backgroundColor: '#3EA5DB',
          
          }}} />
+      <HomeStack.Screen  name="ListarProveedores" component={Proveedores} 
+      options={{headerTransparent: true, 
+        headerTintColor:'#fff', 
+        headerBackTitle: 'Regresar',
+         headerTitle:'Lista Provedores', 
+         headerStyle:{
+           backgroundColor: '#3EA5DB',
+           
+           }}} />
 
     </HomeStack.Navigator>  
    )
