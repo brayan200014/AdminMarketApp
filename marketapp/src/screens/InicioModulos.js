@@ -75,7 +75,7 @@ export default function Modulos({ navigation }) {
      else if(title=='Productos')
      {
        return (
-        <Pressable onPress={() => navigation.navigate('Productos', {opcion:title})}>
+        <Pressable onPress={() => navigation.navigate('ListarProductos', {opcion:title})}>
         <View style={styles.item}>
           <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                  <Text style={styles.title}>{title}</Text>
@@ -135,9 +135,9 @@ export default function Modulos({ navigation }) {
      else if(title=='Proveedores')
      {
        return (
-        <Pressable onPress={() => navigation.navigate('ListarProveedores', {opcion:title})}>
+        <Pressable onPress={() => navigation.navigate('OpcionesProvedores', {opcion:title})}>
         <View style={styles.item}>
-          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.146:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+          <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                  <Text style={styles.title}>{title}</Text>
           </ImageBackground>
         </View>

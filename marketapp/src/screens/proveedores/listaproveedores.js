@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as React from 'react';
-
+import { AntDesign, MaterialIcons, Feather } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function Opciones({ navigation }) {
 
@@ -15,11 +16,19 @@ export default function Opciones({ navigation }) {
                     <Text style={styles.title}>Numero: {Contacto}</Text>
                     <Text style={styles.title}>Email: {Email}</Text>
                 </View>
-            </View>
+                <View style={styles.containerIconos}>
+                    <Pressable onPress={() => navigation.navigate('ModProveedores', {NombreProveedor: NombreProveedor, Email:Email, Contacto:Contacto})}>
+                            <FontAwesome name="edit" size={24} color="#2a67ca" />
+                        </Pressable> 
+                        <Pressable>
+                            <AntDesign name="delete" size={24} color="red"/>
+                        </Pressable> 
+                </View>
+            </View> 
         </Pressable>
     );
 
-    const [proveedores, setproveedores] = useState([]);
+const [proveedores, setproveedores] = useState([]);
 useEffect(async()=>{
   var a = await  consultarProveedores();
 }, []);
@@ -74,7 +83,7 @@ const styles = StyleSheet.create({
       containerFlat: {
         flex:1,
         height:'80%',
-        paddingTop:70
+        paddingTop:70,
       },
       item: {
         borderBottomWidth: 2,
@@ -93,15 +102,8 @@ const styles = StyleSheet.create({
       containerIconos: {
         flex:1/2,
         flexDirection:'row',
-        width: '60%'
-      },
-      lista:{
-        flex:1,
-        //backgroundColor: '#B3E5FC',
-        padding: 20,
-        borderRadius: 30,
-        justifyContent: 'center',
-        flexDirection:'row',
-      
-      },
+        width: '70%',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }
 });
