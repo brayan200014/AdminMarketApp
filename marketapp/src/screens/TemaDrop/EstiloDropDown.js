@@ -15,20 +15,20 @@ export default StyleSheet.create({
     container: {
         width: '94%',
         marginLeft: '3%',
-        marginRight: '3%'
+        marginRight: '3%',
     },
     style: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
-        height: 40,
+        height: 53,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: Colors.AZUL_PLANTILLA,
         paddingHorizontal: 10,
         backgroundColor: Colors.WHITE,
-        marginTop:'3%'
+        marginTop:'3%',
     },
     label: {
         flex: 1,

@@ -4,11 +4,13 @@ import { SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView ,
 Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
 import Button from '../../componentes/Button';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { AntDesign } from '@expo/vector-icons'; 
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
 DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
+DropDownPicker.setLanguage("ES");
 
 
   
@@ -19,23 +21,26 @@ export default function Edit( {route, navigation}) {
 
     const { id, subtotal, isv }= route.params; 
     const [visible, setVisible]= useState(false);
+    const [visibleModificar, setVisibleModificar]= useState(false);
     const [detalleVenta, setDetalle]= useState([]);
+    const [clientes, setClientes]= useState([]);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
-    const [value, setValue] = useState(null);
-    const [value2, setValue2] = useState(null);
-    const [items, setItems] = useState([
-      {label: 'Apple', value: 'apple'},
-      {label: 'Banana', value: 'banana'}
-    ]);
-    const [items2, setItems2] = useState([
-      {label: 'Apple', value: 'apple'},
-      {label: 'Banana', value: 'banana'}
-    ]);
+    const [valueClientes, setValueClientes] = useState(null);
+    const [valueSucursales, setValueSucursales] = useState(null);
+    const [itemsClientes, setItemsClientes] = useState([]);
+    const [itemsSucursales, setItemsSucursales] = useState([]);
+    const [IdUser, setIdUser]= useState(null); 
 
+    
+    
+  
    
     useEffect(async()=>{
-        var a = await  getDetalleVentas();
+      var cli= await getClientes(); 
+      var sucu= await getSucursales();
+        var a = await  getDetalleVentas(); 
+       
       }, []);
 
     const getDetalleVentas= async () => {
@@ -57,7 +62,76 @@ export default function Edit( {route, navigation}) {
          
         
     }
+
+    const getClientes= async () => {
+   
+      const solicitud= await fetch(
+        'http://192.168.0.10:6001/api/cliente/listar',
+        {
+          method: 'GET', 
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const json = await solicitud.json();
+      const data=json.data;
+      console.log(json);
+      setItemsClientes(json); 
+       
+      
+  }
+
+  const getSucursales= async () => {
+   
+    const solicitud= await fetch(
+      'http://192.168.0.10:6001/api/sucursales/listar',
+      {
+        method: 'GET', 
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    const json = await solicitud.json();
+    const data=json.data;
+    console.log(json);
+    setItemsSucursales(json); 
+     
     
+}
+
+
+const modificarVenta= async()=> {
+
+  
+
+  const solicitud= await fetch(
+    'http://192.168.0.10:6001/api/ventas/modificar?id='+id,
+    {
+      method: 'PUT', 
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+            Subtotal: subtotal,
+            ISV: isv,
+            IdUsuarioCliente: valueClientes,
+            IdSucursal: valueSucursales
+      })
+    }
+  )
+
+  const respuesta= await solicitud.json();
+  const response= respuesta.msg; 
+  console.log(respuesta); 
+  
+   
+}
+ 
 
    const flat=() =>{
    
@@ -115,6 +189,23 @@ export default function Edit( {route, navigation}) {
                             </View>
                         </View>
                     </Modal>
+                      <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Venta Modificada</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                    navigation.navigate('ListarVentas');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
                 </View>
                 <View style={styles.containerPri}>
                   <Text style={styles.textTittle}>Editar Venta</Text>
@@ -122,28 +213,34 @@ export default function Edit( {route, navigation}) {
                     <TextInput style={styles.inputs} editable={false} placeholder='Numero Factura'defaultValue={''+id}  value={id}></TextInput>
                     <Text style={styles.textInpu}>ID Cliente</Text>  
                     <DropDownPicker
-                        
+                         schema={{
+                          label: 'NombreUsuario',
+                          value: 'IdUsuarioCliente'
+                        }}
                         theme='Sucursal'
                         open={open2}
-                        value={value2}
-                        items={items2}
+                        value={valueClientes}
+                        items={itemsClientes}
                         setOpen={setOpen2}
-                        setValue={setValue2}
-                        setItems={setItems2}
+                        setValue={setValueClientes}
+                        setItems={setItemsClientes}
                         placeholder={id}
                         searchable={true}
                         searchPlaceholder='Buscar Cliente'
                       />
                     <Text style={styles.textInpu}>ID Sucursal</Text> 
                     <DropDownPicker
-                        
+                        schema={{
+                          label: 'Nombre Sucursal',
+                          value: 'ID'
+                        }}
                         theme='Sucursal'
                         open={open}
-                        value={value}
-                        items={items}
+                        value={valueSucursales}
+                        items={itemsSucursales}
                         setOpen={setOpen}
-                        setValue={setValue}
-                        setItems={setItems}
+                        setValue={setValueSucursales}
+                        setItems={setItemsSucursales}
                         placeholder={id}
                         searchable={true}
                         searchPlaceholder='Buscar Sucursal'
@@ -151,7 +248,12 @@ export default function Edit( {route, navigation}) {
                     <Text style={styles.textInpu}>Total</Text>
                     <TextInput style={styles.inputs} editable={false} placeholder='Total'defaultValue={'L.'+(isv+subtotal)} value={id}></TextInput>
                   <View style={styles.containerBotones}>
-                        <Pressable style={styles.buttonModificar}>
+                        <Pressable style={styles.buttonModificar} onPress={async ()=> 
+                        {
+                          setVisibleModificar(true);
+                            await modificarVenta();
+                           
+                        }}>
                                 <Text style={styles.textButton}>Modificar</Text>
                             </Pressable>
                             <Pressable style={styles.buttonDetalle} onPress={() => setVisible(true)}>
@@ -348,5 +450,36 @@ textModal: {
   alignItems: 'center',
   marginTop: '5%',
   fontSize: 15
+},
+
+
+containerPmodalModificar: {
+  flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'rgba(0, 0, 0, 0.5)'
+},
+conatinerInfoModalModificar: {
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  borderRadius: 20,
+  padding: '5%'
+},
+pressabelStyleModalModificar: {
+  marginTop: '8%',
+  paddingLeft: '20%',
+  paddingRight:'20%',
+  backgroundColor: '#3EA5DB',
+  paddingBottom:'4%',
+  borderRadius: 10
+},
+textbotonModalModificar: {
+  color: '#fff',
+  marginTop: '6%'
+},
+textmessagemodalModificar: {
+  color:'green',
+  marginTop: '1%',
 }
+
 });
