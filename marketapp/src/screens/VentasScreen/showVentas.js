@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert } from 'react-native';
 import { AntDesign, MaterialIcons, Feather } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function Showventas({ route, navigation }) {
   const Item = ({ id, fecha, isv, subtotal }) => (
@@ -15,7 +16,13 @@ export default function Showventas({ route, navigation }) {
                  <Text style={styles.title}>Total: L.{subtotal+isv}</Text>
           </View>
           <View style={styles.containerIconos}>
-          
+               <Pressable onPress={() => navigation.navigate('ES_Ventas', {id: id, subtotal: subtotal, isv:isv})}>
+                      <FontAwesome name="edit" size={24} color="#2a67ca" />
+                 </Pressable> 
+                 <Pressable>
+                       <AntDesign name="delete" size={24} color="red"/>
+                 </Pressable> 
+                
           </View>
         </View>
       </Pressable>
@@ -76,7 +83,8 @@ const styles = StyleSheet.create({
   },
   containerFlat: {
     flex:1,
-    height:'80%'
+    height:'80%',
+    backgroundColor: '#fff'
   },
   item: {
     borderBottomWidth: 2,
@@ -95,6 +103,8 @@ const styles = StyleSheet.create({
   containerIconos: {
     flex:1/2,
     flexDirection:'row',
-    width: '60%'
+    width: '70%',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   }
 });

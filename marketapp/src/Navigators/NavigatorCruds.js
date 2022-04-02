@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
 import Showventas from '../screens/VentasScreen/showVentas';
+import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas'
 
 
 const HomeStack= createNativeStackNavigator();
@@ -33,12 +34,21 @@ const Navigation= () => {
          
          }}} />
          <HomeStack.Screen  name="ListarVentas" component={Showventas} 
-      options={{headerTransparent: true, 
-      headerTintColor:'#fff', 
-      headerBackTitle: 'Regresar',
-       headerTitle:'Lista Ventas', 
-       headerStyle:{
-         backgroundColor: '#3EA5DB',
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Lista Ventas', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+          <HomeStack.Screen  name="ES_Ventas" component={E_Ventas} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Editar Venta', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
          
          }}} />
 
