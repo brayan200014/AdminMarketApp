@@ -19,7 +19,7 @@ export default function Edit( {route, navigation}) {
 
 
 
-    const { id, subtotal, isv }= route.params; 
+    const { id, subtotal, isv, nombreSucursal, user }= route.params; 
     const [visible, setVisible]= useState(false);
     const [visibleModificar, setVisibleModificar]= useState(false);
     const [detalleVenta, setDetalle]= useState([]);
@@ -211,12 +211,14 @@ const modificarVenta= async()=> {
                   <Text style={styles.textTittle}>Editar Venta</Text>
                   <Text style={styles.textInpu}>Numero Factura</Text>
                     <TextInput style={styles.inputs} editable={false} placeholder='Numero Factura'defaultValue={''+id}  value={id}></TextInput>
-                    <Text style={styles.textInpu}>ID Cliente</Text>  
+                    <Text style={styles.textInpu}>Usuario Cliente</Text>  
                     <DropDownPicker
                          schema={{
                           label: 'NombreUsuario',
                           value: 'IdUsuarioCliente'
                         }}
+                        zIndex={1000}
+                        zIndexInverse={3000}
                         theme='Sucursal'
                         open={open2}
                         value={valueClientes}
@@ -224,16 +226,18 @@ const modificarVenta= async()=> {
                         setOpen={setOpen2}
                         setValue={setValueClientes}
                         setItems={setItemsClientes}
-                        placeholder={id}
+                        placeholder={user}
                         searchable={true}
                         searchPlaceholder='Buscar Cliente'
                       />
-                    <Text style={styles.textInpu}>ID Sucursal</Text> 
+                    <Text style={styles.textInpu}>Sucursal</Text> 
                     <DropDownPicker
                         schema={{
                           label: 'Nombre Sucursal',
                           value: 'ID'
                         }}
+                        zIndex={1000}
+                        zIndexInverse={3000}
                         theme='Sucursal'
                         open={open}
                         value={valueSucursales}
@@ -241,7 +245,7 @@ const modificarVenta= async()=> {
                         setOpen={setOpen}
                         setValue={setValueSucursales}
                         setItems={setItemsSucursales}
-                        placeholder={id}
+                        placeholder={nombreSucursal}
                         searchable={true}
                         searchPlaceholder='Buscar Sucursal'
                       />
