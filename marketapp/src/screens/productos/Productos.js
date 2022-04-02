@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView} from 'react-native';
+import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView, Image} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as React from 'react';
 import { AntDesign, MaterialIcons, Feather } from '@expo/vector-icons'; 
@@ -13,6 +13,7 @@ export default function Opciones({ navigation }) {
                 <View style={styles.conttainerInfo}>
                     <Text style={{fontWeight:'bold'}}> Producto: {IdProducto}</Text>
                     <Text style={styles.title}>Nombre: {NombreProducto}</Text>
+                    <Text style={styles.title}>Cantidad en Existencia: 200</Text>
                 </View>
                 <View style={styles.containerIconos}>
                     <Pressable onPress={() => navigation.navigate('ModProveedores', {NombreProveedor: NombreProveedor, Email:Email, Contacto:Contacto})}>
