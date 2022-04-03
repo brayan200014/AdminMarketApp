@@ -7,19 +7,24 @@ import { FontAwesome } from '@expo/vector-icons';
 
 export default function Opciones({ navigation }) {
 
-    const Item = ({IdProducto, NombreProducto})=>(
+    const Item = ({IdProducto, NombreProducto, DescripcionProducto, Estado, ISV, Categorias_IdCategoria})=>(
         <Pressable>
             <View style={styles.item}>
                 <View style={styles.conttainerInfo}>
                     <Text style={{fontWeight:'bold'}}> Producto: {IdProducto}</Text>
                     <Text style={styles.title}>Nombre: {NombreProducto}</Text>
-                    <Text style={styles.title}>Cantidad en Existencia: 200</Text>
+                    <Text style={styles.title}>Descripcion: {DescripcionProducto}</Text>
+                    <Text style={styles.title}>Estado: {Estado}</Text>
+                    <Text style={styles.title}>ISV: {ISV}</Text>
+                    <Text style={styles.title}># de Categoria: {Categorias_IdCategoria}</Text>
                 </View>
                 <View style={styles.containerIconos}>
-                    <Pressable onPress={() => navigation.navigate('ModProveedores', {NombreProveedor: NombreProveedor, Email:Email, Contacto:Contacto})}>
+                    <Pressable onPress={() => navigation.navigate('UpdateProductos', {IdProducto:IdProducto, NombreProducto:NombreProducto, 
+                                                                                      DescripcionProducto:DescripcionProducto, Estado:Estado, 
+                                                                                      ISV:ISV, Categorias_IdCategoria:Categorias_IdCategoria})}>
                             <FontAwesome name="edit" size={24} color="#2a67ca" />
                         </Pressable> 
-                        <Pressable>
+                        <Pressable onPress={() => navigation.navigate('DeleteProductos',{IdProducto:IdProducto})}>
                             <AntDesign name="delete" size={24} color="red"/>
                         </Pressable> 
                 </View>
@@ -55,8 +60,10 @@ const consultarProductos = async ()=>{
         <Item 
         IdProducto={item.IdProducto}
         NombreProducto={item.NombreProducto}
-        Descripcion={item.Descripcion}
-        Imagen={item.Imagen}
+        DescripcionProducto={item.DescripcionProducto}
+        Estado={item.Estado}
+        ISV={item.ISV}
+        Categorias_IdCategoria={item.Categorias_IdCategoria}
         />
     );
 
