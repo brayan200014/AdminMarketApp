@@ -20,7 +20,7 @@ export default function Opciones({ navigation }) {
                     <Pressable onPress={() => navigation.navigate('ModProveedores', {IdProveedor:IdProveedor,NombreProveedor: NombreProveedor, Email:Email, Contacto:Contacto})}>
                             <FontAwesome name="edit" size={24} color="#2a67ca" />
                         </Pressable> 
-                        <Pressable>
+                        <Pressable onPress={() => navigation.navigate('DeleteProveedores', {IdProveedor:IdProveedor})}>
                             <AntDesign name="delete" size={24} color="red"/>
                         </Pressable> 
                 </View>
@@ -32,6 +32,7 @@ const [proveedores, setproveedores] = useState([]);
 useEffect(async()=>{
   var a = await  consultarProveedores();
 }, []);
+
 const consultarProveedores = async ()=>{
       try {
         const solicitud= await fetch(

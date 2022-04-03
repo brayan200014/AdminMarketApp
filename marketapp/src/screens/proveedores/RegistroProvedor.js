@@ -1,72 +1,129 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView,Modal,Keyboard,Pressable
-        ,TouchableWithoutFeedback, Pressable,FlatList,Image,ScrollView} from 'react-native';
-import {useState,useEffect} from 'react';
+import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
+    Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
+import {useEffect, useState} from 'react';
+import Button from '../../componentes/Button';
 
 export default function Opciones({ navigation }) {
-  
+    
+    const [nombre, setnombre]= useState(null);
+    const [email, setemail]= useState(null);
+    const [contacto, setcontacto]= useState(null);
+
+
+    const crearProveedor = async () => {
+            try {
+                let solicitud= await fetch(
+                    'http://192.168.0.148:6001/api/proveedores/guardar',
+                    {
+                      method: 'POST',
+                      headers: {
+                        Accept: 'application/json', 
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                          NombreProveedor:nombre, 
+                          Email:email,
+                          Contacto: contacto,
+                      })
+                    }
+                  );
+                  const respuesta= await solicitud.json();
+                  const response= respuesta.msg; 
+                  console.log(respuesta); 
+                  
+
+            }catch(error){
+                console.log(error);
+            }
+    }
     return (
-        <View style={styles.container}>
-        <View>
-            <TextInput
-                style={styles.input} 
-                placeholder="Nombre Proveedor"
-                placeholderTextColor="black"
-            />
-            <TextInput 
-                style={styles.input}
-                placeholder="Email del Proveedor"
-                placeholderTextColor="black"
-            />
-            <TextInput 
-                style={styles.input}
-                placeholder="Contacto del Proveedor"
-                placeholderTextColor="black"
-            />
-            <TouchableOpacity style={styles.botonmod}>
-                <Text style={styles.buttonText}>Modificar</Text>
-            </TouchableOpacity>
-        </View>
-    </View>
+        <SafeAreaView style={styles.safeView}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.containerPri}>
+                        <Text style={styles.textTittle}>Crear Proveedor</Text>
+                        
+                        <Text style={styles.textInpu}>Nombre</Text>
+                        <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}></TextInput>
+                        
+                        <Text style={styles.textInpu}>Correo</Text>
+                        <TextInput style={styles.inputs} onChangeText={newText=>setemail(newText)}></TextInput>
+                        
+                        <Text style={styles.textInpu}>Contacto</Text>
+                        <TextInput style={styles.inputs} onChangeText={newText=>setcontacto(newText)}></TextInput>
+                    
+                        <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
+                            <Button text = "Crear"  
+                                onPress={crearProveedor}
+                            />
+                        </View>
+                    </View>
+                    </TouchableWithoutFeedback>
+                    </KeyboardAvoidingView>
+                    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    backgroundColor: '#fff',
     alignItems: 'center',
-    width: -60,
-    height: 45,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    paddingTop:150,
+    justifyContent: 'center',
   },
-  input: {
-      width: '200%',
-      marginBottom: 7,
-      //backgroundColor: 'Blue',
-      //fontSize:14,
-      borderWidth:1,
-      borderColor:'#10ac84',
-      height:35,
-      color: '#FFFFFF',
-      padding: 5,
-      textAlign: 'center',
-      borderRadius: 5,
-      margin:10,
+  safeView:{
+    flex: 1, 
+    height: StatusBar.currentHeight || 0,
+    marginBottom: '15%'
+},
+keyboarStyle: {
+    flex: 1
+},
+containerPri: {
+    flex:1,
+    backgroundColor: '#fff',
+    flexDirection:'column',
+    paddingTop:80,
+},
+textTittle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginLeft: '40%',
+    marginTop: '3%',
+    marginBottom: '2%'
+},
+textInpu: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginLeft: '3%',
+    marginTop: '3%',
+    color: 'black',
+},
+  inputs: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    borderColor: '#2A67CA',
+    marginTop: '3%'
   },
-  botonmod:{
-      paddingBottom:10,
-      paddingTop:10,
-      borderRadius:5,
-      marginBottom:3,
-      backgroundColor: '#10ac84',
-      width:'90%',
-      textAlign: 'center',
-  },
-  buttonText:{
-      color:'#FFFFFF',
-      textAlign:'center',
-  }
+  containerBotones: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: '10%'
+},
+buttonModificar: {
+    flex:1,
+    alignItems:'center',
+    backgroundColor: '#2A67CA',
+    margin: '5%',
+    height: '20%',
+    justifyContent: 'center',
+    borderRadius: 5
+},
+textButton: {
+    color: 'white'
+},
 });

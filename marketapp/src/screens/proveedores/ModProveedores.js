@@ -39,7 +39,10 @@ export default function Opciones({ route, navigation }) {
             }
     }
     return (
-        <View style={styles.containerPri}>
+        <SafeAreaView style={styles.safeView}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.containerPri}>
                         <Text style={styles.textTittle}>Editar Proveedor</Text>
                         
                         <Text style={styles.textInpu}>Nombre</Text>
@@ -56,8 +59,10 @@ export default function Opciones({ route, navigation }) {
                                 onPress={modificarProveedor}
                             />
                         </View>
-
                     </View>
+                    </TouchableWithoutFeedback>
+                    </KeyboardAvoidingView>
+                    </SafeAreaView>
   );
 }
 

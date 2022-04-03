@@ -5,6 +5,9 @@ import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
 import Proveedores from '../screens/proveedores/listaproveedores';
 import E_Proveedores from '../screens/proveedores/ModProveedores';
+import O_Proveedores from '../screens/proveedores/opciones';
+import C_Proveedores from '../screens/proveedores/RegistroProvedor';
+import D_Proveedores from '../screens/proveedores/D_Proveedor';
 import Productos from '../screens/productos/Productos';
 
 const HomeStack= createNativeStackNavigator();
@@ -42,6 +45,30 @@ const Navigation= () => {
            backgroundColor: '#3EA5DB',
            }}} />
         <HomeStack.Screen  name="ModProveedores" component={E_Proveedores} 
+      options={{headerTransparent: true, 
+        headerTintColor:'#fff', 
+        headerBackTitle: 'Regresar',
+         headerTitle:'Modificar Provedores', 
+         headerStyle:{
+           backgroundColor: '#3EA5DB',
+           }}} />
+        <HomeStack.Screen  name="OpcionesProv" component={O_Proveedores} 
+      options={{headerTransparent: true, 
+        headerTintColor:'#fff', 
+        headerBackTitle: 'Regresar',
+         headerTitle:'Modificar Provedores', 
+         headerStyle:{
+           backgroundColor: '#3EA5DB',
+           }}} />
+        <HomeStack.Screen  name="CreaProveedores" component={C_Proveedores} 
+      options={{headerTransparent: true, 
+        headerTintColor:'#fff', 
+        headerBackTitle: 'Regresar',
+         headerTitle:'Modificar Provedores', 
+         headerStyle:{
+           backgroundColor: '#3EA5DB',
+           }}} />
+        <HomeStack.Screen  name="DeleteProveedores" component={D_Proveedores} 
       options={{headerTransparent: true, 
         headerTintColor:'#fff', 
         headerBackTitle: 'Regresar',
