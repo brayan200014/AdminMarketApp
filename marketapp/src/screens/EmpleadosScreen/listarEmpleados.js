@@ -30,10 +30,10 @@ export default function ListarEmpleados({ navigation }) {
                  <Text style={styles.title}>Sucursal: {NombreSucursal}</Text>
           </View>
           <View style={styles.containerIconos}>
-               <Pressable onPress={() => navigation.navigate()}>
+               <Pressable onPress={() => navigation.navigate('Modificar_Empleados', {IdEmpleado: IdEmpleado, Telefono: Telefono, Direccion: Direccion, Estado:Estado, NombreSucursal:NombreSucursal})}>
                       <FontAwesome name="edit" size={24} color="#2a67ca" />
                  </Pressable> 
-                 <Pressable>
+                 <Pressable onPress={() => navigation.navigate('Eliminar_Empleados', {IdEmpleado: IdEmpleado})}>
                        <AntDesign name="delete" size={24} color="red"/>
                  </Pressable> 
                 
