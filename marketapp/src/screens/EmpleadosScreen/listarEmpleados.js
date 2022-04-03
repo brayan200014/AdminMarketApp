@@ -115,6 +115,7 @@ export default function ListarEmpleados({ navigation }) {
     console.log(data)
     setFiltro(data); 
     setEmpleados(data);
+    console.log(data);
     
 }
 

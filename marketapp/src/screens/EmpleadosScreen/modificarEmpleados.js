@@ -94,24 +94,22 @@ export default function modificarEmpleados({ route, navigation }) {
                         <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)} value={''+estado}></TextInput>
 
                         <Text style={styles.textInpu}>Sucursal</Text> 
-                        <DropDownPicker
-                            schema={{
-                            label: 'Nombre Sucursal',
-                            value: 'ID'
-                            }}
-                            zIndex={1000}
-                            zIndexInverse={3000}
-                            theme='Sucursal'
-                            open={open}
-                            value={valueSucursales}
-                            items={itemsSucursales}
-                            setOpen={setOpen}
-                            setValue={setValueSucursales}
-                            setItems={setItemsSucursales}
-                            placeholder={NombreSucursal}
-                            searchable={true}
-                            searchPlaceholder='Buscar Sucursal'
-                        />
+                    <DropDownPicker
+                        schema={{
+                          label: 'Nombre Sucursal',
+                          value: 'ID'
+                        }}
+                        zIndex={1000}
+                        zIndexInverse={3000}
+                        theme='Sucursal'
+                        open={open}
+                        value={valueSucursales}
+                        items={itemsSucursales}
+                        setOpen={setOpen}
+                        setValue={setValueSucursales}
+                        setItems={setItemsSucursales}
+                        placeholder={NombreSucursal}
+                      />
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Modificar"  
                                 onPress={modificarEmpleados}/>
