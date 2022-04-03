@@ -46,7 +46,7 @@ export default function Edit( {route, navigation}) {
     const getDetalleVentas= async () => {
    
         const solicitud= await fetch(
-          'http://192.168.0.10:6001/api/ventas/listarDetalle?id='+id,
+          'http://192.168.1.8:6001/api/ventas/listarDetalle?id='+id,
           {
             method: 'GET', 
             headers: {
@@ -109,7 +109,7 @@ const modificarVenta= async()=> {
   
 
   const solicitud= await fetch(
-    'http://192.168.0.10:6001/api/ventas/modificar?id='+id,
+    'http://192.168.1.8:6001/api/ventas/modificar?id='+id,
     {
       method: 'PUT', 
       headers: {

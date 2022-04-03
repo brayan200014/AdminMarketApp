@@ -5,6 +5,7 @@ import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
 import Showventas from '../screens/VentasScreen/showVentas';
 import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas'
+import ListarEmpleados from '../screens/EmpleadosScreen/listarEmpleados';
 
 
 const HomeStack= createNativeStackNavigator();
@@ -49,6 +50,16 @@ const Navigation= () => {
             headerTitle:'Editar Venta', 
             headerStyle:{
               backgroundColor: '#3EA5DB',
+         
+         }}} />
+
+          <HomeStack.Screen  name="Listar_Empleados" component={ListarEmpleados} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Lista Empleados', 
+            headerStyle:{
+            backgroundColor: '#3EA5DB',
          
          }}} />
 
