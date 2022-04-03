@@ -34,7 +34,7 @@ useEffect(async()=>{
 const consultarProductos = async ()=>{
       try {
         const solicitud= await fetch(
-          'http://192.168.0.146:6001/api/productos/listarproductos',
+          'http://192.168.0.148:6001/api/productos/listarproductos',
           {
             method: 'GET',
             headers: {

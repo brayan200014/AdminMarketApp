@@ -7,19 +7,15 @@ import Button from '../../componentes/Button';
 export default function Opciones({ route, navigation }) {
     
     const{IdProveedor,NombreProveedor, Email, Contacto}=route.params;
-    const [nombre, setnombre]= useState();
-    const [email, setemail]= useState();
-    const [contacto, setcontacto]= useState();
+    const [nombre, setnombre]= useState(null);
+    const [email, setemail]= useState(null);
+    const [contacto, setcontacto]= useState(null);
 
 
     const modificarProveedor = async () => {
-        if(!nombre||!email||!contacto){
-            Alert.alert("Favor llenar todos los campos");
-        }
-        else{
             try {
-                const solicitud= await fetch(
-                    'http://192.168.0.146:6001/api/proveedores/actualizar?IdProveedor='+IdProveedor,
+                let solicitud= await fetch(
+                    'http://192.168.0.148:6001/api/proveedores/actualizar?IdProveedor='+IdProveedor,
                     {
                       method: 'PUT',
                       headers: {
@@ -27,47 +23,41 @@ export default function Opciones({ route, navigation }) {
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                          nombre:NombreProveedor, 
-                          email: Email,
-                          contacto: Contacto
+                          NombreProveedor:nombre, 
+                          Email:email,
+                          Contacto: contacto,
                       })
                     }
                   );
-                  const respuesta = await solicitud.json();
-                  const response=respuesta.msg;
+                  const respuesta= await solicitud.json();
+                  const response= respuesta.msg; 
+                  console.log(respuesta); 
+                  
 
             }catch(error){
                 console.log(error);
             }
-        }
     }
     return (
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.keyboardStyle}>
-                <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
-                    <View style={styles.containerPri}>
+        <View style={styles.containerPri}>
                         <Text style={styles.textTittle}>Editar Proveedor</Text>
                         
                         <Text style={styles.textInpu}>Nombre</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}defaultValue={''+NombreProveedor}></TextInput>
+                        <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)} defaultValue={''+NombreProveedor} ></TextInput>
                         
                         <Text style={styles.textInpu}>Correo</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setemail(newText)} defaultValue={''+Email}></TextInput>
+                        <TextInput style={styles.inputs} onChangeText={newText=>setemail(newText)} defaultValue={''+Email} ></TextInput>
                         
                         <Text style={styles.textInpu}>Contacto</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setcontacto(newText)} defaultValue={''+Contacto} ></TextInput>
+                        <TextInput style={styles.inputs} onChangeText={newText=>setcontacto(newText)} defaultValue={''+Contacto}></TextInput>
                     
-                        <View style={styles.containerBotones}>
-                            <Pressable style={styles.buttonModificar} onPress={async() => {
-                                await modificarProveedor();
-                            }}>
-                                <Text style={styles.textButton}>Modificar</Text>
-                            </Pressable>
+                        <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
+                            <Button text = "Modificar"  
+                                onPress={modificarProveedor}
+                            />
                         </View>
 
                     </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
   );
 }
 
@@ -90,7 +80,7 @@ containerPri: {
     flex:1,
     backgroundColor: '#fff',
     flexDirection:'column',
-    paddingTop:60,
+    paddingTop:80,
 },
 textTittle: {
     fontSize: 15,
@@ -103,7 +93,8 @@ textInpu: {
     fontSize: 15,
     fontWeight: 'bold',
     marginLeft: '3%',
-    marginTop: '3%'
+    marginTop: '3%',
+    color: 'black',
 },
   inputs: {
     height: 40,

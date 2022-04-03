@@ -17,7 +17,7 @@ export default function Opciones({ navigation }) {
                     <Text style={styles.title}>Email: {Email}</Text>
                 </View>
                 <View style={styles.containerIconos}>
-                    <Pressable onPress={() => navigation.navigate('ModProveedores', {NombreProveedor: NombreProveedor, Email:Email, Contacto:Contacto})}>
+                    <Pressable onPress={() => navigation.navigate('ModProveedores', {IdProveedor:IdProveedor,NombreProveedor: NombreProveedor, Email:Email, Contacto:Contacto})}>
                             <FontAwesome name="edit" size={24} color="#2a67ca" />
                         </Pressable> 
                         <Pressable>
@@ -35,7 +35,7 @@ useEffect(async()=>{
 const consultarProveedores = async ()=>{
       try {
         const solicitud= await fetch(
-          'http://192.168.0.146:6001/api/proveedores/listar',
+          'http://192.168.0.148:6001/api/proveedores/listar',
           {
             method: 'GET',
             headers: {
