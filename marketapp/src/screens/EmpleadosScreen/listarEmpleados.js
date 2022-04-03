@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal, Image} from 'react-native';
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -15,8 +15,9 @@ DropDownPicker.setLanguage("ES");
 
 
 export default function ListarEmpleados({ navigation }) {
+  
   const Item = ({ IdEmpleado, Nombre, Apellido, Telefono, Direccion, Email, FechaContratacion, Estado, NombreSucursal}) => (
-    <Pressable >
+   <Pressable >
         <View style={styles.item}>
           <View style={styles.containerInfo}>
                  <Text style={{fontWeight: 'bold', fontStyle: 'italic'}}>Empleado: {IdEmpleado}</Text>
@@ -29,14 +30,15 @@ export default function ListarEmpleados({ navigation }) {
                  <Text style={styles.title}>Estado: {Estado}</Text>
                  <Text style={styles.title}>Sucursal: {NombreSucursal}</Text>
           </View>
+          
           <View style={styles.containerIconos}>
                <Pressable onPress={() => navigation.navigate('Modificar_Empleados', {IdEmpleado: IdEmpleado, Telefono: Telefono, Direccion: Direccion, Estado:Estado, NombreSucursal:NombreSucursal})}>
                       <FontAwesome name="edit" size={24} color="#2a67ca" />
                  </Pressable> 
                  <Pressable onPress={() => navigation.navigate('Eliminar_Empleados', {IdEmpleado: IdEmpleado})}>
                        <AntDesign name="delete" size={24} color="red"/>
-                 </Pressable> 
-                
+                 </Pressable>
+                       
           </View>
         </View>
       </Pressable>
@@ -124,6 +126,7 @@ export default function ListarEmpleados({ navigation }) {
     );
 
   return (
+    
     <SafeAreaView style={styles.container}>
       <Modal transparent={true}
                             animationType={'fade'}
@@ -160,7 +163,7 @@ export default function ListarEmpleados({ navigation }) {
       <Pressable style={styles.pressableIconFilter} onPress={()=> setVisible(true)}>
       <MaterialCommunityIcons name="filter-plus-outline" size={30} color="black" />
       </Pressable>
-      </View>
+      </View>   
       <View style={styles.containerFlat}>
          <FlatList
             data={filtro}
@@ -169,8 +172,17 @@ export default function ListarEmpleados({ navigation }) {
            ListEmptyComponent={Listavacia}
           >
         </FlatList>
+        </View> 
+        <View style={styles.container1}>
+        <View style={styles.darkLayer}>
+          <Pressable style={styles.logo}>
+              <Image source={require('../../img/boton-agregar.png')}/>
+          </Pressable>
+        </View>
         </View>
         </SafeAreaView>
+
+ 
   )
 }
 
@@ -181,6 +193,12 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     marginBottom: '15%',
     backgroundColor: '#fff'
+  },
+  container1: {
+    flex: 1,
+    flex: 4/50,
+    flexDirection: 'row',
+    marginTop: '2%'
   },
   containerFiltro: {
     flex: 5/32,
@@ -259,5 +277,18 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: '300'
   },
-  
+  darkLayer:{
+    position: 'absolute',
+    top:0,
+    bottom: 0,
+    right: 0,
+    left: 0,  
+},
+logo:{
+    marginTop: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+},
+
 });

@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import NavigationPrincipal from './src/Navigators/NavigatorPrincipal';
 
 
+
 export default function App() {
   return (
     <NavigationContainer>
