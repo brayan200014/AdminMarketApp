@@ -52,6 +52,25 @@ export default function modificarEmpleados({ route, navigation }) {
             
         }
 
+        const getSucursal= async () => {
+   
+          const solicitud= await fetch(
+            'http://192.168.1.8:6001/api/sucursales/listarFlat',
+            {
+              method: 'GET', 
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }
+          )
+          const json = await solicitud.json();
+          const data=json.data;
+          console.log(json);
+          setItemsSucursales(json); 
+           
+      }
+
     const modificarEmpleados = async () => {
             try {
                 let solicitud= await fetch(
@@ -109,6 +128,7 @@ export default function modificarEmpleados({ route, navigation }) {
                         setValue={setValueSucursales}
                         setItems={setItemsSucursales}
                         placeholder={NombreSucursal}
+                        
                       />
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Modificar"  
@@ -118,8 +138,6 @@ export default function modificarEmpleados({ route, navigation }) {
                     </View>
   );
 }
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

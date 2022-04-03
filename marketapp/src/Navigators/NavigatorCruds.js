@@ -9,6 +9,7 @@ import ListarEmpleados from '../screens/EmpleadosScreen/listarEmpleados';
 import modificarEmpleados from '../screens/EmpleadosScreen/modificarEmpleados';
 import eliminarEmpleados from '../screens/EmpleadosScreen/eliminarEmpleados';
 import registroEmpleados from '../screens/EmpleadosScreen/registroEmpleados';
+import ListarSucursales from '../screens/SucursalesScreen/listarScursales';
 
 
 const HomeStack= createNativeStackNavigator();
@@ -93,6 +94,16 @@ const Navigation= () => {
             headerTitle:'Registro Empleados', 
             headerStyle:{
               backgroundColor: '#3EA5DB',
+         
+         }}} />
+
+        <HomeStack.Screen  name="Listar_Sucursales" component={ListarSucursales} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Lista Sucursales', 
+            headerStyle:{
+            backgroundColor: '#3EA5DB',
          
          }}} />
 
