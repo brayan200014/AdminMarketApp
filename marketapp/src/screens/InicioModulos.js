@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Pressable,Image, TextInput, FlatList, ImageBackground } from 'react-native';
-
+import { useEffect, useState } from 'react';
+import Listavacia from '../componentes/listaVacia'
 const DATA = [
   {
     id: 1,
@@ -53,9 +54,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('ListarVentas', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/ventas.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -65,9 +70,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/empleados.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -77,9 +86,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/productos.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -89,9 +102,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/orden.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -101,9 +118,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/productos-lacteos.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -113,9 +134,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/industria.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -125,9 +150,13 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/tienda.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
@@ -137,14 +166,44 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
-               <Text style={styles.title}>{title}</Text>
-        </ImageBackground>
+      <View style={styles.containerText}>
+      <Text style={styles.title}>{title}</Text>
+      </View>
+      <View style={styles.containerImage}>
+        <Image  style={styles.image} source={require('../img/proveedor.png')} >
+        </Image>
+      </View>
       </View>
     </Pressable>
      )
    } 
-} 
+
+  } 
+
+
+
+
+  const [filtro, setFiltro]= useState(DATA); 
+  const [buscar, setBuscar]= useState('');
+
+  const filtroFuncion = (text) => {
+    if(text)
+    {
+      const nuevaData = DATA.filter(item => item.title==text);
+      console.log(nuevaData);
+      setFiltro(nuevaData);
+      setBuscar(text);
+    }
+    else 
+    {
+      setFiltro(DATA);
+      setBuscar(text)
+    }
+
+    
+  };
+
+
   const renderItem = ({ item}) => (
     <Item title={item.title} image={item.image} />
   );
@@ -157,7 +216,7 @@ const Item = ({ title, image }) => {
                 <Pressable>
                   <Image 
                       style={styles.imagenusuario}
-                      source={require('../img/usuario.png')}
+                      source={require('../img/profile.png')}
                   ></Image></Pressable>
                 <Text style={styles.textCarrito}>Hola Josue,</Text>
                 <Text style={styles.textCarrito}>Bienvenido</Text>
@@ -165,16 +224,21 @@ const Item = ({ title, image }) => {
            </View>
            <View style={styles.contenedorbuscar}>
               <TextInput
-                placeholder="Que desea comprar"
-                style={styles.entradas}>
+                placeholder="Buscar Modulo"
+                style={styles.entradas}
+                onChangeText={(text) => filtroFuncion(text)}
+                value={buscar}
+                >
               </TextInput>
             </View>
               <View style={styles.containerLista}>
                 <FlatList 
                  
-                  data={DATA}
+                  data={filtro}
                   renderItem= {renderItem}
                   keyExtractor={item => item.id}
+                  ListEmptyComponent={Listavacia}
+                  
                   />
 
               </View>
@@ -220,8 +284,8 @@ textCarrito:{
 },
 imagenusuario: {
   margin: 3,
-  width: 50,
-  height: 50
+  width: 35,
+  height: 35
 },
 contenedorbuscar:{
 backgroundColor: '#3EA5DB',
@@ -251,22 +315,42 @@ entradas:{
 
 item: {
   flex: 1,
-  backgroundColor: '#f9c2ff',
-  padding: 20,
+  backgroundColor: 
+  'rgba(70, 188, 223, 0.44)',
+  padding: 15,
   marginVertical: 8,
   marginHorizontal: 16,
   borderRadius: 15,
+  alignItems: 'center',
+  borderColor: '#2A67CA',
+  borderWidth: 2,
+  flexDirection: 'row',
+  
 
 },
 title: {
-  fontSize: 32,
+  fontSize: 24,
+  fontStyle: 'italic',
+  fontWeight: '300'
 },
 containerLista: {
   flex: 1,
-  flexDirection: 'row'
+  width:'85%'
 },
 image: {
-  flex: 1,
-  justifyContent: "center",
+    margin: 1,
+    width: 50,
+    height: 50,
+    flex: 1,
+    alignContent: 'flex-end'
+  
 },
+containerImage: {
+   flex: 1/2,
+   alignItems: 'flex-end'
+},
+containerText: {
+  flex: 1,
+  
+}
 });
