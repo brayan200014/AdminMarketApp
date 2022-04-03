@@ -86,7 +86,6 @@ const consultarProveedores = async ()=>{
                 data={proveedores}
                 renderItem={renderItem}
                 keyExtractor={item=>item.IdProveedor}
-                ListEmptyComponent={Listavacia}
             />
         </View>
     </SafeAreaView>
