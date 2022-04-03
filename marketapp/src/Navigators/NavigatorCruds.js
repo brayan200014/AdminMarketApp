@@ -8,6 +8,7 @@ import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas'
 import ListarEmpleados from '../screens/EmpleadosScreen/listarEmpleados';
 import modificarEmpleados from '../screens/EmpleadosScreen/modificarEmpleados';
 import eliminarEmpleados from '../screens/EmpleadosScreen/eliminarEmpleados';
+import registroEmpleados from '../screens/EmpleadosScreen/registroEmpleados';
 
 
 const HomeStack= createNativeStackNavigator();
@@ -69,7 +70,7 @@ const Navigation= () => {
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
-            headerTitle:'Editar Venta', 
+            headerTitle:'Modificando Registro Empleados', 
             headerStyle:{
               backgroundColor: '#3EA5DB',
          
@@ -79,7 +80,17 @@ const Navigation= () => {
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
-            headerTitle:'Editar Venta', 
+            headerTitle:'Eliminando Empleados', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+
+        <HomeStack.Screen  name="Registrar_Empleados" component={registroEmpleados} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Registro Empleados', 
             headerStyle:{
               backgroundColor: '#3EA5DB',
          

@@ -1,57 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
+    Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
 import Button from '../../componentes/Button';
-import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons'; 
 
-const myTheme = require("../TemaDrop/EstiloDropDown");
 
-DropDownPicker.addTheme("Sucursal", myTheme);
-DropDownPicker.setTheme("Sucursal");
-DropDownPicker.setLanguage("ES");
 
 
 export default function registroEmpleados({ navigation }) {
-    
     const [Nombre, setNombre]= useState(null);
     const [Apellido, setApellido]= useState(null);
     const [Telefono, setTelefono]= useState(null);
-    const [Direccion, setDireccion] = useState(false);
-    const [Email, setEmail] = useState(false);
-    const [Puestos_IdPuesto, setPuestos_IdPuesto] = useState(false);
-    const [valueSucursales, setValueSucursales] = useState(null);
-    const [itemsSucursales, setItemsSucursales] = useState([])
+    const [Direccion, setDireccion] = useState(null);
+    const [Email, setEmail] = useState(null);
+    const [Puestos_IdPuesto, setPuestos_IdPuesto] = useState(null);
+    const [Sucursales_IdSucursal, setSucursales_IdSucursales] = useState(null);
 
 
-    useEffect(async()=>{
-        var sucu= await getSucursales();
-
-        }, []);
-
-        const getSucursales= async () => {
-   
-            const solicitud= await fetch(
-              'http://192.168.1.8:6001/api/sucursales/listar',
-              {
-                method: 'GET', 
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json'
-                }
-              }
-            )
-            const json = await solicitud.json();
-            const data=json.data;
-            console.log(json);
-            setItemsSucursales(json); 
-             
-            
-        }
 
     const registroEmpleados = async () => {
-        if(!Nombre || !Apellido ||!Telefono ||!Email ||!Puestos_IdPuesto) {
+        if(!Nombre || !Apellido ||!Telefono ||!Email ||!Sucursales_IdSucursal ||!Puestos_IdPuesto) {
             Alert.alert("¡ALTO!","Por favor, escriba los datos completos");
         }
         else 
@@ -71,7 +40,7 @@ export default function registroEmpleados({ navigation }) {
                           Telefono: Telefono,
                           Direccion:Direccion,
                           Email: Email,
-                          Sucursales_IdSucursal: valueSucursales,
+                          Sucursales_IdSucursal: Sucursales_IdSucursal,
                           Puestos_IdPuesto: Puestos_IdPuesto,
                       })
                     }
@@ -89,78 +58,56 @@ export default function registroEmpleados({ navigation }) {
     }
 
     return (
+         <ScrollView style={styles.scrollView}>
         <View style={styles.containerPri}>
-                        <Text style={styles.textTittle}>Registro Empleados</Text>
+            <Text style={styles.textTittle}>Registro Empleados</Text>
                         
-                        <Text style={styles.textInpu}>Nombre</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setNombre(newText)} placeholder="Escriba el nombre del empleado"></TextInput>
+            <Text style={styles.textInpu}>Nombre</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setNombre(newText)} placeholder="Escriba el nombre del empleado"></TextInput>
                         
-                        <Text style={styles.textInpu}>Apellido</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setApellido(newText)} placeholder="Escriba el apellido del empleado"></TextInput>
+            <Text style={styles.textInpu}>Apellido</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setApellido(newText)} placeholder="Escriba el apellido del empleado"></TextInput>
                         
-                        <Text style={styles.textInpu}>Telefono</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setTelefono(newText)} placeholder="Escriba un número de telefono"></TextInput>
+            <Text style={styles.textInpu}>Telefono</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setTelefono(newText)} placeholder="Escriba un número de telefono"></TextInput>
                         
-                        <Text style={styles.textInpu}>Direccion</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setDireccion(newText)} placeholder="Escriba un número de telefono"></TextInput>
+            <Text style={styles.textInpu}>Direccion</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setDireccion(newText)} placeholder="Escriba un número de telefono"></TextInput>
                         
-                        <Text style={styles.textInpu}>Email</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setEmail(newText)} placeholder="Escriba el correo electronico"></TextInput>
+            <Text style={styles.textInpu}>Email</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setEmail(newText)} placeholder="Escriba el correo electronico"></TextInput>
 
-                        <Text style={styles.textInpu}>Sucursal</Text> 
-                        <DropDownPicker
-                            schema={{
-                            label: 'Nombre Sucursal',
-                            value: 'ID'
-                            }}
-                            zIndex={1000}
-                            zIndexInverse={3000}
-                            theme='Sucursal'
-                            open={open}
-                            value={valueSucursales}
-                            items={itemsSucursales}
-                            setOpen={setOpen}
-                            setValue={setValueSucursales}
-                            setItems={setItemsSucursales}
-                            placeholder={NombreSucursal}
-                            searchable={true}
-                            searchPlaceholder='Buscar Sucursal'
-                        />
+            <Text style={styles.textInpu}>Sucursal ID</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setSucursales_IdSucursales(newText)} placeholder="Escriba el ID de la Sucursal"></TextInput>
 
-                        <Text style={styles.textInpu}>Puesto ID</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setPuestos_IdPuesto(newText)} placeholder="Escriba el ID del puesto"></TextInput>
+            <Text style={styles.textInpu}>Puesto ID</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setPuestos_IdPuesto(newText)} placeholder="Escriba el ID del puesto"></TextInput>
 
-                        <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
-                            <Button text = "Guardar"  
-                                onPress={registroEmpleados}/>
-                        </View>
+            <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
+                <Button text = "Guardar"  
+                    onPress={registroEmpleados}/>
+            </View>
+        </View> 
 
-                    </View>
+    </ScrollView>   
   );
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  safeView:{
-    flex: 1, 
-    height: StatusBar.currentHeight || 0,
-    marginBottom: '15%'
-},
-keyboarStyle: {
-    flex: 1
-},
 containerPri: {
     flex:1,
     backgroundColor: '#fff',
     flexDirection:'column',
-    paddingTop:80,
+    paddingTop:90,
+    paddingBottom: 150
+   
 },
+
+keyboarStyle: {
+    flex: 1
+},
+
 textTittle: {
     fontSize: 15,
     fontWeight: 'bold',
@@ -172,7 +119,7 @@ textInpu: {
     fontSize: 15,
     fontWeight: 'bold',
     marginLeft: '3%',
-    marginTop: '3%',
+    marginTop: '2%',
     color: 'black',
 },
   inputs: {
@@ -184,21 +131,26 @@ textInpu: {
     borderColor: '#2A67CA',
     marginTop: '3%'
   },
-  containerBotones: {
+containerBotones: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: '10%'
+    marginTop: '50%'
 },
-buttonModificar: {
+buttonRegistro: {
     flex:1,
     alignItems:'center',
     backgroundColor: '#2A67CA',
     margin: '5%',
-    height: '20%',
+    height: '40%',
     justifyContent: 'center',
     borderRadius: 5
 },
 textButton: {
     color: 'white'
 },
+scrollView: {
+    backgroundColor: 'white',
+    marginHorizontal: 0,
+    
+  },
 });
