@@ -6,12 +6,10 @@ import Button from '../../componentes/Button';
 
 export default function Opciones({ route, navigation }) {
     
-    const{IdProducto,NombreProducto, DescripcionProducto, Estado, ISV, Categorias_IdCategoria}=route.params;
-    const [nombre, setnombre]= useState(null);
-    const [descripcion, setdescripcion]= useState(null);
+    const{IdProducto,Estado}=route.params;
+
     const [estado, setestado]= useState(null);
-    const [impuesto, setimpuesto]= useState(null);
-    const [categoria, setcategoria]= useState(null);
+
 
 
     const modificarProducto = async () => {
@@ -25,11 +23,7 @@ export default function Opciones({ route, navigation }) {
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                          NombreProducto:nombre,
-                          DescripcionProducto: descripcion,
-                          Estado: estado,
-                          ISV: impuesto,
-                          Categorias_IdCategoria:categoria,
+                          Estado: estado
                       })
                     }
                   );
@@ -47,20 +41,10 @@ export default function Opciones({ route, navigation }) {
                     <View style={styles.containerPri}>
                         <Text style={styles.textTittle}>Editar Producto</Text>
                         
-                        <Text style={styles.textInpu}>Nombre</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)} defaultValue={''+NombreProducto} ></TextInput>
                         
-                        <Text style={styles.textInpu}>Descripcion</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setdescripcion(newText)} defaultValue={''+DescripcionProducto} ></TextInput>
-                        
-                        <Text style={styles.textInpu}>ISV</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setimpuesto(newText)} defaultValue={''+ISV}></TextInput>
-
                         <Text style={styles.textInpu}>Estado</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)} defaultValue={''+Estado}></TextInput>
                     
-                        <Text style={styles.textInpu}># categoria</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setcategoria(newText)} defaultValue={''+Categorias_IdCategoria}></TextInput>
 
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Modificar"  

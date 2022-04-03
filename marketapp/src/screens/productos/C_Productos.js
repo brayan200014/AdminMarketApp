@@ -85,7 +85,7 @@ export default function Opciones({ navigation }) {
 
                     <View style={{marginTop:50, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Seleccionar Imagen"  
-                                onPress={async()=>{ await openImagePicker()}}
+                                onPress={async()=>{ await openImagePicker(setFilename)}}
                             />
                         </View>
                         
@@ -95,6 +95,9 @@ export default function Opciones({ navigation }) {
                             />
                         </View>
                         
+                        <View style={styles.selecImg}>
+                            <Image style={styles.img} source={{uri:SelectImage}}></Image>
+                        </View>
                         
                         <Text style={styles.textInpu}>Nombre</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}></TextInput>
@@ -110,11 +113,6 @@ export default function Opciones({ navigation }) {
                     
                         <Text style={styles.textInpu}># categoria</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setcategoria(newText)}></TextInput>
-
-                        <View style={styles.selecImg}>
-                            <Image style={styles.img} source={{uri:SelectImage}}></Image>
-                        </View>
-
                         
                     </View>
                     </ScrollView>
