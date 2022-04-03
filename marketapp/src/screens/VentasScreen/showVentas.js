@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Aler
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import DropDownPicker from 'react-native-dropdown-picker';
-import Listavacia from './listaVacia';
+import Listavacia from '../../componentes/listaVacia';
 
 
 
@@ -21,7 +21,7 @@ export default function Showventas({ route, navigation }) {
     <Pressable  >
         <View style={styles.item}>
           <View style={styles.containerInfo}>
-                 <Text style={{fontWeight: 'bold'}}>Numero Factura: {id}</Text>
+                 <Text style={{fontWeight: 'bold', fontStyle: 'italic'}}>Numero Factura: {id}</Text>
                  <Text style={styles.title}>Fecha Factura: {fecha}</Text>
                  <Text style={styles.title}>Impuesto: L.{isv}</Text>
                  <Text style={styles.title}>Subtotal: L.{subtotal}</Text>
@@ -253,6 +253,11 @@ const styles = StyleSheet.create({
   textmessagemodalModificar: {
     color:'green',
     marginTop: '1%',
-  }
+  },
+  title: {
+    
+    fontStyle: 'italic',
+    fontWeight: '300'
+  },
   
 });
