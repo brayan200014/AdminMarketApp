@@ -4,8 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
 import Showventas from '../screens/VentasScreen/showVentas';
-import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas'
-
+import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas';
+import ShowCompras from '../screens/ComprasScreen/ShowCompras';
+import E_Compras from '../screens/ComprasScreen/Edit&SaveCompra';
+import E_detalleCompra from '../screens/ComprasScreen/editDetail';
 
 const HomeStack= createNativeStackNavigator();
 
@@ -47,6 +49,33 @@ const Navigation= () => {
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
             headerTitle:'Editar Venta', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+         <HomeStack.Screen  name="ListarCompras" component={ShowCompras} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Lista Compra', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+         <HomeStack.Screen  name="ES_Compras" component={E_Compras} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Editar Compra', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+         <HomeStack.Screen  name="E_DetalleCompra" component={E_detalleCompra} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Editar Detalle', 
             headerStyle:{
               backgroundColor: '#3EA5DB',
          

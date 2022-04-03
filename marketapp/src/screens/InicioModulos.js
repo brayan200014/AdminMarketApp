@@ -53,7 +53,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('ListarVentas', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -65,7 +65,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -77,7 +77,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -87,9 +87,9 @@ const Item = ({ title, image }) => {
    else if(title=='Compras')
    {
      return (
-      <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+      <Pressable onPress={() => navigation.navigate('ListarCompras', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -101,7 +101,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -113,7 +113,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -125,7 +125,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
@@ -137,7 +137,7 @@ const Item = ({ title, image }) => {
      return (
       <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
       <View style={styles.item}>
-        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.10:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
+        <ImageBackground  style={styles.image} source={{uri: 'http://192.168.0.11:6001/api/archivos/consultarPublic?nombre='+image}} resizeMode="contain">
                <Text style={styles.title}>{title}</Text>
         </ImageBackground>
       </View>
