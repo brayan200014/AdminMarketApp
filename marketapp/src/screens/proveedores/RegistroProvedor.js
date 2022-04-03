@@ -14,7 +14,7 @@ export default function Opciones({ navigation }) {
     const crearProveedor = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.148:6001/api/proveedores/guardar',
+                    'http://192.168.0.101:6001/api/proveedores/guardar',
                     {
                       method: 'POST',
                       headers: {

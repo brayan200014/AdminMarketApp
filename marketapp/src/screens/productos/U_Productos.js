@@ -17,7 +17,7 @@ export default function Opciones({ route, navigation }) {
     const modificarProducto = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.148:6001/api/productos/modificarproductos?IdProducto='+IdProducto,
+                    'http://192.168.0.101:6001/api/productos/modificarproductos?IdProducto='+IdProducto,
                     {
                       method: 'PUT',
                       headers: {

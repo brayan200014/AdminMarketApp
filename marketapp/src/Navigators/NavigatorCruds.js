@@ -5,11 +5,9 @@ import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
 import Proveedores from '../screens/proveedores/listaproveedores';
 import E_Proveedores from '../screens/proveedores/ModProveedores';
-import O_Proveedores from '../screens/proveedores/opciones';
 import C_Proveedores from '../screens/proveedores/RegistroProvedor';
 import D_Proveedores from '../screens/proveedores/D_Proveedor';
 
-import OpProductos from '../screens/productos/OpProductos';
 import C_Productos from '../screens/productos/C_Productos';
 import R_Productos from '../screens/productos/R_Productos';
 import U_Productos from '../screens/productos/U_Productos';
@@ -57,14 +55,6 @@ const Navigation= () => {
          headerStyle:{
            backgroundColor: '#3EA5DB',
            }}} />
-        <HomeStack.Screen  name="OpcionesProv" component={O_Proveedores} 
-      options={{headerTransparent: true, 
-        headerTintColor:'#fff', 
-        headerBackTitle: 'Regresar',
-         headerTitle:'Provedores', 
-         headerStyle:{
-           backgroundColor: '#3EA5DB',
-           }}} />
         <HomeStack.Screen  name="CreaProveedores" component={C_Proveedores} 
       options={{headerTransparent: true, 
         headerTintColor:'#fff', 
@@ -86,14 +76,7 @@ const Navigation= () => {
         
 
 
-        <HomeStack.Screen  name="OpcionesProductos" component={OpProductos}  
-          options={{headerTransparent: true, 
-          headerTintColor:'#fff', 
-          headerBackTitle: 'Regresar',
-          headerTitle:'Productos', 
-          headerStyle:{
-           backgroundColor: '#3EA5DB',
-           }}} />
+
 
 
           <HomeStack.Screen  name="CrearProductos" component={C_Productos}  

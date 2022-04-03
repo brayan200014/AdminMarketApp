@@ -15,7 +15,7 @@ export default function Opciones({ route, navigation }) {
     const modificarProveedor = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.148:6001/api/proveedores/actualizar?IdProveedor='+IdProveedor,
+                    'http://192.168.0.101:6001/api/proveedores/actualizar?IdProveedor='+IdProveedor,
                     {
                       method: 'PUT',
                       headers: {

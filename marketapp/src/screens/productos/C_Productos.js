@@ -3,20 +3,55 @@ import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView ,
     Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
 import {useEffect, useState} from 'react';
 import Button from '../../componentes/Button';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Opciones({ navigation }) {
+
+    
+
+    let openImagePicker = async () => {
+
+        let perimissionsResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if(perimissionsResult.granted = false) {
+            Alert.alert("Necesitamos tu permiso para acceder a la cámara");
+            return;
+        }
+
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true
+        });
+        setSelectedImage(pickerResult.uri);
+        setFilename(pickerResult.uri);
+        //console.log('Hola');
+        //console.log(pickerResult);
+        //console.log(pickerResult.uri);
+
+            
+        if(pickerResult.cancelled = true)
+        {
+            return;
+        }
+        
+        
+        
+        
+         // este es para mostrarlo en un divi setFilename (pickerResult.uri); // este es el que se va a mandar a Nodejs,
+    }
     
     const [nombre, setnombre]= useState(null);
     const [descripcion, setdescripcion]= useState(null);
     const [estado, setestado]= useState(null);
     const [impuesto, setimpuesto]= useState(null);
     const [categoria, setcategoria]= useState(null);
+    const[SelectImage, setSelectedImage]= useState('');
+    const[Filename, setFilename]=useState(null);
 
 
     const CrearProducto = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.148:6001/api/productos/guardarproductos',
+                    'http://192.168.0.101:6001/api/productos/guardarproductos',
                     {
                       method: 'POST',
                       headers: {
@@ -29,6 +64,7 @@ export default function Opciones({ navigation }) {
                           Estado: estado,
                           ISV: impuesto,
                           Categorias_IdCategoria:categoria,
+                          Imagen:Filename
                       })
                     }
                   );
@@ -40,18 +76,32 @@ export default function Opciones({ navigation }) {
             }
     }
     return (
+        
         <SafeAreaView style={styles.safeView}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView style={styles.contentContainer}>
                     <View style={styles.containerPri}>
-                        <Text style={styles.textTittle}>Editar Producto</Text>
+
+                    <View style={{marginTop:50, justifyContent:'center', alignItems:'center'}}>
+                            <Button text = "Seleccionar Imagen"  
+                                onPress={async()=>{ await openImagePicker()}}
+                            />
+                        </View>
+                        
+                        <View style={{marginTop:10,justifyContent:'center', alignItems:'center'}}>
+                            <Button text = "Crear"  
+                                onPress={CrearProducto}
+                            />
+                        </View>
+                        
                         
                         <Text style={styles.textInpu}>Nombre</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}></TextInput>
                         
                         <Text style={styles.textInpu}>Descripcion</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setdescripcion(newText)}></TextInput>
-                        
+
                         <Text style={styles.textInpu}>ISV</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setimpuesto(newText)}></TextInput>
 
@@ -61,15 +111,17 @@ export default function Opciones({ navigation }) {
                         <Text style={styles.textInpu}># categoria</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setcategoria(newText)}></TextInput>
 
-                        <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
-                            <Button text = "Crear"  
-                                onPress={CrearProducto}
-                            />
+                        <View style={styles.selecImg}>
+                            <Image style={styles.img} source={{uri:SelectImage}}></Image>
                         </View>
+
+                        
                     </View>
+                    </ScrollView>
                     </TouchableWithoutFeedback>
                     </KeyboardAvoidingView>
                     </SafeAreaView>
+                    
   );
 }
 
@@ -92,7 +144,7 @@ containerPri: {
     flex:1,
     backgroundColor: '#fff',
     flexDirection:'column',
-    paddingTop:80,
+    paddingTop:40,
 },
 textTittle: {
     fontSize: 15,
@@ -134,4 +186,13 @@ buttonModificar: {
 textButton: {
     color: 'white'
 },
+selecImg:{
+},
+img:{
+    height: '100%',
+    width: '100%',
+}, 
+contentContainer:{
+    //paddingVertical: '20'
+}
 });
