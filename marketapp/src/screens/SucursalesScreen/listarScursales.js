@@ -25,10 +25,10 @@ export default function ListarSucursales({ navigation }) {
           </View>
           
           <View style={styles.containerIconos}>
-               <Pressable>
+               <Pressable onPress={() => navigation.navigate('Modificar_Sucursal', {IdSucursal:IdSucursal, NombreSucursal:NombreSucursal, Direccion:Direccion, NombreCiudad:NombreCiudad})}>
                       <FontAwesome name="edit" size={24} color="#2a67ca" />
                  </Pressable> 
-                 <Pressable>
+                 <Pressable onPress={() => navigation.navigate('Eliminar_Sucursales', {IdSucursal: IdSucursal})}>
                        <AntDesign name="delete" size={24} color="red"/>
                  </Pressable>
                        

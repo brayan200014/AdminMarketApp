@@ -2,18 +2,52 @@ import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , Modal, Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
 import Button from '../../componentes/Button';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons'; 
 
+
+const myTheme = require("../TemaDrop/EstiloDropDown");
+
+DropDownPicker.addTheme("Ciudades", myTheme);
+DropDownPicker.setTheme("Ciudades");
+DropDownPicker.setLanguage("ES");
 
 export default function registroSucursales({ navigation }) {
     const [NombreSucursal, setNombreSucursal]= useState(null);
     const [Direccion, setDireccion] = useState(null);
-    const [Ciudades_IdCiudad, setCiudades_IdCiudad] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [valueCiudades, setValueCiudades] = useState(null);
+    const [itemsCiudades, setItemsCiudades] = useState([]);
 
 
+    useEffect(async()=>{
+        var sucu= await getCiudades();
+
+        }, []);
+
+        const getCiudades= async () => {
+   
+            const solicitud= await fetch(
+              'http://192.168.1.4:6001/api/ciudades/listar',
+              {
+                method: 'GET', 
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              }
+            )
+            const json = await solicitud.json();
+            const data=json.data;
+            //console.log(json);
+            setItemsCiudades(json); 
+            console.log(json);
+           
+                
+        }
 
     const registroSucursales = async () => {
-        if(!NombreSucursal ||!Ciudades_IdCiudad) {
+        if(!NombreSucursal ||!valueCiudades) {
             Alert.alert("¡ALTO!","Por favor, escriba los datos completos");
         }
         else 
@@ -30,12 +64,15 @@ export default function registroSucursales({ navigation }) {
                       body: JSON.stringify({
                           NombreSucursal: NombreSucursal,
                           Direccion:Direccion,
-                          Ciudades_IdCiudad: Ciudades_IdCiudad,
+                          Ciudades_IdCiudad: valueCiudades,
                       })
                     }
                   );
                   const respuesta= await solicitud.json();
                   const response= respuesta.msg;  
+                  console.log(respuesta); 
+                  Alert.alert("Almacenado","Registro completado");
+                  
                   
                   
 
@@ -55,14 +92,28 @@ export default function registroSucursales({ navigation }) {
                         
             <Text style={styles.textInpu}>Direccion: </Text>
             <TextInput style={styles.inputs} onChangeText={newText=>setDireccion(newText)} placeholder="Escriba un dirección"></TextInput>
-                        
-            <Text style={styles.textInpu}>Ciudad ID: </Text>
-            <TextInput style={styles.inputs} onChangeText={newText=>setCiudades_IdCiudad(newText)} placeholder="Escriba el ID del ciudad"></TextInput>
+
+            <Text style={styles.textInpu}>Ciudad</Text> 
+                    <DropDownPicker
+                        schema={{
+                          label: 'Nombre',
+                          value: 'ID'
+                        }}
+                        zIndex={1000}
+                        zIndexInverse={3000}
+                        theme='Ciudades'
+                        open={open}
+                        value={valueCiudades}
+                        items={itemsCiudades}
+                        setOpen={setOpen}
+                        setValue={setValueCiudades}
+                        setItems={setItemsCiudades}
+                    />
 
             <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                 
                 <Button text = "Guardar"  
-                    onPress={() => {Alert.alert("Almacenado", "Registro Almacenado"); registroSucursales()}}/>
+                    onPress= {registroSucursales}/>
 
             </View>
         </View> 

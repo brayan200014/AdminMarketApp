@@ -26,13 +26,11 @@ export default function eliminarSucursal({ route, navigation }) {
               const response= respuesta.msg; 
               console.log(respuesta); 
               Alert.alert("Eliminado","Registro Eliminado");
-              //navigation.navigate('Listar_Empleados', {opcion:title})
-              
+              navigation.navigate('Listar_Empleados', {opcion:title})    
 
         }catch(error){
             console.log(error);
         }
-
     }
 
     return (

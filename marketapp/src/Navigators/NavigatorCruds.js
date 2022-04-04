@@ -11,7 +11,8 @@ import eliminarEmpleados from '../screens/EmpleadosScreen/eliminarEmpleados';
 import registroEmpleados from '../screens/EmpleadosScreen/registroEmpleados';
 import ListarSucursales from '../screens/SucursalesScreen/listarScursales';
 import registroSucursales from '../screens/SucursalesScreen/registroSucursales';
-
+import modificarSucursales from '../screens/SucursalesScreen/modificarSucursales';
+import eliminarSucursales from '../screens/SucursalesScreen/eliminarSucursales';
 
 
 const HomeStack= createNativeStackNavigator();
@@ -119,6 +120,25 @@ const Navigation= () => {
          
          }}} />
 
+        <HomeStack.Screen  name="Modificar_Sucursal" component={modificarSucursales} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Modificando Registro Sucursales', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+
+        <HomeStack.Screen  name="Eliminar_Sucursales" component={eliminarSucursales} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Eliminando Sucursales', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
       
 
     </HomeStack.Navigator>  

@@ -16,39 +16,47 @@ export default function modificarSucursales({ route, navigation }) {
     const{IdSucursal, NombreSucursal, Direccion, NombreCiudad}=route.params;
     const [nombreSucursal, setnombreSucursal]= useState(null);
     const [direccion, setdireccion]= useState(null);
+    const [open, setOpen] = useState(false);
+    const [valueCiudades, setValueCiudades] = useState(null);
+    const [itemsCiudades, setItemsCiudades] = useState([]);
 
 
-    useEffect(async()=>{
-        var ciu= await getCiudades();
+        useEffect(async()=>{
+        var sucu= await getCiudades();
         setnombreSucursal(NombreSucursal);
         setdireccion(Direccion);
 
-        }, []);
-
-        const getCiudades= async () => {
-   
-            const solicitud= await fetch(
-              'http://192.168.1.4:6001/api/ciudades/listar',
-              {
-                method: 'GET', 
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json'
+  
+          }, []);
+  
+          const getCiudades= async () => {
+     
+              const solicitud= await fetch(
+                'http://192.168.1.4:6001/api/ciudades/listar',
+                {
+                  method: 'GET', 
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                  }
                 }
-              }
-            )
-            const json = await solicitud.json();
-            const data=json.data;
-            console.log(json);
-            setItemsCiudades(json); 
-             
-            
-        }
+              )
+              const json = await solicitud.json();
+              const data=json.data;
+              //console.log(json);
+              setItemsCiudades(json); 
+              console.log(json);
+                  
+          }
+
 
     const modificarSucursales = async () => {
+            console.log(nombreSucursal);
+            console.log(direccion);
+            console.log(valueCiudades);
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.4:6001/api/sucursales/modificar?IdSucursal='+IdSucursal,
+                    'http://192.168.1.4:6001/api/sucursales/modificar?IdSucursal='+ IdSucursal,
                     {
                       method: 'PUT',
                       headers: {
@@ -56,9 +64,9 @@ export default function modificarSucursales({ route, navigation }) {
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                          NombreSucursales:nombreSucursal, 
+                          NombreSucursal:nombreSucursal, 
                           Direccion:direccion,
-                          Ciudades_IdCiudad: valueCiudades,
+                          Ciudades_IdCiudad: valueCiudades
                       })
                     }
                   );
@@ -84,10 +92,10 @@ export default function modificarSucursales({ route, navigation }) {
             <TextInput style={styles.inputs} onChangeText={newText=>setdireccion(newText)} value={''+direccion} ></TextInput>
 
             <Text style={styles.textInpu}>Ciudad</Text> 
-                <DropDownPicker
-                    schema={{
-                        label: 'Nombre Ciudad',
-                        value: 'ID'
+                    <DropDownPicker
+                        schema={{
+                          label: 'Nombre',
+                          value: 'ID'
                         }}
                         zIndex={1000}
                         zIndexInverse={3000}
@@ -99,7 +107,7 @@ export default function modificarSucursales({ route, navigation }) {
                         setValue={setValueCiudades}
                         setItems={setItemsCiudades}
                         placeholder={NombreCiudad}
-                        
+                        onSelect={console.log(valueCiudades)}
                       />
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Modificar"  
@@ -109,6 +117,7 @@ export default function modificarSucursales({ route, navigation }) {
                     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -171,3 +180,4 @@ textButton: {
     color: 'white'
 },
 });
+
