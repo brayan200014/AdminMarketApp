@@ -32,7 +32,7 @@ export default function modificarSucursales({ route, navigation }) {
           const getCiudades= async () => {
      
               const solicitud= await fetch(
-                'http://192.168.1.4:6001/api/ciudades/listar',
+                'http://192.168.1.6:6001/api/ciudades/listar',
                 {
                   method: 'GET', 
                   headers: {
@@ -56,7 +56,7 @@ export default function modificarSucursales({ route, navigation }) {
             console.log(valueCiudades);
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.4:6001/api/sucursales/modificar?IdSucursal='+ IdSucursal,
+                    'http://192.168.1.6:6001/api/sucursales/modificar?IdSucursal='+ IdSucursal,
                     {
                       method: 'PUT',
                       headers: {

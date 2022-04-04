@@ -13,7 +13,7 @@ export default function eliminarSucursal({ route, navigation }) {
 
         try {
             let solicitud= await fetch(
-                'http://192.168.1.4:6001/api/sucursales/eliminar?IdSucursal='+IdSucursal,
+                'http://192.168.1.6:6001/api/sucursales/eliminar?IdSucursal='+IdSucursal,
                 {
                   method: 'DELETE',
                   headers: {

@@ -13,7 +13,7 @@ export default function eliminarEmpleados({ route, navigation }) {
 
         try {
             let solicitud= await fetch(
-                'http://192.168.1.4:6001/api/empleados/eliminar?IdEmpleado='+IdEmpleado,
+                'http://192.168.1.6:6001/api/empleados/eliminar?IdEmpleado='+IdEmpleado,
                 {
                   method: 'DELETE',
                   headers: {

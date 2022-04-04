@@ -33,7 +33,7 @@ export default function registroEmpleados({ navigation }) {
         const getSucursales= async () => {
    
             const solicitud= await fetch(
-              'http://192.168.1.4:6001/api/sucursales/listar',
+              'http://192.168.1.6:6001/api/sucursales/listar',
               {
                 method: 'GET', 
                 headers: {
@@ -60,7 +60,7 @@ export default function registroEmpleados({ navigation }) {
         { 
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.4:6001/api/empleados/guardar',
+                    'http://192.168.1.6:6001/api/empleados/guardar',
                     {
                       method: 'POST',
                       headers: {
@@ -132,7 +132,8 @@ export default function registroEmpleados({ navigation }) {
 
             <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                 <Button text = "Guardar"  
-                    onPress={registroEmpleados}/>
+                    onPress={() => {registroEmpleados; navigation.navigate('Listar_Empleados');}}/>
+                    
             </View>
         </View> 
 

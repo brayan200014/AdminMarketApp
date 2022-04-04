@@ -31,7 +31,7 @@ export default function App({ navigation }) {
       { 
         try {
               const respuesta= await fetch(
-                'http://192.168.1.4:6001/api/autenticacion/iniciosesion',
+                'http://192.168.1.6:6001/api/autenticacion/iniciosesion',
                 {
                     method: 'POST',
                     headers: {

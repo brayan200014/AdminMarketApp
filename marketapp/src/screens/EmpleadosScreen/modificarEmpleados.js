@@ -36,7 +36,7 @@ export default function modificarEmpleados({ route, navigation }) {
         const getSucursales= async () => {
    
             const solicitud= await fetch(
-              'http://192.168.1.4:6001/api/sucursales/listar',
+              'http://192.168.1.6:6001/api/sucursales/listar',
               {
                 method: 'GET', 
                 headers: {
@@ -57,7 +57,7 @@ export default function modificarEmpleados({ route, navigation }) {
         const getSucursal= async () => {
    
           const solicitud= await fetch(
-            'http://192.168.1.4:6001/api/sucursales/listarFlat',
+            'http://192.168.1.6:6001/api/sucursales/listarFlat',
             {
               method: 'GET', 
               headers: {
@@ -76,7 +76,7 @@ export default function modificarEmpleados({ route, navigation }) {
     const modificarEmpleados = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.4:6001/api/empleados/modificar?IdEmpleado='+IdEmpleado,
+                    'http://192.168.1.6:6001/api/empleados/modificar?IdEmpleado='+IdEmpleado,
                     {
                       method: 'PUT',
                       headers: {

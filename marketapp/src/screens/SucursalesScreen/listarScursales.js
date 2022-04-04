@@ -1,16 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal, Image} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal, Image, RefreshControl} from 'react-native';
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 import Listavacia from '../../componentes/listaVacia';
+import * as React from 'react';
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
 DropDownPicker.addTheme("Ciudades", myTheme);
 DropDownPicker.setTheme("Ciudades");
 DropDownPicker.setLanguage("ES");
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 export default function ListarSucursales({ navigation }) {
   
@@ -37,6 +42,7 @@ export default function ListarSucursales({ navigation }) {
       </Pressable>
     );
   
+    const [refreshing, setRefreshing] = useState(false);
     const [sucursales, setSucursales]= useState([]);
     const [filtro, setFiltro]= useState(sucursales); 
     const [buscar, setBuscar]= useState(''); 
@@ -94,7 +100,7 @@ export default function ListarSucursales({ navigation }) {
   const getSucursales= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.1.4:6001/api/sucursales/listarFlat',
+      'http://192.168.1.6:6001/api/sucursales/listarFlat',
       {
         method: 'GET', 
         headers: {
@@ -111,6 +117,11 @@ export default function ListarSucursales({ navigation }) {
     
 }
 
+const onRefresh = React.useCallback(() => {
+  setRefreshing(true);
+  getSucursales(); //la de ustedes
+  wait(500).then(() => setRefreshing(false));
+}, []);
 
     
     const renderItem = ({ item }) => (
@@ -162,6 +173,13 @@ export default function ListarSucursales({ navigation }) {
             renderItem={renderItem}
            keyExtractor={ item=> item.IdSucursal}
            ListEmptyComponent={Listavacia}
+           refreshControl={
+             <RefreshControl 
+             refreshing={refreshing}
+             onRefresh={onRefresh}
+             >
+             </RefreshControl>
+           }
           >
         </FlatList>
         </View> 

@@ -28,7 +28,7 @@ export default function registroSucursales({ navigation }) {
         const getCiudades= async () => {
    
             const solicitud= await fetch(
-              'http://192.168.1.4:6001/api/ciudades/listar',
+              'http://192.168.1.6:6001/api/ciudades/listar',
               {
                 method: 'GET', 
                 headers: {
@@ -54,7 +54,7 @@ export default function registroSucursales({ navigation }) {
         { 
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.4:6001/api/sucursales/guardar',
+                    'http://192.168.1.6:6001/api/sucursales/guardar',
                     {
                       method: 'POST',
                       headers: {
@@ -113,7 +113,7 @@ export default function registroSucursales({ navigation }) {
             <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                 
                 <Button text = "Guardar"  
-                    onPress= {registroSucursales}/>
+                    onPress={() => {registroSucursales; navigation.navigate('Listar_Sucursales');}}/>
 
             </View>
         </View> 
