@@ -77,28 +77,23 @@ export default function Opciones({ navigation }) {
     }
     return (
         
-        <SafeAreaView style={styles.safeView}>
+    <SafeAreaView style={styles.safeView}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView style={styles.contentContainer}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <ScrollView style={styles.contentContainer}>
                     <View style={styles.containerPri}>
-
-                    <View style={{marginTop:50, justifyContent:'center', alignItems:'center'}}>
-                            <Button text = "Seleccionar Imagen"  
-                                onPress={async()=>{ await openImagePicker(setFilename)}}
-                            />
+                        <View style={{marginTop:80,justifyContent:'center', alignItems:'center'}}>
+                                <Button text = "Seleccionar Imagen"  
+                                    onPress={async()=>{ await openImagePicker(setFilename)}}
+                                />
                         </View>
-                        
+
                         <View style={{marginTop:10,justifyContent:'center', alignItems:'center'}}>
-                            <Button text = "Crear"  
+                            <Button text = "Crear Producto"  
                                 onPress={CrearProducto}
                             />
                         </View>
-                        
-                        <View style={styles.selecImg}>
-                            <Image style={styles.img} source={{uri:SelectImage}}></Image>
-                        </View>
-                        
+
                         <Text style={styles.textInpu}>Nombre</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}></TextInput>
                         
@@ -113,12 +108,17 @@ export default function Opciones({ navigation }) {
                     
                         <Text style={styles.textInpu}># categoria</Text>
                         <TextInput style={styles.inputs} onChangeText={newText=>setcategoria(newText)}></TextInput>
-                        
+
+                        <View style={styles.selecImg}>
+                            <Image style={styles.img} source={{uri:SelectImage}}></Image>
+                        </View>
+
                     </View>
-                    </ScrollView>
-                    </TouchableWithoutFeedback>
-                    </KeyboardAvoidingView>
-                    </SafeAreaView>
+                    
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+    </SafeAreaView>
                     
   );
 }
@@ -142,7 +142,7 @@ containerPri: {
     flex:1,
     backgroundColor: '#fff',
     flexDirection:'column',
-    paddingTop:40,
+    paddingTop:30
 },
 textTittle: {
     fontSize: 15,
@@ -185,12 +185,15 @@ textButton: {
     color: 'white'
 },
 selecImg:{
+    alignItems:'center',
+    height: '50%',
+    width: '50%',
 },
 img:{
-    height: '100%',
-    width: '100%',
+    height: '50%',
+    width: '50%',
 }, 
 contentContainer:{
-    //paddingVertical: '20'
+    paddingBottom:'20%',
 }
 });

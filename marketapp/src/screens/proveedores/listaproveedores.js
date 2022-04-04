@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
         marginBottom: '15%',
-        paddingTop:50
+        paddingTop:80
       },
       containerFlat: {
         flex:1,
