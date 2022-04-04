@@ -100,7 +100,7 @@ const Item = ({ title, image }) => {
    else if(title=='Compras')
    {
      return (
-      <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+      <Pressable onPress={() => navigation.navigate('ListarCompras', {opcion:title})}>
       <View style={styles.item}>
       <View style={styles.containerText}>
       <Text style={styles.title}>{title}</Text>

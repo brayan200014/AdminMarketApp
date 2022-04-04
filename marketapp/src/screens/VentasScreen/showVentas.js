@@ -97,7 +97,7 @@ export default function Showventas({ route, navigation }) {
   const getVentas= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.1.6:6001/api/ventas/listarVentasJoin',
+      'http://192.168.0.10:6001/api/ventas/listarVentasJoin',
       {
         method: 'GET', 
         headers: {
