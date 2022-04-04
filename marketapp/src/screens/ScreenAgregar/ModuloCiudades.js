@@ -50,9 +50,11 @@ export default function CiudadesPrueba({navigation }) {
 
       const getCiudades = async(props) => {
         const ID = props.ID
+        const Nombre = props.Nombre
         const respuesta = await axios.get('http://192.168.1.5:5001/api/ciudades/listar?IdCiudad='+ID)
         console.log(respuesta.data)
         setId(ID)
+        setNombre(Nombre)
         setBandera(!bandera)
       } 
 

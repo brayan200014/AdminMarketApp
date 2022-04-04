@@ -54,9 +54,11 @@ export default function CiudadesPrueba({navigation }) {
 
   const getCategorias = async(props) => {
     const ID = props.ID
+    const Nombre = props.Nombre
     const respuesta = await axios.get('http://192.168.1.5:5001/api/categorias/listar?IdCategoria='+ID)
     console.log(respuesta.data)
     setId(ID)
+    setNombreCategoria(Nombre)
     setBandera(!bandera)
   } 
 

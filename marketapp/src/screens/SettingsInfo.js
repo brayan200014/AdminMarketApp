@@ -12,7 +12,7 @@ export default function Settings({ navigation }) {
        <Text style={styles.principal}>La idea de creación del supermercado surgio ante las necesidades de los consumidores de realizar sus compras de manera rapida, comoda y economica y segura, utilizando las herramientas tecnológicas de la actualidad para dar satisfaccion a los consumidores. SUPERMERCADO 1801 su objetivo es mejorar y simplificar los procesos de pedidos, entregas, promociones, orden y servicio al usuario, cubrir una necesidad de forma inmediata y segura, proporcionando una buena experiencia al usuario durante su compra.</Text>
       </View>
 
-      <TouchableOpacity style={styles.commandButton} onPress={()=> navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.commandButton} onPress={()=> navigation.navigate('Inicio')}>
           <Text style={styles.Title}>Presione aqui para salir </Text>
         </TouchableOpacity>
       <StatusBar style="auto" />
