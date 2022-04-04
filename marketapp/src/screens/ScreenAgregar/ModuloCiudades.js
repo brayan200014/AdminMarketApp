@@ -96,13 +96,15 @@ export default function CiudadesPrueba({navigation }) {
       <View style={styles.container}>
         <Text style={styles.Titulo}>Ciudades</Text>
         <View style={styles.contenedor2}>
-          <InputCiudad texto={"Ingrese dato"} valor={NombreCiudad} campo={e => setNombre(e)} />
+          <InputCiudad texto={"Ingrese ciudad"} valor={NombreCiudad} campo={e => setNombre(e)} />
           <TouchableOpacity
             style={styles.guardarB}
             onPress={addOrUpdate}>
           <Text style={styles.textbotton}>{bandera? "Editar":"Guardar"}</Text>
           </TouchableOpacity>
         </View>
+
+        
         <View style={{ marginTop: 10 }} >
           <Text style={{ fontWeight: 'bold', color: '#0E69E5', fontSize: 20 }}>
             Ciudades ingresadas

@@ -15,6 +15,7 @@ const ItemCategoria = (props) => (
             onPress={props.getCategorias.bind(this, props)}>                                
          <Ionicons name="md-create" size={25} color="#07C71F" />
       </TouchableOpacity>
+      
        <TouchableOpacity 
        onPress={props.mypress.bind(this, props)}>
          <Ionicons name="md-trash" size={25} color="#F1113D" />

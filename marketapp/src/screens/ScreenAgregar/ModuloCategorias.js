@@ -101,7 +101,7 @@ export default function CiudadesPrueba({navigation }) {
       <View style={styles.container}>
         <Text style={styles.Titulo}>Categorias</Text>
         <View style={styles.contenedor2}>
-          <InputCiudad texto={"Ingrese dato"} valor={NombreCategoria} campo={e => setNombreCategoria(e)} />
+          <InputCiudad texto={"Ingrese categoria"} valor={NombreCategoria} campo={e => setNombreCategoria(e)} />
           <TouchableOpacity
             style={styles.guardarB}
             onPress={addOrUpdate}>
