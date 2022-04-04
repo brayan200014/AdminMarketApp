@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Aler
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Listavacia from './ListaVacia';
+import Listavacia from '../../componentes/listaVacia';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
@@ -27,10 +27,11 @@ export default function Addcompra({ navigation }) {
     const [valueProveedores, setValueProveedores] = useState();
     const [openProveedores, setOpenProveedores] = useState(false);
     const [itemsProveedores, setItemsProveedores] = useState([]);
+    const [visibleModificar, setVisibleModificar]= useState(false);
 
     const getProveedores = async () => {
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/proveedores/listar',
+            'http://192.168.0.10:6001/api/proveedores/listar',
             {
                 method: 'GET',
                 headers: {
@@ -47,7 +48,7 @@ export default function Addcompra({ navigation }) {
 
     const getEmpleados = async () => {
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/empleados/listarCombo/',
+            'http://192.168.0.10:6001/api/empleados/listarCombo/',
             {
                 method: 'GET',
                 headers: {
@@ -65,7 +66,7 @@ export default function Addcompra({ navigation }) {
     const getSucursales = async () => {
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/sucursales/listar',
+            'http://192.168.0.10:6001/api/sucursales/listar',
             {
                 method: 'GET',
                 headers: {
@@ -136,7 +137,7 @@ export default function Addcompra({ navigation }) {
                 isv = subtotal * 0.15;
 
                 const compra = await fetch(
-                    'http://192.168.0.11:6001/api/compras/guardar',
+                    'http://192.168.0.10:6001/api/compras/guardar',
                     {
                         method: 'POST',
                         headers: {
@@ -160,7 +161,7 @@ export default function Addcompra({ navigation }) {
                 for (var i = 0; i < Id.length; i++) {
 
                     const Detalle = await fetch(
-                        'http://192.168.0.11:6001/api/compras/guardarDetalle',
+                        'http://192.168.0.10:6001/api/compras/guardarDetalle',
                         {
                             method: 'POST',
                             headers: {
@@ -180,8 +181,8 @@ export default function Addcompra({ navigation }) {
 
                 }
 
-                Alert.alert("Registro Exitoso", "Compra Ingresada exitosamente");
-                navigation.navigate('ListarCompras');
+               // Alert.alert("Registro Exitoso", "Compra Ingresada exitosamente");
+                //navigation.navigate('ListarCompras');
             }
         }
 
@@ -196,6 +197,23 @@ export default function Addcompra({ navigation }) {
                     style={styles.keyboarStyle}  >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.containerInput}>
+                        <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Compra Añadida</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                    navigation.navigate('ListarCompras');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
                             <View style={styles.containerPri}>
                                 <Text style={styles.textInpu}>Fecha de Compra</Text>
                                 <TextInput style={styles.inputs} editable={false} placeholder='Numero Factura' defaultValue={'' + fechahoy} value={fechahoy}></TextInput>
@@ -273,6 +291,7 @@ export default function Addcompra({ navigation }) {
                                     <Pressable style={styles.buttonDetalle} onPress={async () => {
                                         await InsertarCompra();
                                         await AsyncStorage.removeItem('Id');
+                                        setVisibleModificar(true); 
                                     }}>
                                         <Text style={styles.textButton}>Agregar Compra</Text>
                                     </Pressable>

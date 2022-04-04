@@ -4,8 +4,9 @@ import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Aler
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Listavacia from './ListaVacia';
+import Listavacia from '../../componentes/listaVacia';
 import * as React from 'react';
+
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
@@ -116,7 +117,7 @@ export default function Showcompras({ route, navigation }) {
     const getcompras = async () => {
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/compras/listarComprasJoin',
+            'http://192.168.0.10:6001/api/compras/listarComprasJoin',
             {
                 method: 'GET',
                 headers: {
@@ -135,7 +136,7 @@ export default function Showcompras({ route, navigation }) {
     const eliminarCompra = async () => {
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/compras/eliminar?IdCompra=' + IdEliminar,
+            'http://192.168.0.10:6001/api/compras/eliminar?IdCompra=' + IdEliminar,
             {
                 method: 'DELETE',
                 headers: {

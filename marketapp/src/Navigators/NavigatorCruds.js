@@ -15,11 +15,9 @@ import EliminarSucursal from '../screens/SucursalesScreen/eliminarSucursales';
 import RegistroSucursales from '../screens/SucursalesScreen/registroSucursales';
 import ShowCompras from '../screens/ComprasScreen/ShowCompras';
 import E_Compras from '../screens/ComprasScreen/Edit&SaveCompra';
-import E_detalleCompra from '../screens/ComprasScreen/editDetail';
-
-import addingCompraDetail from '../screens/ComprasScreen/AddingCompraDetail';
-
-
+import EditDetail from '../screens/ComprasScreen/editDetail';
+import AddCompra from '../screens/ComprasScreen/AddingCompra'
+import CompradetailAñadir from '../screens/ComprasScreen/AddingCompraDetail';
 
 import Proveedores from '../screens/proveedores/listaproveedores';
 import E_Proveedores from '../screens/proveedores/ModProveedores';
@@ -30,6 +28,7 @@ import C_Productos from '../screens/productos/C_Productos';
 import R_Productos from '../screens/productos/R_Productos';
 import U_Productos from '../screens/productos/U_Productos';
 import D_Productos from '../screens/productos/D_Productos';
+
 
 
 const HomeStack= createNativeStackNavigator();
@@ -94,7 +93,7 @@ const Navigation= () => {
               backgroundColor: '#3EA5DB',
          
          }}} />
-         <HomeStack.Screen  name="E_DetalleCompra" component={E_detalleCompra} 
+         <HomeStack.Screen  name="E_DetalleCompra" component={EditDetail} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
@@ -112,7 +111,7 @@ const Navigation= () => {
               backgroundColor: '#3EA5DB',
          
          }}} />
-         <HomeStack.Screen  name="AddCompraDetail" component={addingCompraDetail} 
+         <HomeStack.Screen  name="AddCompraDetail" component={CompradetailAñadir} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',

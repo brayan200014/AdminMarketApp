@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Aler
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Listavacia from './ListaVacia';
+import Listavacia from '../../componentes/listaVacia';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
@@ -13,7 +13,7 @@ DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
 
-export default function AddingCompraDetail({ navigation }) {
+export default function CompradetailAñadir({ navigation }) {
 
     var bandera = false;
     //Arreglo a pasar
@@ -86,7 +86,7 @@ export default function AddingCompraDetail({ navigation }) {
     const getProductos = async () => {
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/productos/listarproductos',
+            'http://192.168.0.10:6001/api/productos/listarproductos',
             {
                 method: 'GET',
                 headers: {

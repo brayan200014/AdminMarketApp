@@ -32,7 +32,7 @@ export default function EditDetail({ route, navigation }) {
     const getProductos = async () => {
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/productos/listarproductos',
+            'http://192.168.0.10:6001/api/productos/listarproductos',
             {
                 method: 'GET',
                 headers: {
@@ -53,7 +53,7 @@ export default function EditDetail({ route, navigation }) {
         console.log(id + " " + valueProducto + " " + cant + " " + price);
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/compras/modificarDetalle?Compras_IdCompra=' + id + '&Productos_IdProducto=' + valueProducto,
+            'http://192.168.0.10:6001/api/compras/modificarDetalle?Compras_IdCompra=' + id + '&Productos_IdProducto=' + valueProducto,
             {
                 method: 'PUT',
                 headers: {
@@ -73,7 +73,7 @@ export default function EditDetail({ route, navigation }) {
 
     const getnombreProducto = async () => {
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/productos/listarproducto?id=' + productoId,
+            'http://192.168.0.10:6001/api/productos/listarproducto?id=' + productoId,
             {
                 method: 'GET',
                 headers: {
