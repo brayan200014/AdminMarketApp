@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-    Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
+    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button} from 'react-native';
 import {useEffect, useState} from 'react';
-import Button from '../../componentes/Button';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function Opciones({ navigation }) {
@@ -47,7 +46,6 @@ export default function Opciones({ navigation }) {
     const[SelectImage, setSelectedImage]= useState('');
     const[Filename, setFilename]=useState(null);
 
-
     const CrearProducto = async () => {
             try {
                 let solicitud= await fetch(
@@ -78,48 +76,49 @@ export default function Opciones({ navigation }) {
     return (
         
     <SafeAreaView style={styles.safeView}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <ScrollView style={styles.contentContainer}>
-                    <View style={styles.containerPri}>
-                        <View style={{marginTop:80,justifyContent:'center', alignItems:'center'}}>
-                                <Button text = "Seleccionar Imagen"  
-                                    onPress={async()=>{ await openImagePicker(setFilename)}}
-                                />
-                        </View>
+        <ScrollView style={styles.contentContainer}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.containerPri}>
 
-                        <View style={{marginTop:10,justifyContent:'center', alignItems:'center'}}>
-                            <Button text = "Crear Producto"  
-                                onPress={CrearProducto}
-                            />
-                        </View>
+                            <Text style={styles.textInpu}>Nombre</Text>
+                            <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}></TextInput>
+                            
+                            <Text style={styles.textInpu}>Descripcion</Text>
+                            <TextInput style={styles.inputs} onChangeText={newText=>setdescripcion(newText)}></TextInput>
 
-                        <Text style={styles.textInpu}>Nombre</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setnombre(newText)}></TextInput>
+                            <Text style={styles.textInpu}>ISV</Text>
+                            <TextInput style={styles.inputs} onChangeText={newText=>setimpuesto(newText)}></TextInput>
+
+                            <Text style={styles.textInpu}>Estado</Text>
+                            <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)}></TextInput>
                         
-                        <Text style={styles.textInpu}>Descripcion</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setdescripcion(newText)}></TextInput>
+                            <Text style={styles.textInpu}># categoria</Text>
+                            <TextInput style={styles.inputs} onChangeText={newText=>setcategoria(newText)}></TextInput>
 
-                        <Text style={styles.textInpu}>ISV</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setimpuesto(newText)}></TextInput>
+                            <View style={styles.contenedorimagen}>
+                                <View style={styles.selecImg}>
+                                    <Image style={styles.img} source={{uri:SelectImage}}></Image>
+                                </View>
 
-                        <Text style={styles.textInpu}>Estado</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)}></TextInput>
-                    
-                        <Text style={styles.textInpu}># categoria</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setcategoria(newText)}></TextInput>
+                                <View style={styles.botonimagen}>
+                                    <Button style={styles.botonesimg} title = "Seleccionar Imagen"  
+                                        onPress={async()=>{ await openImagePicker()}}
+                                    />
+                                </View>
+                            </View>
 
-                        <View style={styles.selecImg}>
-                            <Image style={styles.img} source={{uri:SelectImage}}></Image>
+                            <View style={styles.contenedorbotoncrear}>
+                                <Button style={styles.botonescrear} title = "Crear Producto" 
+                                    onPress={CrearProducto}
+                                />
+                            </View>
+                            
                         </View>
-
-                    </View>
-                    
-                </ScrollView>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-    </SafeAreaView>
-                    
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        </ScrollView>
+    </SafeAreaView>         
   );
 }
 
@@ -133,7 +132,9 @@ const styles = StyleSheet.create({
   safeView:{
     flex: 1, 
     height: StatusBar.currentHeight || 0,
-    marginBottom: '15%'
+    marginBottom: '10%',
+    marginTop: '20%',
+    paddingBottom:'2%'
 },
 keyboarStyle: {
     flex: 1
@@ -186,14 +187,48 @@ textButton: {
 },
 selecImg:{
     alignItems:'center',
-    height: '50%',
-    width: '50%',
+    //height: '50%',
+    //width: '50%',
+    flex:1
 },
 img:{
-    height: '50%',
-    width: '50%',
+    height: 90,
+    width: 90,
 }, 
 contentContainer:{
-    paddingBottom:'20%',
-}
+    flex: 1,
+    marginBottom: '5%',
+    backgroundColor: 'black'
+},
+contenedorimagen:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    marginTop: '5%',
+    borderTopColor:'#9C9C9C',
+    borderTopWidth: 1,
+    paddingTop: 10,
+    borderBottomColor:'#9C9C9C',
+    borderBottomWidth: 1,
+    paddingBottom: 10
+    
+},
+botonimagen:{
+    justifyContent:'center',
+    alignItems:'center',
+    flex:1,
+    width: '50%',
+},
+botonesimg:{
+    flex:1/2,
+},
+contenedorbotoncrear:{
+    flex:1, 
+    alignItems:'center',
+    marginTop: 20,
+    paddingBottom: 10
+},
+botonescrear:{
+    flex:1
+},
 });
