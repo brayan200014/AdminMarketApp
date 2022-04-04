@@ -139,7 +139,7 @@ const modificarVenta= async()=> {
         return (
          
           
-           <View style={styles.containerProducto}>
+           <View key={item.Productos_IdProducto} style={styles.containerProducto}>
            <View style={styles.containerFilaPro}>
            <View style={styles.containerImagen}>
                 <Image 
@@ -233,8 +233,8 @@ const modificarVenta= async()=> {
                     <Text style={styles.textInpu}>Sucursal</Text> 
                     <DropDownPicker
                         schema={{
-                          label: 'Nombre Sucursal',
-                          value: 'ID'
+                          label: 'NombreSucursal',
+                          value: 'IdSucursal'
                         }}
                         zIndex={1000}
                         zIndexInverse={3000}
