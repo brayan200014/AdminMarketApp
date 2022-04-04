@@ -46,7 +46,7 @@ export default function Edit( {route, navigation}) {
     const getDetalleVentas= async () => {
    
         const solicitud= await fetch(
-          'http://192.168.0.10:6001/api/ventas/listarDetalle?id='+id,
+          'http://192.168.1.6:6001/api/ventas/listarDetalle?id='+id,
           {
             method: 'GET', 
             headers: {
@@ -66,7 +66,7 @@ export default function Edit( {route, navigation}) {
     const getClientes= async () => {
    
       const solicitud= await fetch(
-        'http://192.168.0.10:6001/api/cliente/listar',
+        'http://192.168.1.6:6001/api/cliente/listar',
         {
           method: 'GET', 
           headers: {
@@ -86,7 +86,7 @@ export default function Edit( {route, navigation}) {
   const getSucursales= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.0.10:6001/api/sucursales/listar',
+      'http://192.168.1.6:6001/api/sucursales/listar',
       {
         method: 'GET', 
         headers: {
@@ -109,7 +109,7 @@ const modificarVenta= async()=> {
   
 
   const solicitud= await fetch(
-    'http://192.168.0.10:6001/api/ventas/modificar?id='+id,
+    'http://192.168.1.6:6001/api/ventas/modificar?id='+id,
     {
       method: 'PUT', 
       headers: {
@@ -144,7 +144,7 @@ const modificarVenta= async()=> {
            <View style={styles.containerImagen}>
                 <Image 
                 style={styles.imagen}
-                source={{uri: 'http://192.168.0.10:6001/api/archivos/consultar?id='+item.Productos_IdProducto}}
+                source={{uri: 'http://192.168.1.6:6001/api/archivos/consultar?id='+item.Productos_IdProducto}}
              ></Image>
            </View>
            <View style={styles.containerInfo}>

@@ -1,103 +1,106 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal, Image, RefreshControl} from 'react-native';
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 import Listavacia from '../../componentes/listaVacia';
-
-
-
+import * as React from 'react';
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
-DropDownPicker.addTheme("Sucursal", myTheme);
-DropDownPicker.setTheme("Sucursal");
+DropDownPicker.addTheme("Ciudades", myTheme);
+DropDownPicker.setTheme("Ciudades");
 DropDownPicker.setLanguage("ES");
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
-export default function Showventas({ route, navigation }) {
-  const Item = ({ id, fecha, isv, subtotal, sucursal, user}) => (
-    <Pressable  >
+export default function ListarSucursales({ navigation }) {
+  
+  const Item = ({ IdSucursal, NombreSucursal, Direccion, NombreCiudad}) => (
+   <Pressable >
         <View style={styles.item}>
           <View style={styles.containerInfo}>
-                 <Text style={{fontWeight: 'bold', fontStyle: 'italic'}}>Numero Factura: {id}</Text>
-                 <Text style={styles.title}>Fecha Factura: {fecha}</Text>
-                 <Text style={styles.title}>Impuesto: L.{isv}</Text>
-                 <Text style={styles.title}>Subtotal: L.{subtotal}</Text>
-                 <Text style={styles.title}>Total: L.{subtotal+isv}</Text>
+                 <Text style={{fontWeight: 'bold', fontStyle: 'italic'}}>Sucursal: {IdSucursal}</Text>
+                 <Text style={styles.title}>Nombre: {NombreSucursal}</Text>
+                 <Text style={styles.title}>Direccion: {Direccion}</Text>
+                 <Text style={styles.title}>Ciudad: {NombreCiudad}</Text>
           </View>
+          
           <View style={styles.containerIconos}>
-               <Pressable onPress={() => navigation.navigate('ES_Ventas', {id: id, subtotal: subtotal, isv:isv, nombreSucursal:sucursal, user:user })}>
+               <Pressable onPress={() => navigation.navigate('Modificar_Sucursal', {IdSucursal:IdSucursal, NombreSucursal:NombreSucursal, Direccion:Direccion, NombreCiudad:NombreCiudad})}>
                       <FontAwesome name="edit" size={24} color="#2a67ca" />
                  </Pressable> 
-                 <Pressable>
+                 <Pressable onPress={() => navigation.navigate('Eliminar_Sucursales', {IdSucursal: IdSucursal})}>
                        <AntDesign name="delete" size={24} color="red"/>
-                 </Pressable> 
-                
+                 </Pressable>
+                       
           </View>
         </View>
       </Pressable>
     );
   
-    const [ventas, setVentas]= useState();
-    const [filtro, setFiltro]= useState(ventas); 
+    const [refreshing, setRefreshing] = useState(false);
+    const [sucursales, setSucursales]= useState([]);
+    const [filtro, setFiltro]= useState(sucursales); 
     const [buscar, setBuscar]= useState(''); 
     const [visible, setVisible]= useState(false);
     const [open, setOpen]= useState(false);
     const [value, setValue]= useState(null);
     const [items, setItems]= useState([
-     { label: 'Sucursal', value:'4'},
-     { label: 'Nombre Usuario', value:'3'},
-     { label: 'Fecha de Venta', value:'2'},
-     {label: 'Numero Factura', value:'1'}
+     { label: 'Ciudad', value:'4'},
+     { label: 'Direccion', value:'3'},
+     { label: 'Nombre', value:'2'},
+     {label: 'Sucursal', value:'1'}
     ])
 
     const filtroFuncion = (text) => {
       if (text && value=='1') {
-        const nuevaData = ventas.filter(item => item.IdVenta==text);
+        const nuevaData = sucursales.filter(item => item.IdSucursal==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       } else if(text && value=='2') {
-        const nuevaData = ventas.filter(item => item.FechaVenta==text);
+        const nuevaData = sucursales.filter(item => item.NombreSucursal==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else if(text && value=='3') {
-        const nuevaData = ventas.filter(item => item.NombreUsuario==text);
+        const nuevaData = sucursales.filter(item => item.Direccion==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else if(text && value=='4') {
-        const nuevaData = ventas.filter(item => item.NombreSucursal==text);
+        const nuevaData = sucursales.filter(item => item.NombreCiudad==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else if(text){
-        const nuevaData = ventas.filter(item => item.IdVenta==text);
+        const nuevaData = sucursales.filter(item => item.IdSucursal==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else {
-        setFiltro(ventas);
+        setFiltro(sucursales);
         setBuscar(text);
       }
     };
   
 
     useEffect(async()=>{
-      var a = await  getVentas();
+      var a = await  getSucursales();
     }, []);
 
-  const getVentas= async () => {
+  const getSucursales= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.1.6:6001/api/ventas/listarVentasJoin',
+      'http://192.168.1.6:6001/api/sucursales/listarFlat',
       {
         method: 'GET', 
         headers: {
@@ -108,21 +111,25 @@ export default function Showventas({ route, navigation }) {
     )
     const json = await solicitud.json();
     const data=json.data;
+    console.log(data)
     setFiltro(data); 
-    setVentas(data);
-    
-     
+    setSucursales(data);
     
 }
 
-
+const onRefresh = React.useCallback(() => {
+  setRefreshing(true);
+  getSucursales(); //la de ustedes
+  wait(500).then(() => setRefreshing(false));
+}, []);
 
     
     const renderItem = ({ item }) => (
-      <Item id={item.IdVenta} isv={item.ISV} fecha={item.FechaVenta} subtotal={item.Subtotal} sucursal={item.NombreSucursal} user={item.NombreUsuario} />
+      <Item IdSucursal={item.IdSucursal} NombreSucursal={item.NombreSucursal} Direccion={item.Direccion} NombreCiudad={item.NombreCiudad}/>
     );
 
   return (
+    
     <SafeAreaView style={styles.container}>
       <Modal transparent={true}
                             animationType={'fade'}
@@ -132,8 +139,7 @@ export default function Showventas({ route, navigation }) {
                           <View style={styles.conatinerInfoModalModificar}>
                           
                           <DropDownPicker
-                          
-                              theme='Sucursal'
+                              theme='Ciudades'
                               open={open}
                               value={value}
                               items={items}
@@ -153,27 +159,42 @@ export default function Showventas({ route, navigation }) {
                       </Modal>
       <View style={styles.containerFiltro}>
       <TextInput style={styles.inputFilter} 
-      placeholder='Buscar Venta' 
+      placeholder='Buscar Sucursal' 
       onChangeText={(text) => filtroFuncion(text)}
       value={buscar}
       ></TextInput>
       <Pressable style={styles.pressableIconFilter} onPress={()=> setVisible(true)}>
       <MaterialCommunityIcons name="filter-plus-outline" size={30} color="black" />
       </Pressable>
-      </View>
+      </View>   
       <View style={styles.containerFlat}>
          <FlatList
             data={filtro}
             renderItem={renderItem}
-           keyExtractor={ item=> item.IdVenta}
+           keyExtractor={ item=> item.IdSucursal}
            ListEmptyComponent={Listavacia}
+           refreshControl={
+             <RefreshControl 
+             refreshing={refreshing}
+             onRefresh={onRefresh}
+             >
+             </RefreshControl>
+           }
           >
         </FlatList>
+        </View> 
+        <View style={styles.container1}>
+        <View style={styles.darkLayer}>
+          <Pressable style={styles.logo} onPress={() => navigation.navigate('Registrar_Sucursal')}>
+              <Image source={require('../../img/boton-agregar.png')}/>
+          </Pressable>
+        </View>
         </View>
         </SafeAreaView>
+
+ 
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -181,6 +202,12 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     marginBottom: '15%',
     backgroundColor: '#fff'
+  },
+  container1: {
+    flex: 1,
+    flex: 4/50,
+    flexDirection: 'row',
+    marginTop: '2%'
   },
   containerFiltro: {
     flex: 5/32,
@@ -259,5 +286,18 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: '300'
   },
-  
+  darkLayer:{
+    position: 'absolute',
+    top:0,
+    bottom: 0,
+    right: 0,
+    left: 0,  
+},
+logo:{
+    marginTop: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+},
+
 });

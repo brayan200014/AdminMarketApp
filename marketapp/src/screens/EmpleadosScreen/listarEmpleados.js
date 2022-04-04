@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert , TextInput, Modal, Image, RefreshControl} from 'react-native';
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 import Listavacia from '../../componentes/listaVacia';
-
+import * as React from 'react';
 
 
 
@@ -15,89 +15,101 @@ DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
-export default function Showventas({ route, navigation }) {
-  const Item = ({ id, fecha, isv, subtotal, sucursal, user}) => (
-    <Pressable  >
+export default function ListarEmpleados({ navigation }) {
+  
+  const Item = ({ IdEmpleado, Nombre, Apellido, Telefono, Direccion, Email, FechaContratacion, Estado, NombreSucursal}) => (
+   <Pressable >
         <View style={styles.item}>
           <View style={styles.containerInfo}>
-                 <Text style={{fontWeight: 'bold', fontStyle: 'italic'}}>Numero Factura: {id}</Text>
-                 <Text style={styles.title}>Fecha Factura: {fecha}</Text>
-                 <Text style={styles.title}>Impuesto: L.{isv}</Text>
-                 <Text style={styles.title}>Subtotal: L.{subtotal}</Text>
-                 <Text style={styles.title}>Total: L.{subtotal+isv}</Text>
+                 <Text style={{fontWeight: 'bold', fontStyle: 'italic'}}>Empleado: {IdEmpleado}</Text>
+                 <Text style={styles.title}>Nombre: {Nombre}</Text>
+                 <Text style={styles.title}>Apellido: {Apellido}</Text>
+                 <Text style={styles.title}>Telefono: {Telefono}</Text>
+                 <Text style={styles.title}>Direccion: {Direccion}</Text>
+                 <Text style={styles.title}>Email: {Email}</Text>
+                 <Text style={styles.title}>Fecha Contrato: {FechaContratacion}</Text>
+                 <Text style={styles.title}>Estado: {Estado}</Text>
+                 <Text style={styles.title}>Sucursal: {NombreSucursal}</Text>
           </View>
+          
           <View style={styles.containerIconos}>
-               <Pressable onPress={() => navigation.navigate('ES_Ventas', {id: id, subtotal: subtotal, isv:isv, nombreSucursal:sucursal, user:user })}>
+               <Pressable onPress={() => navigation.navigate('Modificar_Empleados', {IdEmpleado: IdEmpleado, Telefono: Telefono, Direccion: Direccion, Estado:Estado, NombreSucursal:NombreSucursal})}>
                       <FontAwesome name="edit" size={24} color="#2a67ca" />
                  </Pressable> 
-                 <Pressable>
+                 <Pressable onPress={() => navigation.navigate('Eliminar_Empleados', {IdEmpleado: IdEmpleado})}>
                        <AntDesign name="delete" size={24} color="red"/>
-                 </Pressable> 
-                
+                 </Pressable>
+                       
           </View>
         </View>
       </Pressable>
     );
   
-    const [ventas, setVentas]= useState();
-    const [filtro, setFiltro]= useState(ventas); 
+    const [refreshing, setRefreshing] = useState(false);
+    const [empleados, setEmpleados]= useState([]);
+    const [filtro, setFiltro]= useState(empleados); 
     const [buscar, setBuscar]= useState(''); 
     const [visible, setVisible]= useState(false);
     const [open, setOpen]= useState(false);
     const [value, setValue]= useState(null);
     const [items, setItems]= useState([
      { label: 'Sucursal', value:'4'},
-     { label: 'Nombre Usuario', value:'3'},
-     { label: 'Fecha de Venta', value:'2'},
-     {label: 'Numero Factura', value:'1'}
+     { label: 'Apellido', value:'3'},
+     { label: 'Nombre', value:'2'},
+     {label: 'Empleado', value:'1'}
     ])
+
+
 
     const filtroFuncion = (text) => {
       if (text && value=='1') {
-        const nuevaData = ventas.filter(item => item.IdVenta==text);
+        const nuevaData = empleados.filter(item => item.IdEmpleado==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       } else if(text && value=='2') {
-        const nuevaData = ventas.filter(item => item.FechaVenta==text);
+        const nuevaData = empleados.filter(item => item.Nombre==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else if(text && value=='3') {
-        const nuevaData = ventas.filter(item => item.NombreUsuario==text);
+        const nuevaData = empleados.filter(item => item.Apellido==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else if(text && value=='4') {
-        const nuevaData = ventas.filter(item => item.NombreSucursal==text);
+        const nuevaData = empleados.filter(item => item.NombreSucursal==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else if(text){
-        const nuevaData = ventas.filter(item => item.IdVenta==text);
+        const nuevaData = empleados.filter(item => item.IdEmpleado==text);
         console.log(nuevaData);
         setFiltro(nuevaData);
         setBuscar(text);
       }
       else {
-        setFiltro(ventas);
+        setFiltro(empleados);
         setBuscar(text);
       }
     };
   
 
     useEffect(async()=>{
-      var a = await  getVentas();
+      var a = await  getEmpleados();
     }, []);
 
-  const getVentas= async () => {
+  const getEmpleados= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.1.6:6001/api/ventas/listarVentasJoin',
+      'http://192.168.1.6:6001/api/empleados/listar',
       {
         method: 'GET', 
         headers: {
@@ -108,21 +120,27 @@ export default function Showventas({ route, navigation }) {
     )
     const json = await solicitud.json();
     const data=json.data;
+    console.log(data)
     setFiltro(data); 
-    setVentas(data);
-    
-     
+    setEmpleados(data);
+    console.log(data);
     
 }
 
+const onRefresh = React.useCallback(() => {
+  setRefreshing(true);
+  getEmpleados(); //la de ustedes
+  wait(500).then(() => setRefreshing(false));
+}, []);
 
 
     
     const renderItem = ({ item }) => (
-      <Item id={item.IdVenta} isv={item.ISV} fecha={item.FechaVenta} subtotal={item.Subtotal} sucursal={item.NombreSucursal} user={item.NombreUsuario} />
+      <Item IdEmpleado={item.IdEmpleado} Nombre={item.Nombre} Apellido={item.Apellido} Telefono={item.Telefono} Direccion={item.Direccion} Email={item.Email} FechaContratacion={item.FechaContratacion} Estado={item.Estado} NombreSucursal={item.NombreSucursal}/>
     );
 
   return (
+    
     <SafeAreaView style={styles.container}>
       <Modal transparent={true}
                             animationType={'fade'}
@@ -132,7 +150,6 @@ export default function Showventas({ route, navigation }) {
                           <View style={styles.conatinerInfoModalModificar}>
                           
                           <DropDownPicker
-                          
                               theme='Sucursal'
                               open={open}
                               value={value}
@@ -153,24 +170,40 @@ export default function Showventas({ route, navigation }) {
                       </Modal>
       <View style={styles.containerFiltro}>
       <TextInput style={styles.inputFilter} 
-      placeholder='Buscar Venta' 
+      placeholder='Buscar Empleado' 
       onChangeText={(text) => filtroFuncion(text)}
       value={buscar}
       ></TextInput>
       <Pressable style={styles.pressableIconFilter} onPress={()=> setVisible(true)}>
       <MaterialCommunityIcons name="filter-plus-outline" size={30} color="black" />
       </Pressable>
-      </View>
+      </View>   
       <View style={styles.containerFlat}>
          <FlatList
             data={filtro}
             renderItem={renderItem}
-           keyExtractor={ item=> item.IdVenta}
+           keyExtractor={ item=> item.IdEmpleado}
            ListEmptyComponent={Listavacia}
+           refreshControl={
+             <RefreshControl 
+             refreshing={refreshing}
+             onRefresh={onRefresh}
+             >
+             </RefreshControl>
+           }
           >
         </FlatList>
+        </View> 
+        <View style={styles.container1}>
+        <View style={styles.darkLayer}>
+          <Pressable style={styles.logo} onPress={() => navigation.navigate('Registrar_Empleados')}>
+              <Image source={require('../../img/boton-agregar.png')}/>
+          </Pressable>
+        </View>
         </View>
         </SafeAreaView>
+
+ 
   )
 }
 
@@ -181,6 +214,12 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     marginBottom: '15%',
     backgroundColor: '#fff'
+  },
+  container1: {
+    flex: 1,
+    flex: 4/50,
+    flexDirection: 'row',
+    marginTop: '2%'
   },
   containerFiltro: {
     flex: 5/32,
@@ -259,5 +298,18 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: '300'
   },
-  
+  darkLayer:{
+    position: 'absolute',
+    top:0,
+    bottom: 0,
+    right: 0,
+    left: 0,  
+},
+logo:{
+    marginTop: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+},
+
 });

@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import NavigationPrincipal from './src/Navigators/NavigatorPrincipal';
 
 
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -12,11 +13,12 @@ export default function App() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
