@@ -20,7 +20,7 @@ export default function registroSucursales({ navigation }) {
         { 
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.8:6001/api/sucursales/guardar',
+                    'http://192.168.1.4:6001/api/sucursales/guardar',
                     {
                       method: 'POST',
                       headers: {

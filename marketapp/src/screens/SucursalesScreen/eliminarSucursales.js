@@ -5,15 +5,15 @@ import Button from '../../componentes/Button';
 
 import { AntDesign } from '@expo/vector-icons'; 
 
-export default function eliminarEmpleados({ route, navigation }) {
+export default function eliminarSucursal({ route, navigation }) {
 
-    const{IdEmpleado}=route.params;
+    const{IdSucursal}=route.params;
 
-    async function eliminarEmpleados(){
+    async function eliminarSucursal(){
 
         try {
             let solicitud= await fetch(
-                'http://192.168.1.4:6001/api/empleados/eliminar?IdEmpleado='+IdEmpleado,
+                'http://192.168.1.4:6001/api/sucursales/eliminar?IdSucursal='+IdSucursal,
                 {
                   method: 'DELETE',
                   headers: {
@@ -26,7 +26,7 @@ export default function eliminarEmpleados({ route, navigation }) {
               const response= respuesta.msg; 
               console.log(respuesta); 
               Alert.alert("Eliminado","Registro Eliminado");
-              navigation.navigate('Listar_Empleados', {opcion:title})
+              //navigation.navigate('Listar_Empleados', {opcion:title})
               
 
         }catch(error){
@@ -45,7 +45,7 @@ export default function eliminarEmpleados({ route, navigation }) {
                         [
                         {
                             text: "Si",
-                            onPress: () => eliminarEmpleados(),
+                            onPress: () => eliminarSucursal(),
                             style: "cancel",
                             
                         },

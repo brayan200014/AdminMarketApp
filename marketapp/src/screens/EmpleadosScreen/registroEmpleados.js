@@ -3,9 +3,15 @@ import { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
     Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
 import Button from '../../componentes/Button';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons'; 
 
 
+const myTheme = require("../TemaDrop/EstiloDropDown");
+
+DropDownPicker.addTheme("Sucursal", myTheme);
+DropDownPicker.setTheme("Sucursal");
+DropDownPicker.setLanguage("ES");
 
 
 export default function registroEmpleados({ navigation }) {
@@ -15,19 +21,46 @@ export default function registroEmpleados({ navigation }) {
     const [Direccion, setDireccion] = useState(null);
     const [Email, setEmail] = useState(null);
     const [Puestos_IdPuesto, setPuestos_IdPuesto] = useState(null);
-    const [Sucursales_IdSucursal, setSucursales_IdSucursales] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [valueSucursales, setValueSucursales] = useState(null);
+    const [itemsSucursales, setItemsSucursales] = useState([]);
 
+    useEffect(async()=>{
+        var sucu= await getSucursales();
+
+        }, []);
+
+        const getSucursales= async () => {
+   
+            const solicitud= await fetch(
+              'http://192.168.1.4:6001/api/sucursales/listar',
+              {
+                method: 'GET', 
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              }
+            )
+            const json = await solicitud.json();
+            const data=json.data;
+            //console.log(json);
+            setItemsSucursales(json); 
+            console.log(json);
+             
+            
+        }
 
 
     const registroEmpleados = async () => {
-        if(!Nombre || !Apellido ||!Telefono ||!Email ||!Sucursales_IdSucursal ||!Puestos_IdPuesto) {
+        if(!Nombre || !Apellido ||!Telefono ||!Email ||!valueSucursales ||!Puestos_IdPuesto) {
             Alert.alert("¡ALTO!","Por favor, escriba los datos completos");
         }
         else 
         { 
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.8:6001/api/empleados/guardar',
+                    'http://192.168.1.4:6001/api/empleados/guardar',
                     {
                       method: 'POST',
                       headers: {
@@ -40,7 +73,7 @@ export default function registroEmpleados({ navigation }) {
                           Telefono: Telefono,
                           Direccion:Direccion,
                           Email: Email,
-                          Sucursales_IdSucursal: Sucursales_IdSucursal,
+                          Sucursales_IdSucursal: valueSucursales,
                           Puestos_IdPuesto: Puestos_IdPuesto,
                       })
                     }
@@ -77,8 +110,22 @@ export default function registroEmpleados({ navigation }) {
             <Text style={styles.textInpu}>Email</Text>
             <TextInput style={styles.inputs} onChangeText={newText=>setEmail(newText)} placeholder="Escriba el correo electronico"></TextInput>
 
-            <Text style={styles.textInpu}>Sucursal ID</Text>
-            <TextInput style={styles.inputs} onChangeText={newText=>setSucursales_IdSucursales(newText)} placeholder="Escriba el ID de la Sucursal"></TextInput>
+            <Text style={styles.textInpu}>Sucursal</Text> 
+                    <DropDownPicker
+                        schema={{
+                          label: 'NombreSucursal',
+                          value: 'IdSucursal'
+                        }}
+                        zIndex={1000}
+                        zIndexInverse={3000}
+                        theme='Sucursal'
+                        open={open}
+                        value={valueSucursales}
+                        items={itemsSucursales}
+                        setOpen={setOpen}
+                        setValue={setValueSucursales}
+                        setItems={setItemsSucursales}
+                    />
 
             <Text style={styles.textInpu}>Puesto ID</Text>
             <TextInput style={styles.inputs} onChangeText={newText=>setPuestos_IdPuesto(newText)} placeholder="Escriba el ID del puesto"></TextInput>

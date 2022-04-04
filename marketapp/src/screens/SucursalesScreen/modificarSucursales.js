@@ -1,42 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
 import Button from '../../componentes/Button';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons'; 
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
-DropDownPicker.addTheme("Sucursal", myTheme);
-DropDownPicker.setTheme("Sucursal");
+DropDownPicker.addTheme("Ciudades", myTheme);
+DropDownPicker.setTheme("Ciudades");
 DropDownPicker.setLanguage("ES");
 
-
-export default function modificarEmpleados({ route, navigation }) {
+export default function modificarSucursales({ route, navigation }) {
     
-    const{IdEmpleado, Telefono, Direccion, Estado, NombreSucursal}=route.params;
-    const [telefono, settelefono]= useState(null);
+    const{IdSucursal, NombreSucursal, Direccion, NombreCiudad}=route.params;
+    const [nombreSucursal, setnombreSucursal]= useState(null);
     const [direccion, setdireccion]= useState(null);
-    const [estado, setestado]= useState(null);
-    const [open, setOpen] = useState(false);
-    const [valueSucursales, setValueSucursales] = useState(null);
-    const [itemsSucursales, setItemsSucursales] = useState([]);
-
 
 
     useEffect(async()=>{
-        var sucu= await getSucursales();
-        settelefono(Telefono);
+        var ciu= await getCiudades();
+        setnombreSucursal(NombreSucursal);
         setdireccion(Direccion);
-        setestado(Estado);
 
         }, []);
 
-        const getSucursales= async () => {
+        const getCiudades= async () => {
    
             const solicitud= await fetch(
-              'http://192.168.1.4:6001/api/sucursales/listar',
+              'http://192.168.1.4:6001/api/ciudades/listar',
               {
                 method: 'GET', 
                 headers: {
@@ -47,36 +39,16 @@ export default function modificarEmpleados({ route, navigation }) {
             )
             const json = await solicitud.json();
             const data=json.data;
-            //console.log(json);
-            setItemsSucursales(json); 
             console.log(json);
+            setItemsCiudades(json); 
              
             
         }
 
-        const getSucursal= async () => {
-   
-          const solicitud= await fetch(
-            'http://192.168.1.4:6001/api/sucursales/listarFlat',
-            {
-              method: 'GET', 
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-              }
-            }
-          )
-          const json = await solicitud.json();
-          const data=json.data;
-          console.log(json);
-          setItemsSucursales(json); 
-           
-      }
-
-    const modificarEmpleados = async () => {
+    const modificarSucursales = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.4:6001/api/empleados/modificar?IdEmpleado='+IdEmpleado,
+                    'http://192.168.1.4:6001/api/sucursales/modificar?IdSucursal='+IdSucursal,
                     {
                       method: 'PUT',
                       headers: {
@@ -84,10 +56,9 @@ export default function modificarEmpleados({ route, navigation }) {
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                          Telefono:telefono, 
+                          NombreSucursales:nombreSucursal, 
                           Direccion:direccion,
-                          Estado:estado,
-                          Sucursales_IdSucursal: valueSucursales
+                          Ciudades_IdCiudad: valueCiudades,
                       })
                     }
                   );
@@ -96,6 +67,7 @@ export default function modificarEmpleados({ route, navigation }) {
                   console.log(respuesta); 
                   Alert.alert("Modificado","Registro Modificado");
                   
+                  
 
             }catch(error){
                 console.log(error);
@@ -103,37 +75,35 @@ export default function modificarEmpleados({ route, navigation }) {
     }
     return (
         <View style={styles.containerPri}>
-                        <Text style={styles.textTittle}>Modificando Registro Empleados</Text>
+            <Text style={styles.textTittle}>Modificando Registro Sucursales</Text>
                         
-                        <Text style={styles.textInpu}>Telefono</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>settelefono(newText)} value={''+telefono} ></TextInput>
+            <Text style={styles.textInpu}>Nombre Sucursal</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setnombreSucursal(newText)} value={''+nombreSucursal} ></TextInput>
                         
-                        <Text style={styles.textInpu}>Direccion</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setdireccion(newText)} value={''+direccion} ></TextInput>
-                        
-                        <Text style={styles.textInpu}>Estado</Text>
-                        <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)} value={''+estado}></TextInput>
+            <Text style={styles.textInpu}>Direccion</Text>
+            <TextInput style={styles.inputs} onChangeText={newText=>setdireccion(newText)} value={''+direccion} ></TextInput>
 
-                        <Text style={styles.textInpu}>Sucursal</Text> 
-                    <DropDownPicker
-                        schema={{
-                          label: 'NombreSucursal',
-                          value: 'IdSucursal'
+            <Text style={styles.textInpu}>Ciudad</Text> 
+                <DropDownPicker
+                    schema={{
+                        label: 'Nombre Ciudad',
+                        value: 'ID'
                         }}
                         zIndex={1000}
                         zIndexInverse={3000}
-                        theme='Sucursal'
+                        theme='Ciudades'
                         open={open}
-                        value={valueSucursales}
-                        items={itemsSucursales}
+                        value={valueCiudades}
+                        items={itemsCiudades}
                         setOpen={setOpen}
-                        setValue={setValueSucursales}
-                        setItems={setItemsSucursales}
-                        placeholder={NombreSucursal}
+                        setValue={setValueCiudades}
+                        setItems={setItemsCiudades}
+                        placeholder={NombreCiudad}
+                        
                       />
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Modificar"  
-                                onPress={modificarEmpleados}/>
+                                onPress={modificarSucursales}/>
                         </View>
 
                     </View>

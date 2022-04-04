@@ -19,7 +19,7 @@ const [correo, setCorreo]= useState(null);
               { 
                 try {
                       let respuesta= await fetch(
-                        'http://192.168.1.8:6001/api/autenticacion/recuperarcontrasena',
+                        'http://192.168.1.4:6001/api/autenticacion/recuperarcontrasena',
                         {
                             method: 'POST',
                             headers: {

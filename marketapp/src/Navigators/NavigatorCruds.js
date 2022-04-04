@@ -13,6 +13,7 @@ import ListarSucursales from '../screens/SucursalesScreen/listarScursales';
 import registroSucursales from '../screens/SucursalesScreen/registroSucursales';
 
 
+
 const HomeStack= createNativeStackNavigator();
 
 
@@ -117,6 +118,8 @@ const Navigation= () => {
               backgroundColor: '#3EA5DB',
          
          }}} />
+
+      
 
     </HomeStack.Navigator>  
    )

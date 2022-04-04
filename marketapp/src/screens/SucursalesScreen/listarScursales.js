@@ -94,7 +94,7 @@ export default function ListarSucursales({ navigation }) {
   const getSucursales= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.1.8:6001/api/sucursales/listarFlat',
+      'http://192.168.1.4:6001/api/sucursales/listarFlat',
       {
         method: 'GET', 
         headers: {
