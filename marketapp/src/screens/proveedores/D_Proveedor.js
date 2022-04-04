@@ -13,7 +13,7 @@ export default function Opciones({ route,navigation }) {
     const eliminarProveedor= async()=>{
         try{
           const solicitud=await fetch(
-            'http://192.168.0.101:6001/api/proveedores/eliminar?IdProveedor='+IdProveedor,
+            'http://192.168.0.10:6001/api/proveedores/eliminar?IdProveedor='+IdProveedor,
             {
               method: 'DELETE',
               headers: {

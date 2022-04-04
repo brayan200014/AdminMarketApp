@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView, TextInput, Modal} from 'react-native';
+import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView, TextInput, Modal, RefreshControl} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as React from 'react';
 import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'; 
@@ -12,6 +12,13 @@ const myTheme = require("../TemaDrop/EstiloDropDown");
 DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
+
+
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 export default function Opciones({ navigation }) {
 
     const Item = ({IdProducto, NombreProducto, DescripcionProducto, Estado, ISV, Categorias_IdCategoria})=>(
@@ -51,7 +58,8 @@ const [items, setItems]= useState([
  { label: 'Estado Producto', value:'3'},
  { label: 'Nombre Producto', value:'2'},
  {label: 'Codigo Producto', value:'1'}
-])
+]);
+const [refreshing, setRefreshing] = useState(false);
 
 const filtroFuncion = (text) => {
   if (text && value=='1') {
@@ -105,6 +113,14 @@ const consultarProductos = async ()=>{
        console.log(error);
       }
  }
+
+
+
+ const onRefresh = React.useCallback(() => {
+   setRefreshing(true);
+   consultarProductos(); 
+   wait(500).then(() => setRefreshing(false));
+ }, []);
 
     const renderItem= ({ item }) => (
         <Item 
@@ -170,6 +186,12 @@ const consultarProductos = async ()=>{
                 renderItem={renderItem}
                 keyExtractor={item=>item.IdProducto}
                 ListEmptyComponent={ListaVacia}
+                refreshControl={
+                  <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
+                }
             />
         </View>
     </SafeAreaView>
