@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-    Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView,Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {useEffect, useState} from 'react';
 import Button from '../../componentes/Button';
 
