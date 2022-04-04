@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import {
     SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView,
-    Modal, Keyboard, TouchableWithoutFeedback, Pressable, FlatList, Image, ScrollView
+    Modal, Keyboard, TouchableWithoutFeedback, Pressable, FlatList, Image, ScrollView, Alert
 } from 'react-native';
 import Button from '../../componentes/Button';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -72,6 +72,10 @@ export default function Edit({ route, navigation }) {
 
     const modificarCompra = async () => {
 
+        if(valueSucursales == null){
+            Alert.alert("ERROR!", "Debe Seleccionar una Sucursal");
+        }
+        else {
         const solicitud = await fetch(
             'http://192.168.0.11:6001/api/compras/modificar?IdCompra=' + parseInt(id),
             {
@@ -93,6 +97,8 @@ export default function Edit({ route, navigation }) {
         const respuesta = await solicitud.json();
         const response = respuesta.msg;
         console.log(respuesta);
+        setVisibleModificar(true);
+        }
     }
 
     const flat = () => {
@@ -190,17 +196,15 @@ export default function Edit({ route, navigation }) {
                                 setOpen={setOpen}
                                 setValue={setValueSucursales}
                                 setItems={setItemsSucursales}
-                                placeholder={nombreSucursal}
+                                placeholder={'Seleccionar Sucursal'}
                                 searchable={true}
                                 searchPlaceholder='Buscar Sucursal'
                                 onSelect={console.log(valueSucursales)}
-                                defaultValue={nombreSucursal}
                             />
                             <Text style={styles.textInpu}>Total</Text>
                             <TextInput style={styles.inputs} editable={false} placeholder='Total' defaultValue={'L.' + (isv + subtotal)} value={id}></TextInput>
                             <View style={styles.containerBotones}>
                                 <Pressable style={styles.buttonModificar} onPress={async () => {
-                                    setVisibleModificar(true);
                                     await modificarCompra();
 
                                 }}>

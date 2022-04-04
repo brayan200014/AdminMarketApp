@@ -32,41 +32,50 @@ export default function AddingCompraDetail({ navigation }) {
     const agregarDetalle = async () => {
         ide = valueProducto;
         console.log(ide + " " + cant + " " + price);
-        if (await AsyncStorage.getItem('Id') == null) {
-            Id.push(ide);
-            Cantidad.push(parseInt(cant));
-            Precio.push(parseInt(price));
-
-            await AsyncStorage.setItem('Id', JSON.stringify(Id));
-            await AsyncStorage.setItem('Cantidad', JSON.stringify(Cantidad));
-            await AsyncStorage.setItem('Precio', JSON.stringify(Precio));
+        
+        if(!ide || !cant || !price){
+            Alert.alert("ERROR!", "Por favor, llene los datos completos.");
         }
-        else {
-            //Obteniendo los arreglos desde el AsyncStorage
-            Id = JSON.parse(await AsyncStorage.getItem('Id'));
-            Cantidad = JSON.parse(await AsyncStorage.getItem('Cantidad'));
-            Precio = JSON.parse(await AsyncStorage.getItem('Precio'));
-
-            for (var i = 0; i < Id.length; i++) {
-                if (Id[i] == ide) {
-                    console.log(i);
-                    Cantidad[i] += parseInt(cant);
-
-                    bandera = true;
-                }
-            }
-            console.log(Id.length);
-
-            console.log(Id);
-            if (bandera == false) {
+        else
+        {
+            if (await AsyncStorage.getItem('Id') == null) {
                 Id.push(ide);
                 Cantidad.push(parseInt(cant));
                 Precio.push(parseInt(price));
+    
+                await AsyncStorage.setItem('Id', JSON.stringify(Id));
+                await AsyncStorage.setItem('Cantidad', JSON.stringify(Cantidad));
+                await AsyncStorage.setItem('Precio', JSON.stringify(Precio));
+            }
+            else {
+                //Obteniendo los arreglos desde el AsyncStorage
+                Id = JSON.parse(await AsyncStorage.getItem('Id'));
+                Cantidad = JSON.parse(await AsyncStorage.getItem('Cantidad'));
+                Precio = JSON.parse(await AsyncStorage.getItem('Precio'));
+    
+                for (var i = 0; i < Id.length; i++) {
+                    if (Id[i] == ide) {
+                        console.log(i);
+                        Cantidad[i] += parseInt(cant);
+    
+                        bandera = true;
+                    }
+                }
+                console.log(Id.length);
+    
+                console.log(Id);
+                if (bandera == false) {
+                    Id.push(ide);
+                    Cantidad.push(parseInt(cant));
+                    Precio.push(parseInt(price));
+                }
+    
+                await AsyncStorage.setItem('Id', JSON.stringify(Id));
+                await AsyncStorage.setItem('Cantidad', JSON.stringify(Cantidad));
+                await AsyncStorage.setItem('Precio', JSON.stringify(Precio));
             }
 
-            await AsyncStorage.setItem('Id', JSON.stringify(Id));
-            await AsyncStorage.setItem('Cantidad', JSON.stringify(Cantidad));
-            await AsyncStorage.setItem('Precio', JSON.stringify(Precio));
+            Alert.alert("Agregado", "Detalle Agregado a la Compra con Exito.");
         }
 
         console.log(await AsyncStorage.getItem('Id'));
@@ -137,7 +146,7 @@ export default function AddingCompraDetail({ navigation }) {
                                 }}>
                                     <Text style={styles.textButton}>Agregar Detalle</Text>
                                 </Pressable>
-                                <Pressable style={styles.buttonDetalle} onPress={() => { navigation.navigate('AddCompra'); }}>
+                                <Pressable style={styles.buttonDetalle} onPress={() => { navigation.navigate('ListarCompras'); }}>
                                     <Text style={styles.textButton}>Cancelar</Text>
                                 </Pressable>
                             </View>

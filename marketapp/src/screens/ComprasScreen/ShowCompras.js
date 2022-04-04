@@ -1,16 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert, TextInput, Modal } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert, TextInput, Modal, RefreshControl } from 'react-native';
 import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Listavacia from './ListaVacia';
+import * as React from 'react';
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
 DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }  
 
 export default function Showcompras({ route, navigation }) {
 
@@ -33,10 +38,10 @@ export default function Showcompras({ route, navigation }) {
                     <Pressable
                         onPress={() => {
                             IdEliminar = id;
-                            alert("Compra Eliminada exitosamente");
+                            Alert.alert("Registro Eliminado","Compra Eliminada exitosamente");
                             console.log(IdEliminar);
                             eliminarCompra();
-                            navigation.navigate('Modulos');
+                            navigation.navigate('ListarCompras');
                         }}
                     >
                         <AntDesign name="delete" size={24} color="red" />
@@ -47,6 +52,7 @@ export default function Showcompras({ route, navigation }) {
         </Pressable>
     );
 
+    const [refreshing, setRefreshing] = useState(false);
     const [compras, setcompras] = useState();
     const [filtro, setFiltro] = useState(compras);
     const [buscar, setBuscar] = useState('');
@@ -54,9 +60,9 @@ export default function Showcompras({ route, navigation }) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
-        { label: 'Sucursal', value: '4' },
-        { label: 'Nombre Usuario', value: '3' },
-        { label: 'Fecha de Venta', value: '2' },
+        { label: 'ISV', value: '4' },
+        { label: 'Subtotal', value: '3' },
+        { label: 'Fecha de Compra', value: '2' },
         { label: 'Numero Factura', value: '1' }
     ])
 
@@ -73,13 +79,13 @@ export default function Showcompras({ route, navigation }) {
             setBuscar(text);
         }
         else if (text && value == '3') {
-            const nuevaData = compras.filter(item => item.NombreUsuario == text);
+            const nuevaData = compras.filter(item => item.Subtotal== text);
             console.log(nuevaData);
             setFiltro(nuevaData);
             setBuscar(text);
         }
         else if (text && value == '4') {
-            const nuevaData = compras.filter(item => item.NombreSucursal == text);
+            const nuevaData = compras.filter(item => item.ISV == text);
             console.log(nuevaData);
             setFiltro(nuevaData);
             setBuscar(text);
@@ -96,6 +102,12 @@ export default function Showcompras({ route, navigation }) {
         }
     };
 
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getcompras() //la de ustedes
+        wait(500).then(() => setRefreshing(false));
+      }, []);
+     
 
     useEffect(async () => {
         var a = await getcompras();
@@ -196,6 +208,13 @@ export default function Showcompras({ route, navigation }) {
                     renderItem={renderItem}
                     keyExtractor={item => item.IdVenta}
                     ListEmptyComponent={Listavacia}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                      />
+                      }
+      
                 >
                 </FlatList>
             </View>

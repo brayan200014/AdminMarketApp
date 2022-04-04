@@ -20,11 +20,11 @@ export default function AddCompra({ navigation }) {
     const [fechahoy, setFechaHoy] = useState(null);
     const [itemsSucursales, setItemsSucursales] = useState([]);
     const [open, setOpen] = useState(false);
-    const [valueSucursales, setValueSucursales] = useState(null);
+    const [valueSucursales, setValueSucursales] = useState();
     const [itemsEmpleados, setItemsEmpleados] = useState([]);
     const [openEmpleados, setOpenEmpleados] = useState(false);
-    const [valueEmpleados, setValueEmpleados] = useState(null);
-    const [valueProveedores, setValueProveedores] = useState(null);
+    const [valueEmpleados, setValueEmpleados] = useState();
+    const [valueProveedores, setValueProveedores] = useState();
     const [openProveedores, setOpenProveedores] = useState(false);
     const [itemsProveedores, setItemsProveedores] = useState([]);
 
@@ -119,59 +119,71 @@ export default function AddCompra({ navigation }) {
         var Id = JSON.parse(await AsyncStorage.getItem('Id'));
         var Cantidad = JSON.parse(await AsyncStorage.getItem('Cantidad'));
         var Precio = JSON.parse(await AsyncStorage.getItem('Precio'));
-    
-        for(var i = 0; i < Id.length; i++){
-            subtotal += (Cantidad[i] * Precio[i]);
-        }
-        isv = subtotal * 0.15;
+
         console.log(subtotal + " " + isv + " " + fechahoy + " " + valueEmpleados + " " + valueProveedores + " " + valueSucursales);
 
-        const compra = await fetch(
-            'http://192.168.0.11:6001/api/compras/guardar',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    FechaCompra: fechahoy,
-                    Subtotal: subtotal,
-                    ISV: isv,    
-                    Empleados_IdEmpleado: valueEmpleados,
-                    Sucursales_IdSucursal: valueSucursales,
-                    Proveedores_IdProveedor: valueProveedores
-                })
-            }
-        )
-
-        const respuestaCompra = await compra.json();
-        console.log(respuestaCompra);
-
-        for(var i = 0; i < Id.length; i++){
-
-            const Detalle = await fetch(
-                'http://192.168.0.11:6001/api/compras/guardarDetalle',
-                {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        Cantidad: Cantidad[i],
-                        PrecioCompra: Precio[i],
-                        Productos_IdProducto: Id[i]
-                    })
-                }
-            )
-
-            const respuestaDetalle = await Detalle.json();
-            console.log(respuestaDetalle);
-
+        if (!valueEmpleados || !valueProveedores || !valueSucursales) {
+            Alert.alert("ERROR!", "Por favor, llene los datos completos.");
         }
+        else {
+            if (Id == null) {
+                Alert.alert("ERROR!", "Debe Agregar al menos un Detalle para Agregar la Compra");
+            }
+            else {
+                for (var i = 0; i < Id.length; i++) {
+                    subtotal += (Cantidad[i] * Precio[i]);
+                }
+                isv = subtotal * 0.15;
 
-        Alert.alert("Registro Exitoso", "Compra Ingresada exitosamente");
+                const compra = await fetch(
+                    'http://192.168.0.11:6001/api/compras/guardar',
+                    {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            FechaCompra: fechahoy,
+                            Subtotal: subtotal,
+                            ISV: isv,
+                            Empleados_IdEmpleado: valueEmpleados,
+                            Sucursales_IdSucursal: valueSucursales,
+                            Proveedores_IdProveedor: valueProveedores
+                        })
+                    }
+                )
+
+                const respuestaCompra = await compra.json();
+                console.log(respuestaCompra);
+
+                for (var i = 0; i < Id.length; i++) {
+
+                    const Detalle = await fetch(
+                        'http://192.168.0.11:6001/api/compras/guardarDetalle',
+                        {
+                            method: 'POST',
+                            headers: {
+                                Accept: 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                Cantidad: Cantidad[i],
+                                PrecioCompra: Precio[i],
+                                Productos_IdProducto: Id[i]
+                            })
+                        }
+                    )
+
+                    const respuestaDetalle = await Detalle.json();
+                    console.log(respuestaDetalle);
+
+                }
+
+                Alert.alert("Registro Exitoso", "Compra Ingresada exitosamente");
+                navigation.navigate('ListarCompras');
+            }
+        }
 
     }
 
@@ -253,15 +265,14 @@ export default function AddCompra({ navigation }) {
                                     }}>
                                         <Text style={styles.textButton}>Agregar Detalle</Text>
                                     </Pressable>
-                                    <Pressable style={styles.buttonDetalle} onPress={async() => {  await AsyncStorage.removeItem('Id'); navigation.navigate('ListarCompras') }}>
+                                    <Pressable style={styles.buttonDetalle} onPress={async () => { await AsyncStorage.removeItem('Id'); navigation.navigate('ListarCompras') }}>
                                         <Text style={styles.textButton}>Cancelar Compra</Text>
                                     </Pressable>
                                 </View>
                                 <View style={styles.containerBotones}>
-                                    <Pressable style={styles.buttonDetalle} onPress={async () =>{
+                                    <Pressable style={styles.buttonDetalle} onPress={async () => {
                                         await InsertarCompra();
-                                        await AsyncStorage.removeItem('Id'); 
-                                        navigation.navigate('ListarCompras')
+                                        await AsyncStorage.removeItem('Id');
                                     }}>
                                         <Text style={styles.textButton}>Agregar Compra</Text>
                                     </Pressable>

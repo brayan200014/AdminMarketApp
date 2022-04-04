@@ -4,11 +4,11 @@ import { StyleSheet, Text, View , Image} from 'react-native';
 export default function Listavacia({ navigation }) {
   return (
     <View style={styles.container}>
-     
       <Image 
                 style={styles.imagen}
-                source={require('../../img/empty2.png')}
+                source={require('../../img/content.png')}
              ></Image>
+       <Text style={styles.text}>No se encontaron resultados</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -22,7 +22,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imagen: {
-    
+    flex:1,
+    width: 200,
+    height: 200
     
 },
+text: {
+  fontStyle: 'italic', 
+  fontSize: 24
+}
 });
