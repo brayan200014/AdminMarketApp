@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button, Pressable, Modal} from 'react-native';
+    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button, Pressable, Modal, Alert} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -202,9 +202,14 @@ export default function Opciones({ route , navigation }) {
                                 </View>
                             </View>
                         <Pressable style={styles.contenedorbotoncrear} onPress={ async () =>{ 
-                                          await ModificarProducto(); 
+                                          
+                                          if(!nombre||!descripcion||!impuesto||!estado){
+                                            Alert.alert("Llene todos los campos");
+                                        }else{
+                                            await ModificarProducto(); 
                                           await changeImage();
                                           setVisibleModificar(true);
+                                        }
                                         }}>
                             
                                 <Text style={styles.textButton}>Modificar Producto</Text>

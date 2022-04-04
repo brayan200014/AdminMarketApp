@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button, Pressable, Modal} from 'react-native';
+    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button, Pressable, Modal, Alert} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -95,7 +95,7 @@ export default function Opciones({ navigation }) {
     const CrearProducto = async () => {
         try {
             let solicitud= await fetch(
-                'http://192.168.0.10:6001/api/productos/guardarproductos',
+                'http://192.168.0.101:6001/api/productos/guardarproductos',
                 {
                   method: 'POST',
                   headers: {
@@ -124,7 +124,7 @@ export default function Opciones({ navigation }) {
     const getLastID =async () => {
     
         try{
-            const respuesta= await fetch('http://192.168.0.10:6001/api/archivos/ultimoId',
+            const respuesta= await fetch('http://192.168.0.101:6001/api/archivos/ultimoId',
             {
                method: 'GET',
               headers: {
@@ -149,7 +149,7 @@ export default function Opciones({ navigation }) {
     const getCategorias= async () => {
    
         const solicitud= await fetch(
-          'http://192.168.0.10:6001/api/categorias/listar',
+          'http://192.168.0.101:6001/api/categorias/listar',
           {
             method: 'GET', 
             headers: {
@@ -238,9 +238,14 @@ export default function Opciones({ navigation }) {
                             </View>
 
                             <Pressable style={styles.contenedorbotoncrear} onPress={ async () =>{ 
-                                          await CrearProducto(); 
-                                          
-                                         setVisibleModificar(true)
+                                        
+                                        if(!nombre||!descripcion||!impuesto||!estado){
+                                            Alert.alert("Llene todos los campos");
+                                        }else{
+                                            await CrearProducto(); 
+                                        setVisibleModificar(true)
+                                        }
+                                        
                                         }}>
                             
                                 <Text style={styles.textButton}>Crear Producto</Text>

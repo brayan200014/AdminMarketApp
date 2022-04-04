@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-    Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
+    Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView, Alert} from 'react-native';
 import {useEffect, useState} from 'react';
 import Button from '../../componentes/Button';
 import { AntDesign, MaterialIcons, Feather } from '@expo/vector-icons'; 
@@ -13,10 +13,10 @@ export default function Opciones({ navigation }) {
     const [visibleModificar, setVisibleModificar]= useState(false);
 
 
-    const crearProveedor = async () => {
-            try {
+    const crearProveedor = async () => { 
+          try {
                 let solicitud= await fetch(
-                    'http://192.168.0.10:6001/api/proveedores/guardar',
+                    'http://192.168.0.101:6001/api/proveedores/guardar',
                     {
                       method: 'POST',
                       headers: {
@@ -33,8 +33,6 @@ export default function Opciones({ navigation }) {
                   const respuesta= await solicitud.json();
                   const response= respuesta.msg; 
                   console.log(respuesta); 
-                  
-
             }catch(error){
                 console.log(error);
             }
@@ -75,8 +73,13 @@ export default function Opciones({ navigation }) {
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Crear"  
                                 onPress={() => {
-                                    crearProveedor(); 
-                                    setVisibleModificar(true); 
+                                    
+                                    if(!nombre||!email||!contacto){
+                                      Alert.alert("Llene todos los campos");
+                                    }else{
+                                      crearProveedor();
+                                      setVisibleModificar(true);
+                                    }
                                 }}
                             />
                         </View>

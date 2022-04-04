@@ -96,7 +96,7 @@ const filtroFuncion = (text) => {
 const consultarProductos = async ()=>{
       try {
         const solicitud= await fetch(
-          'http://192.168.0.10:6001/api/productos/listarproductos',
+          'http://192.168.0.101:6001/api/productos/listarproductos',
           {
             method: 'GET',
             headers: {
