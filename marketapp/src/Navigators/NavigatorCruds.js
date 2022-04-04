@@ -5,7 +5,6 @@ import modulos from '../screens/InicioModulos'
 import opciones from '../screens/opcionesModulos';
 import ModuloCategorias from '../screens/ScreenAgregar/ModuloCategorias';
 import ModuloCiudades from '../screens/ScreenAgregar/ModuloCiudades';
-
 const HomeStack= createNativeStackNavigator();
 
 const Navigation= () => {
