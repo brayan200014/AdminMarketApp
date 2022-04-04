@@ -13,7 +13,7 @@ DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
 
-export default function AddCompra({ navigation }) {
+export default function Addcompra({ navigation }) {
 
     var subtotal = 0;
     var isv = 0;
