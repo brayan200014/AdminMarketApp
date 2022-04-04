@@ -42,7 +42,7 @@ export default function AddCompra({ navigation }) {
         const json = await solicitud.json();
         const data = json.data;
         console.log(json);
-        setItemsProveedores(json);
+        setItemsProveedores(data);
     }
 
     const getEmpleados = async () => {

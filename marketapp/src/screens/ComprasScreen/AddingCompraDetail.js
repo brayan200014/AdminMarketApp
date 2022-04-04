@@ -99,7 +99,7 @@ export default function AddingCompraDetail({ navigation }) {
         const json = await solicitud.json();
         const data = json.data;
         console.log(json);
-        setItemsProductos(json);
+        setItemsProductos(data);
 
     }
 

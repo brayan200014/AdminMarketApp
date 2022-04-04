@@ -45,7 +45,7 @@ export default function EditDetail({ route, navigation }) {
         const json = await solicitud.json();
         const data = json.data;
         console.log(json);
-        setItemsProductos(json);
+        setItemsProductos(data);
 
     }
 
