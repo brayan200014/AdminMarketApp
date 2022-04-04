@@ -13,7 +13,7 @@ DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
 
 
-export default function modificarEmpleados({ route, navigation }) {
+export default function ModificarEmpleados({ route, navigation }) {
     
     const{IdEmpleado, Telefono, Direccion, Estado, NombreSucursal}=route.params;
     const [telefono, settelefono]= useState(null);
@@ -22,6 +22,7 @@ export default function modificarEmpleados({ route, navigation }) {
     const [open, setOpen] = useState(false);
     const [valueSucursales, setValueSucursales] = useState(null);
     const [itemsSucursales, setItemsSucursales] = useState([]);
+    const [visibleModificar, setVisibleModificar]= useState(false);
 
 
 
@@ -36,7 +37,7 @@ export default function modificarEmpleados({ route, navigation }) {
         const getSucursales= async () => {
    
             const solicitud= await fetch(
-              'http://192.168.1.6:6001/api/sucursales/listar',
+              'http://192.168.0.10:6001/api/sucursales/listar',
               {
                 method: 'GET', 
                 headers: {
@@ -57,7 +58,7 @@ export default function modificarEmpleados({ route, navigation }) {
         const getSucursal= async () => {
    
           const solicitud= await fetch(
-            'http://192.168.1.6:6001/api/sucursales/listarFlat',
+            'http://192.168.0.10:6001/api/sucursales/listarFlat',
             {
               method: 'GET', 
               headers: {
@@ -76,7 +77,7 @@ export default function modificarEmpleados({ route, navigation }) {
     const modificarEmpleados = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.6:6001/api/empleados/modificar?IdEmpleado='+IdEmpleado,
+                    'http://192.168.0.10:6001/api/empleados/modificar?IdEmpleado='+IdEmpleado,
                     {
                       method: 'PUT',
                       headers: {
@@ -94,7 +95,7 @@ export default function modificarEmpleados({ route, navigation }) {
                   const respuesta= await solicitud.json();
                   const response= respuesta.msg; 
                   console.log(respuesta); 
-                  Alert.alert("Modificado","Registro Modificado");
+                 // Alert.alert("Modificado","Registro Modificado");
                   
 
             }catch(error){
@@ -103,6 +104,23 @@ export default function modificarEmpleados({ route, navigation }) {
     }
     return (
         <View style={styles.containerPri}>
+          <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Registro Actualizado</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                    navigation.navigate('Listar_Empleados');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
                         <Text style={styles.textTittle}>Modificando Registro Empleados</Text>
                         
                         <Text style={styles.textInpu}>Telefono</Text>
@@ -133,7 +151,7 @@ export default function modificarEmpleados({ route, navigation }) {
                       />
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Modificar"  
-                                onPress={modificarEmpleados}/>
+                                onPress={async () => {await modificarEmpleados(); setVisibleModificar(true)}}/>
                         </View>
 
                     </View>
@@ -200,4 +218,34 @@ buttonModificar: {
 textButton: {
     color: 'white'
 },
+
+containerPmodalModificar: {
+  flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'rgba(0, 0, 0, 0.5)'
+},
+conatinerInfoModalModificar: {
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  borderRadius: 20,
+  padding: '5%'
+},
+pressabelStyleModalModificar: {
+  marginTop: '8%',
+  paddingLeft: '20%',
+  paddingRight:'20%',
+  backgroundColor: '#3EA5DB',
+  paddingBottom:'4%',
+  borderRadius: 10
+},
+textbotonModalModificar: {
+  color: '#fff',
+  marginTop: '6%'
+},
+textmessagemodalModificar: {
+  color:'green',
+  marginTop: '1%',
+}
+
 });

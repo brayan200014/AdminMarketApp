@@ -14,7 +14,7 @@ DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
 
 
-export default function registroEmpleados({ navigation }) {
+export default function RegistroEmpleados({ navigation }) {
     const [Nombre, setNombre]= useState(null);
     const [Apellido, setApellido]= useState(null);
     const [Telefono, setTelefono]= useState(null);
@@ -24,6 +24,7 @@ export default function registroEmpleados({ navigation }) {
     const [open, setOpen] = useState(false);
     const [valueSucursales, setValueSucursales] = useState(null);
     const [itemsSucursales, setItemsSucursales] = useState([]);
+    const [visibleModificar, setVisibleModificar]= useState(false);
 
     useEffect(async()=>{
         var sucu= await getSucursales();
@@ -33,7 +34,7 @@ export default function registroEmpleados({ navigation }) {
         const getSucursales= async () => {
    
             const solicitud= await fetch(
-              'http://192.168.1.6:6001/api/sucursales/listar',
+              'http://192.168.0.10:6001/api/sucursales/listar',
               {
                 method: 'GET', 
                 headers: {
@@ -60,7 +61,7 @@ export default function registroEmpleados({ navigation }) {
         { 
             try {
                 let solicitud= await fetch(
-                    'http://192.168.1.6:6001/api/empleados/guardar',
+                    'http://192.168.0.10:6001/api/empleados/guardar',
                     {
                       method: 'POST',
                       headers: {
@@ -81,7 +82,7 @@ export default function registroEmpleados({ navigation }) {
                   const respuesta= await solicitud.json();
                   const response= respuesta.msg; 
                   console.log(respuesta); 
-                  Alert.alert("Almacenado","Registro completado");
+                 // Alert.alert("Almacenado","Registro completado");
                   
 
             }catch(error){
@@ -93,6 +94,23 @@ export default function registroEmpleados({ navigation }) {
     return (
          <ScrollView style={styles.scrollView}>
         <View style={styles.containerPri}>
+        <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Registro Actualizado</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                    navigation.navigate('Listar_Empleados');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
             <Text style={styles.textTittle}>Registro Empleados</Text>
                         
             <Text style={styles.textInpu}>Nombre</Text>
@@ -132,7 +150,7 @@ export default function registroEmpleados({ navigation }) {
 
             <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                 <Button text = "Guardar"  
-                    onPress={() => {registroEmpleados; navigation.navigate('Listar_Empleados');}}/>
+                    onPress={async() => { await registroEmpleados(); setVisibleModificar(true)}}/>
                     
             </View>
         </View> 
@@ -201,4 +219,34 @@ scrollView: {
     marginHorizontal: 0,
     
   },
-});
+  containerPmodalModificar: {
+    flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor:'rgba(0, 0, 0, 0.5)'
+  },
+  conatinerInfoModalModificar: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: '5%'
+  },
+  pressabelStyleModalModificar: {
+    marginTop: '8%',
+    paddingLeft: '20%',
+    paddingRight:'20%',
+    backgroundColor: '#3EA5DB',
+    paddingBottom:'4%',
+    borderRadius: 10
+  },
+  textbotonModalModificar: {
+    color: '#fff',
+    marginTop: '6%'
+  },
+  textmessagemodalModificar: {
+    color:'green',
+    marginTop: '1%',
+  }
+  
+  });
+  

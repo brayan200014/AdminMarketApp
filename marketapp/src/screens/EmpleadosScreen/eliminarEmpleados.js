@@ -5,15 +5,16 @@ import Button from '../../componentes/Button';
 
 import { AntDesign } from '@expo/vector-icons'; 
 
-export default function eliminarEmpleados({ route, navigation }) {
+export default function EliminarEmpleados({ route, navigation }) {
 
     const{IdEmpleado}=route.params;
+    const [visibleModificar, setVisibleModificar]= useState(false);
 
     async function eliminarEmpleados(){
 
         try {
             let solicitud= await fetch(
-                'http://192.168.1.6:6001/api/empleados/eliminar?IdEmpleado='+IdEmpleado,
+                'http://192.168.0.10:6001/api/empleados/eliminar?IdEmpleado='+IdEmpleado,
                 {
                   method: 'DELETE',
                   headers: {
@@ -25,8 +26,7 @@ export default function eliminarEmpleados({ route, navigation }) {
               const respuesta= await solicitud.json();
               const response= respuesta.msg; 
               console.log(respuesta); 
-              Alert.alert("Eliminado","Registro Eliminado");
-              navigation.navigate('Listar_Empleados', {opcion:title})
+            
               
 
         }catch(error){
@@ -37,6 +37,23 @@ export default function eliminarEmpleados({ route, navigation }) {
 
     return (
         <View style={styles.containerPri}>
+             <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Registro Eliminado</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                    navigation.navigate('Listar_Empleados');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
             <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                     <Button text = "Eliminar"  
                         onPress={()=> {Alert.alert(
@@ -45,13 +62,13 @@ export default function eliminarEmpleados({ route, navigation }) {
                         [
                         {
                             text: "Si",
-                            onPress: () => eliminarEmpleados(),
+                            onPress: async () => {await eliminarEmpleados(); setVisibleModificar(true);},
                             style: "cancel",
                             
                         },
                         {
                             text: "Cancel",
-                            onPress: () => console.log("Se arrepintio"),
+                            onPress: () => navigation.navigate('Listar_Empleados'),
                             style: "cancel",
                             
                         },
@@ -84,5 +101,37 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flexDirection:'column',
         paddingTop:80,
-    }
-});
+    },
+
+    containerPmodalModificar: {
+        flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor:'rgba(0, 0, 0, 0.5)'
+      },
+      conatinerInfoModalModificar: {
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        padding: '5%'
+      },
+      pressabelStyleModalModificar: {
+        marginTop: '8%',
+        paddingLeft: '20%',
+        paddingRight:'20%',
+        backgroundColor: '#3EA5DB',
+        paddingBottom:'4%',
+        borderRadius: 10
+      },
+      textbotonModalModificar: {
+        color: '#fff',
+        marginTop: '6%'
+      },
+      textmessagemodalModificar: {
+        color:'green',
+        marginTop: '1%',
+      }
+      
+      });
+      
+      

@@ -109,7 +109,7 @@ export default function ListarEmpleados({ navigation }) {
   const getEmpleados= async () => {
    
     const solicitud= await fetch(
-      'http://192.168.1.6:6001/api/empleados/listar',
+      'http://192.168.0.10:6001/api/empleados/listar',
       {
         method: 'GET', 
         headers: {

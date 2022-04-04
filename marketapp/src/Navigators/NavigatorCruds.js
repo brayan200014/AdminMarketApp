@@ -6,13 +6,15 @@ import opciones from '../screens/opcionesModulos';
 import Showventas from '../screens/VentasScreen/showVentas';
 import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas'
 import ListarEmpleados from '../screens/EmpleadosScreen/listarEmpleados';
-import modificarEmpleados from '../screens/EmpleadosScreen/modificarEmpleados';
-import eliminarEmpleados from '../screens/EmpleadosScreen/eliminarEmpleados';
-import registroEmpleados from '../screens/EmpleadosScreen/registroEmpleados';
+import ModificarEmpleados from '../screens/EmpleadosScreen/modificarEmpleados';
+import EliminarEmpleados from '../screens/EmpleadosScreen/eliminarEmpleados';
+import RegistroEmpleados from '../screens/EmpleadosScreen/registroEmpleados';
 import ListarSucursales from '../screens/SucursalesScreen/listarScursales';
-import registroSucursales from '../screens/SucursalesScreen/registroSucursales';
-import modificarSucursales from '../screens/SucursalesScreen/modificarSucursales';
-import eliminarSucursales from '../screens/SucursalesScreen/eliminarSucursales';
+import ModificarSucursales from '../screens/SucursalesScreen/modificarSucursales';
+import EliminarSucursal from '../screens/SucursalesScreen/eliminarSucursales';
+import RegistroSucursales from '../screens/SucursalesScreen/registroSucursales';
+
+
 
 
 const HomeStack= createNativeStackNavigator();
@@ -70,7 +72,7 @@ const Navigation= () => {
          
          }}} />
 
-          <HomeStack.Screen  name="Modificar_Empleados" component={modificarEmpleados} 
+          <HomeStack.Screen  name="Modificar_Empleados" component={ModificarEmpleados} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
@@ -80,7 +82,7 @@ const Navigation= () => {
          
          }}} />
 
-        <HomeStack.Screen  name="Eliminar_Empleados" component={eliminarEmpleados} 
+        <HomeStack.Screen  name="Eliminar_Empleados" component={EliminarEmpleados} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
@@ -90,7 +92,7 @@ const Navigation= () => {
          
          }}} />
 
-        <HomeStack.Screen  name="Registrar_Empleados" component={registroEmpleados} 
+        <HomeStack.Screen  name="Registrar_Empleados" component={RegistroEmpleados} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
@@ -110,7 +112,7 @@ const Navigation= () => {
          
          }}} />
 
-        <HomeStack.Screen  name="Registrar_Sucursal" component={registroSucursales} 
+        <HomeStack.Screen  name="Registrar_Sucursal" component={RegistroSucursales} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
@@ -120,7 +122,7 @@ const Navigation= () => {
          
          }}} />
 
-        <HomeStack.Screen  name="Modificar_Sucursal" component={modificarSucursales} 
+        <HomeStack.Screen  name="Modificar_Sucursal" component={ModificarSucursales} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
@@ -130,7 +132,7 @@ const Navigation= () => {
          
          }}} />
 
-        <HomeStack.Screen  name="Eliminar_Sucursales" component={eliminarSucursales} 
+        <HomeStack.Screen  name="Eliminar_Sucursales" component={EliminarSucursal} 
             options={{headerTransparent: true, 
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
