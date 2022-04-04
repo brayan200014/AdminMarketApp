@@ -1,12 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView , 
-    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button} from 'react-native';
+    Keyboard, TouchableWithoutFeedback, Image, ScrollView, Button, Pressable, Modal} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-export default function Opciones({ route,navigation }) {
+import { AntDesign } from '@expo/vector-icons';
 
-    const{IdProducto, NombreProducto, DescripcionProducto, Estado, Categorias_IdCategoria}=route.params;
+
+const myTheme = require("../TemaDrop/EstiloDropDown");
+
+DropDownPicker.addTheme("Sucursal", myTheme);
+DropDownPicker.setTheme("Sucursal");
+DropDownPicker.setLanguage("ES");
+
+export default function Opciones({ route , navigation }) {
+
+    const{IdProducto, NombreProducto, DescripcionProducto,ISV, Estado, Categorias_IdCategoria}=route.params;
     
 
     let openImagePicker = async () => {
@@ -23,7 +32,6 @@ export default function Opciones({ route,navigation }) {
         });
         setSelectedImage(pickerResult.uri);
         setfilename(pickerResult.uri);
-        console.log(filename);
         //console.log('Hola');
         //console.log(pickerResult);
         //console.log(pickerResult.uri);
@@ -37,16 +45,17 @@ export default function Opciones({ route,navigation }) {
     }
     
     const[ArregloCategorias, setArregloCategorias]=useState([]);
-    const [nombre, setnombre]= useState(null);
-    const [descripcion, setdescripcion]= useState(null);
-    const [estado, setestado]= useState(null);
-    const [impuesto, setimpuesto]= useState(null);
+    const [nombre, setnombre]= useState(NombreProducto);
+    const [descripcion, setdescripcion]= useState(DescripcionProducto);
+    const [estado, setestado]= useState(Estado);
+    const [impuesto, setimpuesto]= useState(ISV);
     const [categoria, setcategoria]= useState(null);
-    const[SelectImage, setSelectedImage]= useState('http://192.168.0.101:6001/api/archivos/consultar?id='+IdProducto);
-    const[filename, setfilename]=useState(null);
+    const[SelectImage, setSelectedImage]= useState('http://192.168.0.10:6001/api/archivos/consultar?id='+IdProducto);
+    const[filename, setfilename]=useState('http://192.168.0.10:6001/api/archivos/consultar?id='+IdProducto);
     const [open, setOpen]= useState(false);
     const [value, setValue]= useState(Categorias_IdCategoria);
     const [items, setItems]= useState(ArregloCategorias)
+    const [visibleModificar, setVisibleModificar]= useState(false);
 
     useEffect(async()=>{
         var a = await  getCategorias();
@@ -56,7 +65,7 @@ export default function Opciones({ route,navigation }) {
     const getCategorias= async () => {
    
         const solicitud= await fetch(
-          'http://192.168.0.101:6001/api/categorias/listar',
+          'http://192.168.0.10:6001/api/categorias/listar',
           {
             method: 'GET', 
             headers: {
@@ -75,7 +84,7 @@ export default function Opciones({ route,navigation }) {
     const ModificarProducto = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.101:6001/api/productos/modificarproductos?IdProducto='+IdProducto,
+                    'http://192.168.0.10:6001/api/productos/modificarproductos?IdProducto='+IdProducto,
                     {
                       method: 'PUT',
                       headers: {
@@ -93,23 +102,24 @@ export default function Opciones({ route,navigation }) {
                   );
                   const respuesta= await solicitud.json();
                   const response= respuesta.msg; 
-                  await changeImage();
                   console.log(respuesta); 
+                  
+                  
             }catch(error){
                 console.log(error);
             }
     }
 
     const changeImage =async () => {
-        const filename = SelectImage;
+        console.log(filename);
         const formData=new FormData();
         formData.append("img",{
-            name:new Date()+"_img",
+            name: new Date()+"_img",
             uri: filename,
             type: 'image/jpg'
         });
         try{
-            const respuesta= await fetch('http://192.168.0.101:6001/api/archivos/?id='+IdProducto,
+            const respuesta= await fetch('http://192.168.0.10:6001/api/archivos?id='+IdProducto,
             {
                method: 'POST',
                headers: {
@@ -118,9 +128,7 @@ export default function Opciones({ route,navigation }) {
                },
                body: formData
             });
-            const json = await respuesta.json();
-            const data = json.msj;
-            console.log(data);
+            
         }catch(error){
             console.log(error);
         }
@@ -129,9 +137,27 @@ export default function Opciones({ route,navigation }) {
     return (
         
     <SafeAreaView style={styles.safeView}>
-        <ScrollView style={styles.contentContainer}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
+        <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Registro Modificado</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                   navigation.navigate('ListarProductos');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView style={styles.contentContainer}>
+            
                         <View style={styles.containerPri}>
 
                             <Text style={styles.textInpu}>Nombre</Text>
@@ -140,11 +166,8 @@ export default function Opciones({ route,navigation }) {
                             <Text style={styles.textInpu}>Descripcion</Text>
                             <TextInput style={styles.inputs} onChangeText={newText=>setdescripcion(newText)} defaultValue={''+DescripcionProducto}></TextInput>
 
-                            <Text style={styles.textInpu}>Estado</Text>
-                            <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)} defaultValue={''+Estado} ></TextInput>
-                        
-                            <Text style={styles.textInpu}>categoria</Text>
-                            <Text style={styles.textInpu}>Usuario Cliente</Text>  
+                            <Text style={styles.textInpu}>Categorias</Text>
+                             
                                 <DropDownPicker
                                     schema={{
                                     label: 'NombreCategoria',
@@ -162,6 +185,11 @@ export default function Opciones({ route,navigation }) {
                                     searchPlaceholder='Buscar Categoria'
                                 />
 
+
+                            <Text style={styles.textInpu}>Estado</Text>
+                            <TextInput style={styles.inputs} onChangeText={newText=>setestado(newText)} defaultValue={''+Estado} ></TextInput>
+                        
+                            
                             <View style={styles.contenedorimagen}>
                                 <View style={styles.selecImg}>
                                     <Image style={styles.img} source={{uri:SelectImage}}></Image>
@@ -173,17 +201,21 @@ export default function Opciones({ route,navigation }) {
                                     />
                                 </View>
                             </View>
-
-                            <View style={styles.contenedorbotoncrear}>
-                                <Button style={styles.botonescrear} title = "Modificar Producto" 
-                                    onPress={async()=>{ await ModificarProducto();}}
-                                />
-                            </View>
+                        <Pressable style={styles.contenedorbotoncrear} onPress={ async () =>{ 
+                                          await ModificarProducto(); 
+                                          await changeImage();
+                                          setVisibleModificar(true);
+                                        }}>
+                            
+                                <Text style={styles.textButton}>Modificar Producto</Text>
+                            
+                            </Pressable>
                             
                         </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+                
         </ScrollView>
+        </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
     </SafeAreaView>         
   );
 }
@@ -198,9 +230,9 @@ const styles = StyleSheet.create({
   safeView:{
     flex: 1, 
     height: StatusBar.currentHeight || 0,
-    marginBottom: '10%',
-    marginTop: '20%',
-    paddingBottom:'2%'
+    marginBottom: '12%',
+    marginTop: '5%',
+    paddingBottom:'8%'
 },
 keyboarStyle: {
     flex: 1
@@ -209,7 +241,7 @@ containerPri: {
     flex:1,
     backgroundColor: '#fff',
     flexDirection:'column',
-    paddingTop:30
+    paddingTop:12
 },
 textTittle: {
     fontSize: 15,
@@ -263,8 +295,7 @@ img:{
 }, 
 contentContainer:{
     flex: 1,
-    marginBottom: '5%',
-    backgroundColor: 'black'
+    backgroundColor: '#fff'
 },
 contenedorimagen:{
     flex: 1,
@@ -292,9 +323,47 @@ contenedorbotoncrear:{
     flex:1, 
     alignItems:'center',
     marginTop: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
+    backgroundColor: '#2A67CA',
+    borderRadius: 10,
+    marginLeft: '20%',
+    marginRight: '20%',
+    justifyContent: 'center',
+    paddingTop: '3%',
+    marginBottom: '5%',
+    height: '100%',
+    paddingBottom: '3%'
+
 },
 botonescrear:{
-    flex:1
+    flex:1,
 },
+containerPmodalModificar: {
+    flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor:'rgba(0, 0, 0, 0.5)'
+  },
+  conatinerInfoModalModificar: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: '5%'
+  },
+  pressabelStyleModalModificar: {
+    marginTop: '8%',
+    paddingLeft: '20%',
+    paddingRight:'20%',
+    backgroundColor: '#3EA5DB',
+    paddingBottom:'4%',
+    borderRadius: 10
+  },
+  textbotonModalModificar: {
+    color: '#fff',
+    marginTop: '6%'
+  },
+  textmessagemodalModificar: {
+    color:'green',
+    marginTop: '1%',
+  }
 });
