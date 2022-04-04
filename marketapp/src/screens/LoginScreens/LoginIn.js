@@ -31,7 +31,7 @@ export default function App({ navigation }) {
       { 
         try {
               const respuesta= await fetch(
-                'http://192.168.0.101:6001/api/autenticacion/iniciosesion',
+                'http://192.168.0.10:6001/api/autenticacion/iniciosesion',
                 {
                     method: 'POST',
                     headers: {
@@ -53,7 +53,7 @@ export default function App({ navigation }) {
                 console.log(token);
                 await AsyncStorage.setItem('Token',token);
               }
-              Alert.alert("Bienvenido(a)", "Escoge tus Productos");
+              Alert.alert("Bienvenido(a)", "A la Aplicacion de Administracion");
               await AsyncStorage.removeItem('ProductosArray');
               navigation.navigate('Root');
           } catch(error) {

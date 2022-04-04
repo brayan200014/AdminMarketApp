@@ -95,7 +95,7 @@ export default function Opciones({ navigation }) {
     const CrearProducto = async () => {
         try {
             let solicitud= await fetch(
-                'http://192.168.0.101:6001/api/productos/guardarproductos',
+                'http://192.168.0.10:6001/api/productos/guardarproductos',
                 {
                   method: 'POST',
                   headers: {
@@ -124,7 +124,7 @@ export default function Opciones({ navigation }) {
     const getLastID =async () => {
     
         try{
-            const respuesta= await fetch('http://192.168.0.101:6001/api/archivos/ultimoId',
+            const respuesta= await fetch('http://192.168.0.10:6001/api/archivos/ultimoId',
             {
                method: 'GET',
               headers: {
@@ -149,7 +149,7 @@ export default function Opciones({ navigation }) {
     const getCategorias= async () => {
    
         const solicitud= await fetch(
-          'http://192.168.0.101:6001/api/categorias/listar',
+          'http://192.168.0.10:6001/api/categorias/listar',
           {
             method: 'GET', 
             headers: {

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView,Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView,Keyboard, TouchableWithoutFeedback, Modal, Pressable} from 'react-native';
 import {useEffect, useState} from 'react';
 import Button from '../../componentes/Button';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -16,7 +16,7 @@ export default function Opciones({ route, navigation }) {
     const modificarProveedor = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.101:6001/api/proveedores/actualizar?IdProveedor='+IdProveedor,
+                    'http://192.168.0.10:6001/api/proveedores/actualizar?IdProveedor='+IdProveedor,
                     {
                       method: 'PUT',
                       headers: {
