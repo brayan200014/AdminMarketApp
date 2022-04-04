@@ -167,7 +167,7 @@ export default function ListarSucursales({ navigation }) {
         </View> 
         <View style={styles.container1}>
         <View style={styles.darkLayer}>
-          <Pressable style={styles.logo}>
+          <Pressable style={styles.logo} onPress={() => navigation.navigate('Registrar_Sucursal')}>
               <Image source={require('../../img/boton-agregar.png')}/>
           </Pressable>
         </View>
