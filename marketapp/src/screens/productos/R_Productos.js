@@ -1,11 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView, TextInput, Modal} from 'react-native';
+import { Pressable, StyleSheet, Text, View, FlatList , SafeAreaView, TextInput, Modal, RefreshControl} from 'react-native';
 import {useEffect, useState} from 'react';
 import * as React from 'react';
 import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons';
 import Button from '../../componentes/Button';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ListaVacia from '../../componentes/listaVacia'
+const myTheme = require("../TemaDrop/EstiloDropDown");
+
+DropDownPicker.addTheme("Sucursal", myTheme);
+DropDownPicker.setTheme("Sucursal");
+DropDownPicker.setLanguage("ES");
+
+
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 export default function Opciones({ navigation }) {
 
     const Item = ({IdProducto, NombreProducto, DescripcionProducto, Estado, ISV, Categorias_IdCategoria})=>(
@@ -45,7 +58,8 @@ const [items, setItems]= useState([
  { label: 'Estado Producto', value:'3'},
  { label: 'Nombre Producto', value:'2'},
  {label: 'Codigo Producto', value:'1'}
-])
+]);
+const [refreshing, setRefreshing] = useState(false);
 
 const filtroFuncion = (text) => {
   if (text && value=='1') {
@@ -82,7 +96,7 @@ const filtroFuncion = (text) => {
 const consultarProductos = async ()=>{
       try {
         const solicitud= await fetch(
-          'http://192.168.0.101:6001/api/productos/listarproductos',
+          'http://192.168.0.10:6001/api/productos/listarproductos',
           {
             method: 'GET',
             headers: {
@@ -99,6 +113,14 @@ const consultarProductos = async ()=>{
        console.log(error);
       }
  }
+
+
+
+ const onRefresh = React.useCallback(() => {
+   setRefreshing(true);
+   consultarProductos(); 
+   wait(500).then(() => setRefreshing(false));
+ }, []);
 
     const renderItem= ({ item }) => (
         <Item 
@@ -153,7 +175,7 @@ const consultarProductos = async ()=>{
         </Pressable>
       </View> 
 
-      <View style={{justifyContent:'center', alignItems:'center'}}>
+      <View style={{justifyContent:'center', alignItems:'center', backgroundColor: '#fff'}}>
         <Button text = "Crear"  
         onPress={()=>navigation.navigate('CrearProductos')}
           />
@@ -163,6 +185,13 @@ const consultarProductos = async ()=>{
                 data={filtro}
                 renderItem={renderItem}
                 keyExtractor={item=>item.IdProducto}
+                ListEmptyComponent={ListaVacia}
+                refreshControl={
+                  <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
+                }
             />
         </View>
     </SafeAreaView>
@@ -174,12 +203,12 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
         marginBottom: '15%',
-        paddingTop: 80
+        
       },
       containerFlat: {
         flex:1,
-        height:'80%',
-        //paddingTop:70,
+        height:'100%',
+        backgroundColor: '#fff'
       },
       item: {
         borderBottomWidth: 2,
@@ -207,7 +236,8 @@ const styles = StyleSheet.create({
       },
       containerFiltro: {
         flex: 5/32,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: '#fff'
       },
       inputFilter: {
         flex: 1,

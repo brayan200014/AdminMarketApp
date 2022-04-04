@@ -3,18 +3,20 @@ import {SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView ,
     Modal,Keyboard, TouchableWithoutFeedback, Pressable, FlatList,Image, ScrollView} from 'react-native';
 import {useEffect, useState} from 'react';
 import Button from '../../componentes/Button';
+import { AntDesign, MaterialIcons, Feather } from '@expo/vector-icons'; 
 
 export default function Opciones({ navigation }) {
     
     const [nombre, setnombre]= useState(null);
     const [email, setemail]= useState(null);
     const [contacto, setcontacto]= useState(null);
+    const [visibleModificar, setVisibleModificar]= useState(false);
 
 
     const crearProveedor = async () => {
             try {
                 let solicitud= await fetch(
-                    'http://192.168.0.101:6001/api/proveedores/guardar',
+                    'http://192.168.0.10:6001/api/proveedores/guardar',
                     {
                       method: 'POST',
                       headers: {
@@ -39,6 +41,23 @@ export default function Opciones({ navigation }) {
     }
     return (
         <SafeAreaView style={styles.safeView}>
+            <Modal transparent={true}
+                            animationType={'fade'}
+                            visible={visibleModificar}
+                            >
+                        <View style={styles.containerPmodalModificar}>
+                          <View style={styles.conatinerInfoModalModificar}>
+                          <AntDesign name="checkcircle" size={24} color="green" />
+                          <Text style={styles.textmessagemodalModificar}>Registro Creado</Text>
+                                  <Pressable style={styles.pressabelStyleModalModificar} onPress={  () => {
+                                   setVisibleModificar(false);
+                                    navigation.navigate('ListarProveedores');
+                                  }}>
+                                    <Text style={styles.textbotonModalModificar}>Cerrar</Text>
+                                  </Pressable>
+                          </View> 
+                        </View>
+                      </Modal>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboarStyle}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.containerPri}>
@@ -55,7 +74,10 @@ export default function Opciones({ navigation }) {
                     
                         <View style={{marginTop:60, justifyContent:'center', alignItems:'center'}}>
                             <Button text = "Crear"  
-                                onPress={crearProveedor}
+                                onPress={() => {
+                                    crearProveedor(); 
+                                    setVisibleModificar(true); 
+                                }}
                             />
                         </View>
                     </View>
@@ -126,4 +148,32 @@ buttonModificar: {
 textButton: {
     color: 'white'
 },
+containerPmodalModificar: {
+    flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor:'rgba(0, 0, 0, 0.5)'
+  },
+  conatinerInfoModalModificar: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: '5%'
+  },
+  pressabelStyleModalModificar: {
+    marginTop: '8%',
+    paddingLeft: '20%',
+    paddingRight:'20%',
+    backgroundColor: '#3EA5DB',
+    paddingBottom:'4%',
+    borderRadius: 10
+  },
+  textbotonModalModificar: {
+    color: '#fff',
+    marginTop: '6%'
+  },
+  textmessagemodalModificar: {
+    color:'green',
+    marginTop: '1%',
+  }
 });
