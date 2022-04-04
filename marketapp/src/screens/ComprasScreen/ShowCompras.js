@@ -16,7 +16,7 @@ export default function Showcompras({ route, navigation }) {
 
     var IdEliminar = 0;
 
-    const Item = ({ id, fecha, isv, subtotal, sucursal, user}) => (
+    const Item = ({ id, fecha, isv, subtotal, sucursal, user }) => (
         <Pressable  >
             <View style={styles.item}>
                 <View style={styles.containerInfo}>
@@ -31,8 +31,7 @@ export default function Showcompras({ route, navigation }) {
                         <FontAwesome name="edit" size={24} color="#2a67ca" />
                     </Pressable>
                     <Pressable
-                        onPress={() => 
-                        {
+                        onPress={() => {
                             IdEliminar = id;
                             alert("Compra Eliminada exitosamente");
                             console.log(IdEliminar);
@@ -121,15 +120,15 @@ export default function Showcompras({ route, navigation }) {
 
     }
 
-    const eliminarCompra = async () =>{
+    const eliminarCompra = async () => {
 
         const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/compras/eliminar?IdCompra='+IdEliminar,
+            'http://192.168.0.11:6001/api/compras/eliminar?IdCompra=' + IdEliminar,
             {
                 method: 'DELETE',
                 headers: {
                     Accept: 'application/json',
-                    'Content-Type': 'application/json'    
+                    'Content-Type': 'application/json'
                 }
             }
         )
@@ -178,6 +177,15 @@ export default function Showcompras({ route, navigation }) {
                     onChangeText={(text) => filtroFuncion(text)}
                     value={buscar}
                 ></TextInput>
+                <Pressable style={styles.pressableIconFilter} onPress={async () => {
+                    navigation.navigate('AddCompra');
+                    //Arreglos en AsyncStorage
+                    await AsyncStorage.setItem('Id', []);
+                    await AsyncStorage.setItem('Cantidad', []);
+                    await AsyncStorage.setItem('Precio', []);
+                }}>
+                    <MaterialCommunityIcons name="checkerboard-plus" size={30} color="black" />
+                </Pressable>
                 <Pressable style={styles.pressableIconFilter} onPress={() => setVisible(true)}>
                     <MaterialCommunityIcons name="filter-plus-outline" size={30} color="black" />
                 </Pressable>
@@ -197,82 +205,82 @@ export default function Showcompras({ route, navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      marginTop: StatusBar.currentHeight || 0,
-      marginBottom: '15%',
-      backgroundColor: '#fff'
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+        marginBottom: '15%',
+        backgroundColor: '#fff'
     },
     containerFiltro: {
-      flex: 5/32,
-      flexDirection: 'row'
+        flex: 5 / 32,
+        flexDirection: 'row'
     },
     pressableIconFilter: {
-      flex: 5/32,
-      marginTop: '6%'
+        flex: 5 / 32,
+        marginTop: '6%'
     },
     containerFlat: {
-      flex:1,
-      height:'80%',
-      backgroundColor: '#fff'
+        flex: 1,
+        height: '80%',
+        backgroundColor: '#fff'
     },
     item: {
-      borderBottomWidth: 2,
-      borderBottomColor: '#ccc',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-      flexDirection: 'row',
-      
+        borderBottomWidth: 2,
+        borderBottomColor: '#ccc',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        flexDirection: 'row',
+
     },
     containerInfo: {
-      flex:2, 
-      flexDirection: 'column',
-      
+        flex: 2,
+        flexDirection: 'column',
+
     },
     containerIconos: {
-      flex:1/2,
-      flexDirection:'row',
-      width: '70%',
-      alignItems: 'center',
-      justifyContent: 'space-between'
+        flex: 1 / 2,
+        flexDirection: 'row',
+        width: '70%',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     inputFilter: {
-      flex: 1,
-      backgroundColor: '#fff',
-      margin: '5%',
-      borderRadius: 10,
-      borderColor: '#2A67CA',
-      borderWidth: 2,
-      paddingLeft: 5
+        flex: 1,
+        backgroundColor: '#fff',
+        margin: '5%',
+        borderRadius: 10,
+        borderColor: '#2A67CA',
+        borderWidth: 2,
+        paddingLeft: 5
     },
     containerPmodalModificar: {
-      flex: 1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     conatinerInfoModalModificar: {
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      borderRadius: 20,
-      padding: '5%',
-      width: '80%'
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        padding: '5%',
+        width: '80%'
     },
     pressabelStyleModalModificar: {
-      marginTop: '8%',
-      paddingLeft: '20%',
-      paddingRight:'20%',
-      backgroundColor: '#3EA5DB',
-      paddingBottom:'4%',
-      borderRadius: 10
+        marginTop: '8%',
+        paddingLeft: '20%',
+        paddingRight: '20%',
+        backgroundColor: '#3EA5DB',
+        paddingBottom: '4%',
+        borderRadius: 10
     },
     textbotonModalModificar: {
-      color: '#fff',
-      marginTop: '6%'
+        color: '#fff',
+        marginTop: '6%'
     },
     textmessagemodalModificar: {
-      color:'green',
-      marginTop: '1%',
+        color: 'green',
+        marginTop: '1%',
     }
-    
-  });
+
+});

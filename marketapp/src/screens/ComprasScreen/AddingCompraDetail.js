@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect } from 'react';
-import {
-    SafeAreaView, StyleSheet, Text, View, TextInput, KeyboardAvoidingView,
-    Modal, Keyboard, TouchableWithoutFeedback, Pressable, FlatList, Image, ScrollView
-} from 'react-native';
-import Button from '../../componentes/Button';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, Pressable, Alert, TextInput, Modal, ScrollView, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { AntDesign } from '@expo/vector-icons';
+import Listavacia from './ListaVacia';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const myTheme = require("../TemaDrop/EstiloDropDown");
 
@@ -14,20 +13,66 @@ DropDownPicker.addTheme("Sucursal", myTheme);
 DropDownPicker.setTheme("Sucursal");
 DropDownPicker.setLanguage("ES");
 
-export default function EditDetail({ route, navigation }) {
+export default function AddingCompraDetail({ navigation }) {
 
-    const { id, productoId, precio, cantidad } = route.params;
+    var bandera = false;
+    //Arreglo a pasar
+    var Precio = [];
+    var Cantidad = [];
+    var Id = [];
+    //Combo
     const [open, setOpen] = useState(false);
-    const [valueProducto, setValueProducto] = useState(productoId);
+    const [valueProducto, setValueProducto] = useState();
     const [itemsProductos, setItemsProductos] = useState([]);
-    const [nombreProducto, setNombreProducto] = useState([]);
-    const [price, setPrice] = useState(precio);
-    const [cant, setCant] = useState(cantidad);
+    //Valores Para ir llenando el arreglo
+    const [cant, setCant] = useState();
+    const [price, setPrice] = useState();
+    var ide;
 
-    useEffect(async () => {
-        var p = await getProductos();
-        var g = await getnombreProducto();
-    }, []);
+    const agregarDetalle = async () => {
+        ide = valueProducto;
+        console.log(ide + " " + cant + " " + price);
+        if (await AsyncStorage.getItem('Id') == null) {
+            Id.push(ide);
+            Cantidad.push(parseInt(cant));
+            Precio.push(parseInt(price));
+
+            await AsyncStorage.setItem('Id', JSON.stringify(Id));
+            await AsyncStorage.setItem('Cantidad', JSON.stringify(Cantidad));
+            await AsyncStorage.setItem('Precio', JSON.stringify(Precio));
+        }
+        else {
+            //Obteniendo los arreglos desde el AsyncStorage
+            Id = JSON.parse(await AsyncStorage.getItem('Id'));
+            Cantidad = JSON.parse(await AsyncStorage.getItem('Cantidad'));
+            Precio = JSON.parse(await AsyncStorage.getItem('Precio'));
+
+            for (var i = 0; i < Id.length; i++) {
+                if (Id[i] == ide) {
+                    console.log(i);
+                    Cantidad[i] += parseInt(cant);
+
+                    bandera = true;
+                }
+            }
+            console.log(Id.length);
+
+            console.log(Id);
+            if (bandera == false) {
+                Id.push(ide);
+                Cantidad.push(parseInt(cant));
+                Precio.push(parseInt(price));
+            }
+
+            await AsyncStorage.setItem('Id', JSON.stringify(Id));
+            await AsyncStorage.setItem('Cantidad', JSON.stringify(Cantidad));
+            await AsyncStorage.setItem('Precio', JSON.stringify(Precio));
+        }
+
+        console.log(await AsyncStorage.getItem('Id'));
+        console.log(await AsyncStorage.getItem('Cantidad'));
+        console.log(await AsyncStorage.getItem('Precio'));
+    }
 
     const getProductos = async () => {
 
@@ -49,64 +94,24 @@ export default function EditDetail({ route, navigation }) {
 
     }
 
-    const modificarDetalle = async () => {
-        console.log(id + " " + valueProducto + " " + cant + " " + price);
-
-        const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/compras/modificarDetalle?Compras_IdCompra=' + id + '&Productos_IdProducto=' + valueProducto,
-            {
-                method: 'PUT',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    Cantidad: cant,
-                    PrecioCompra: price
-                })
-            }
-        )
-
-        const respuesta = await solicitud.json();
-        console.log(respuesta);
-    }
-
-    const getnombreProducto = async () => {
-        const solicitud = await fetch(
-            'http://192.168.0.11:6001/api/productos/listarproducto?id=' + productoId,
-            {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
-
-        const respuesta = await solicitud.json();
-        const data = respuesta.data;
-        console.log(data.NombreProducto);
-        setNombreProducto(data.NombreProducto);
-    }
+    useEffect(async () => {
+        var p = await getProductos();
+    }, []);
 
     return (
-
         <SafeAreaView style={styles.safeView}>
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.keyboarStyle}  >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.containerInput}>
                         <View style={styles.containerPri}>
-                            <Text style={styles.textTittle}>Editar Detalle de Compra</Text>
-                            <Text style={styles.textInpu}>Numero Factura</Text>
-                            <TextInput style={styles.inputs} editable={false} placeholder='Numero Factura' defaultValue={'' + id} value={id}></TextInput>
+                            <Text style={styles.textTittle}>Agregar Detalle de Compra</Text>
                             <Text style={styles.textInpu}>Producto</Text>
                             <DropDownPicker
                                 schema={{
                                     label: 'NombreProducto',
                                     value: 'IdProducto'
                                 }}
-                                disabled={true}
                                 zIndex={1000}
                                 zIndexInverse={3000}
                                 theme='Sucursal'
@@ -116,21 +121,24 @@ export default function EditDetail({ route, navigation }) {
                                 setOpen={setOpen}
                                 setValue={setValueProducto}
                                 setItems={setItemsProductos}
-                                placeholder={nombreProducto}
+                                placeholder={"Seleccionar"}
                                 searchable={true}
                                 searchPlaceholder='BuscarProducto'
                                 onSelect={console.log(valueProducto)}
                             />
                             <Text style={styles.textInpu}>Cantidad</Text>
-                            <TextInput style={styles.inputs} editable={true} placeholder='Cantidad' defaultValue={'' + cantidad} value={cantidad} onChangeText={text => setCant(text)}></TextInput>
+                            <TextInput style={styles.inputs} editable={true} placeholder='Cantidad' defaultValue={''} value={cant} onChangeText={text => setCant(text)}></TextInput>
                             <Text style={styles.textInpu}>Precio de Compra</Text>
-                            <TextInput style={styles.inputs} editable={true} placeholder='Precio de Compra' defaultValue={'' + precio} value={precio} onChangeText={text => setPrice(text)}></TextInput>
+                            <TextInput style={styles.inputs} editable={true} placeholder='Precio de Compra' defaultValue={''} value={price} onChangeText={text => setPrice(text)}></TextInput>
                             <View style={styles.containerBotones}>
                                 <Pressable style={styles.buttonModificar} onPress={async () => {
-                                    await modificarDetalle();
-                                    navigation.navigate('Modulos');
+                                    agregarDetalle();
+                                    navigation.navigate('AddCompra');
                                 }}>
-                                    <Text style={styles.textButton}>Modificar</Text>
+                                    <Text style={styles.textButton}>Agregar Detalle</Text>
+                                </Pressable>
+                                <Pressable style={styles.buttonDetalle} onPress={() => { navigation.navigate('AddCompra'); }}>
+                                    <Text style={styles.textButton}>Cancelar</Text>
                                 </Pressable>
                             </View>
 
@@ -141,12 +149,9 @@ export default function EditDetail({ route, navigation }) {
             </KeyboardAvoidingView>
 
         </SafeAreaView>
-
-
-    );
+    )
 
 }
-
 
 const styles = StyleSheet.create({
     keyboarStyle: {

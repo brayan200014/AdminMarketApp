@@ -8,6 +8,8 @@ import E_Ventas from '../screens/VentasScreen/Edit&SaveVentas';
 import ShowCompras from '../screens/ComprasScreen/ShowCompras';
 import E_Compras from '../screens/ComprasScreen/Edit&SaveCompra';
 import E_detalleCompra from '../screens/ComprasScreen/editDetail';
+import addCompra from '../screens/ComprasScreen/AddingCompra';
+import addDetailCompra from '../screens/ComprasScreen/AddingCompraDetail';
 
 const HomeStack= createNativeStackNavigator();
 
@@ -76,6 +78,24 @@ const Navigation= () => {
             headerTintColor:'#fff', 
             headerBackTitle: 'Regresar',
             headerTitle:'Editar Detalle', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+         <HomeStack.Screen  name="AddCompra" component={addCompra} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Agregar Compra', 
+            headerStyle:{
+              backgroundColor: '#3EA5DB',
+         
+         }}} />
+         <HomeStack.Screen  name="AddCompraDetail" component={addDetailCompra} 
+            options={{headerTransparent: true, 
+            headerTintColor:'#fff', 
+            headerBackTitle: 'Regresar',
+            headerTitle:'Agregar Detalle de Compra', 
             headerStyle:{
               backgroundColor: '#3EA5DB',
          

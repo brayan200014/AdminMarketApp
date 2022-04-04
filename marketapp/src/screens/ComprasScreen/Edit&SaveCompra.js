@@ -178,8 +178,8 @@ export default function Edit({ route, navigation }) {
                             <Text style={styles.textInpu}>Sucursal</Text>
                             <DropDownPicker
                                 schema={{
-                                    label: 'Nombre Sucursal',
-                                    value: 'ID'
+                                    label: 'NombreSucursal',
+                                    value: 'IdSucursal'
                                 }}
                                 zIndex={1000}
                                 zIndexInverse={3000}
@@ -194,6 +194,7 @@ export default function Edit({ route, navigation }) {
                                 searchable={true}
                                 searchPlaceholder='Buscar Sucursal'
                                 onSelect={console.log(valueSucursales)}
+                                defaultValue={nombreSucursal}
                             />
                             <Text style={styles.textInpu}>Total</Text>
                             <TextInput style={styles.inputs} editable={false} placeholder='Total' defaultValue={'L.' + (isv + subtotal)} value={id}></TextInput>
