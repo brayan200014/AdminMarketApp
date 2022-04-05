@@ -29,10 +29,10 @@ import R_Productos from '../screens/productos/R_Productos';
 import U_Productos from '../screens/productos/U_Productos';
 import D_Productos from '../screens/productos/D_Productos';
 
+import ciudades from '../screens/ScreenAgregar/ModuloCiudades'
+import categorias from '../screens/ScreenAgregar/ModuloCategorias'
 
 
-import ModuloCategorias from '../screens/ScreenAgregar/ModuloCategorias';
-import ModuloCiudades from '../screens/ScreenAgregar/ModuloCiudades';
 const HomeStack= createNativeStackNavigator();
 
 const Navigation= () => {
@@ -277,7 +277,7 @@ const Navigation= () => {
           headerStyle:{
            backgroundColor: '#3EA5DB',
            }}} />
-      <HomeStack.Screen  name="Ciudades" component={ModuloCiudades} 
+      <HomeStack.Screen  name="Ciudades" component={ciudades} 
       options={{headerTransparent: true, 
       headerTintColor:'#fff', 
       headerBackTitle: 'Regresar',
@@ -287,7 +287,7 @@ const Navigation= () => {
          
          }}} />
 
-         <HomeStack.Screen  name="Categorias" component={ModuloCategorias} 
+         <HomeStack.Screen  name="Categorias" component={categorias} 
       options={{headerTransparent: true, 
       headerTintColor:'#fff', 
       headerBackTitle: 'Regresar',

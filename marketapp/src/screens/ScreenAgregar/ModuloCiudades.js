@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, FlatList,TextInput,TouchableOpacity,Button,Scro
 import axios from 'axios' //npm i axios
 import ItemCiudad from '../../componentes/ItemsCiudad'
 import InputCiudad  from '../../componentes/InputCiudad';
-export default function CiudadesPrueba({navigation }) {
+export default function Ciudades({navigation }) {
     const [listaCiudad, setListaCuidad] = useState([])
     const [NombreCiudad,setNombre]= useState('')
     const [IdCiudad,setId]= useState('')
@@ -15,7 +15,7 @@ export default function CiudadesPrueba({navigation }) {
     }, [])
 
     const getCiudad = async () => {
-        const respuesta = await axios.get('http://192.168.1.5:5001/api/ciudades/listar')
+        const respuesta = await axios.get('http://192.168.0.10:6001/api/ciudades/listar')
         //console.log(respuesta.data)
         setListaCuidad(respuesta.data)
     }
@@ -27,7 +27,7 @@ export default function CiudadesPrueba({navigation }) {
         }
         else{
             try {
-        const respuesta = await axios.post('http://192.168.1.5:5001/api/ciudades/guardar', obj)
+        const respuesta = await axios.post('http://192.168.0.10:6001/api/ciudades/guardar', obj)
         alert("Ciudad agregada")
         getCiudad()
         setNombre('')
@@ -39,7 +39,7 @@ export default function CiudadesPrueba({navigation }) {
     const eliminarCiudad = async (props) => {
         const Nombre = props.Nombre
         try {
-        const respuesta = await axios.delete('http://192.168.1.5:5001/api/ciudades/eliminar?NombreCiudad='+Nombre)
+        const respuesta = await axios.delete('http://192.168.0.10:6001/api/ciudades/eliminar?NombreCiudad='+Nombre)
 
         alert(respuesta.data)
         getCiudad()
@@ -51,7 +51,7 @@ export default function CiudadesPrueba({navigation }) {
       const getCiudades = async(props) => {
         const ID = props.ID
         const Nombre = props.Nombre
-        const respuesta = await axios.get('http://192.168.1.5:5001/api/ciudades/listar?IdCiudad='+ID)
+        const respuesta = await axios.get('http://192.168.0.10:6001/api/ciudades/listar?IdCiudad='+ID)
         console.log(respuesta.data)
         setId(ID)
         setNombre(Nombre)
@@ -65,7 +65,7 @@ export default function CiudadesPrueba({navigation }) {
     }
     else {
       try {
-        const respuesta = await axios.put('http://192.168.1.5:5001/api/ciudades/modificar?IdCiudad=', obj)
+        const respuesta = await axios.put('http://192.168.0.10:6001/api/ciudades/modificar?IdCiudad=', obj)
         alert(respuesta.data)
         console.log(obj)
         setNombre('')
@@ -105,7 +105,7 @@ export default function CiudadesPrueba({navigation }) {
         </View>
 
         
-        <View style={{ marginTop: 10 }} >
+        <View style={{ marginTop: 10,  }} >
           <Text style={{ fontWeight: 'bold', color: '#0E69E5', fontSize: 20 }}>
             Ciudades ingresadas
           </Text>

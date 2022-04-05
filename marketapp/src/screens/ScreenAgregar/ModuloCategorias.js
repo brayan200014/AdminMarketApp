@@ -6,7 +6,7 @@ import ItemCiudad from '../../componentes/ItemsCiudad'
 import ItemCategoria from '../../componentes/itemsCategoria';
 import InputCiudad from '../../componentes/InputCiudad';
 
-export default function CiudadesPrueba({navigation }) {
+export default function Categorias({navigation }) {
     const [listaCategoria, setListaCategoria] = useState([])
     const [NombreCategoria,setNombreCategoria]= useState('')
     const [IdCategoria,setId]= useState('')
@@ -18,7 +18,7 @@ export default function CiudadesPrueba({navigation }) {
 
     const getCategoria = async () => {
         try {
-        const respuesta = await axios.get('http://192.168.1.5:5001/api/categorias/listar')
+        const respuesta = await axios.get('http://192.168.0.10:6001/api/categorias/listarCategorias')
         console.log(respuesta.data)
         setListaCategoria(respuesta.data)
     } catch (error) {
@@ -32,7 +32,7 @@ export default function CiudadesPrueba({navigation }) {
         }
         else{
             try {
-        const respuesta = await axios.post('http://192.168.1.5:5001/api/categorias/guardar', obj)
+        const respuesta = await axios.post('http://192.168.0.10:6001/api/categorias/guardar', obj)
         alert("Categoria agregada")
         getCategoria()
         setNombreCategoria('')
@@ -44,7 +44,7 @@ export default function CiudadesPrueba({navigation }) {
   const eliminarCategoria = async (props) => {
     const Nombre = props.Nombre
     try {
-      const respuesta = await axios.delete('http://192.168.1.5:5001/api/categorias/eliminar?NombreCategoria=' + Nombre)
+      const respuesta = await axios.delete('http://192.168.0.10:6001/api/categorias/eliminar?NombreCategoria=' + Nombre)
       alert(respuesta.data)
       getCategoria()
     } catch (error) {
@@ -55,7 +55,7 @@ export default function CiudadesPrueba({navigation }) {
   const getCategorias = async(props) => {
     const ID = props.ID
     const Nombre = props.Nombre
-    const respuesta = await axios.get('http://192.168.1.5:5001/api/categorias/listar?IdCategoria='+ID)
+    const respuesta = await axios.get('http://192.168.0.10:6001/api/categorias/listarCategorias?IdCategoria='+ID)
     console.log(respuesta.data)
     setId(ID)
     setNombreCategoria(Nombre)
@@ -69,7 +69,7 @@ export default function CiudadesPrueba({navigation }) {
     }
     else {
       try {
-        const respuesta = await axios.put('http://192.168.1.5:5001/api/categorias/modificar?IdCategoria=', obj)
+        const respuesta = await axios.put('http://192.168.0.10:6001/api/categorias/modificar?IdCategoria=', obj)
         alert(respuesta.data)
         console.log(obj)
         setNombreCategoria('')
