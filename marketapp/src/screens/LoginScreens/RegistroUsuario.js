@@ -25,7 +25,7 @@ export default function Usuario({navigation}) {
                   { 
                     try {
                           let respuesta= await fetch(
-                            'http://192.168.1.6:6001/api/cliente/guardar',
+                            'http://192.168.0.10:6001/api/cliente/guardar',
                             {
                                 method: 'POST',
                                 headers: {

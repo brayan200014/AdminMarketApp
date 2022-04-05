@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity,Image} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,Image, ScrollView} from 'react-native';
 
 export default function Settings({ navigation }) {
   return (
+    <ScrollView>
     <View style={{backgroundColor:'#fff'}}>
       <Text style={styles.TitleInfo}>Información</Text>
       <View style={styles.contorno}>
@@ -18,7 +19,7 @@ export default function Settings({ navigation }) {
       <StatusBar style="auto" />
     
       </View>
-    
+      </ScrollView>
     );
   }
 const styles = StyleSheet.create({
@@ -85,6 +86,9 @@ TitleInfo: {
     resizeMode:'contain',
     alignContent:'center',
     marginLeft:-10
+  },
+  scrollcontainer: {
+    flex: 1,
   }
 });
 /*
