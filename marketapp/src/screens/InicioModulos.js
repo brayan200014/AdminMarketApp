@@ -116,7 +116,7 @@ const Item = ({ title, image }) => {
    else if(title=='Categorias')
    {
      return (
-      <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+      <Pressable onPress={() => navigation.navigate('Categorias', {opcion:title})}>
       <View style={styles.item}>
       <View style={styles.containerText}>
       <Text style={styles.title}>{title}</Text>
@@ -132,7 +132,7 @@ const Item = ({ title, image }) => {
    else if(title=='Ciudades')
    {
      return (
-      <Pressable onPress={() => navigation.navigate('Opciones', {opcion:title})}>
+      <Pressable onPress={() => navigation.navigate('Ciudades', {opcion:title})}>
       <View style={styles.item}>
       <View style={styles.containerText}>
       <Text style={styles.title}>{title}</Text>

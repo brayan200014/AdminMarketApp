@@ -10,10 +10,12 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
+    "axios": "^0.26.1",
     "expo": "~44.0.0",
     "expo-image-picker": "~12.0.1",
     "expo-status-bar": "~1.2.0",
@@ -23,6 +25,7 @@
     "react-native-dropdown-picker": "^5.3.0",
     "react-native-flexi-radio-button": "^0.2.2",
     "react-native-swiper": "^1.6.0",
+    "react-native-virtualized-view": "^0.1.5",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
